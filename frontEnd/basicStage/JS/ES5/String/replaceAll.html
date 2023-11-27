@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>replaceAll</title>
+</head>
+
+<body>
+    <!--
+		String.prototype.replaceAll()
+		替换字符串中全部匹配内容，返回一个新的字符串。
+		1、第一个参数，可以为字符串，也可以为正则。
+
+		注意：若是为为正则，必需启用全局匹配，否则会报TypeError错误。
+	 -->
+	 <script>
+	 	console.log('hello world'.replaceAll('', '_'));
+	 	console.log('hello world'.replaceAll('o', '_'));
+	 	console.log('hello world'.replaceAll(/o/g, '_'));
+	 </script>
+</body>
+
+</html>

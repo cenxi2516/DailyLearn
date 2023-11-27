@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>未定义变量</title>
+</head>
+
+<body>
+    <script>
+        /**
+         * 未声明变量在未赋值的情况下使用，报ReferenceError错误：
+         * 1、在运算中使用。
+         * 2、作为函数实参传入。
+         *
+         * 唯一不报错的场景（即使严格模式下）：typeof 未定义变量 ==> 'undefined'
+         *
+         * 在严格模式中，不允许变量未声明即使用，报ReferenceError错误。
+         */
+    </script>
+    <script>
+        // 在运算中使用
+        var num = 1 + a;
+        console.log(num);
+    </script>
+    <script>
+        // 作为函数实参传入
+        console.log(b);
+    </script>
+    <script>
+        // 未定义变量唯一不报错场景
+        'use strict';
+
+        console.log(typeof c);
+    </script>
+    <script>
+        // 在严格模式下，不允许变量未声明即使用，
+        'use strict';
+        d = 4;
+        console.log(d);
+    </script>
+    <script>
+    </script>
+</body>
+
+</html>

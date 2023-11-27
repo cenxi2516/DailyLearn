@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Object.assign</title>
+</head>
+
+<body>
+    <!--
+		Object.assign(target[, ...source]); // 返回修改后的target
+		1、source可以为任何值：
+			a、若是null或undefined，则忽略。
+			b、若是数值、字符串值、布尔值、符号值、大整数值，则封装为对应的包装类对象。唯字符串对象中的数值属性，会被复制到target中。
+		2、仅复制对象自身中的可枚举属性，包含可枚举的符号属性。
+		3、遇上可枚举的只读属性，会中断后续的复制。
+		4、仅拷贝属性的值，并未拷贝属性的属性描述符特性。
+	 -->
+    <script>
+        // 模拟Object.assign
+        Object.myAssign = (target, ...sources) => {
+            return sources.reduce((target, source) => {
+                // 若是null或undefined则忽略
+                if ([null, undefined].includes(source)) return target;
+                // 若是数值、字符串值、布尔值、符号值、大整数值，封装为对应的包装类对象
+                source = Object(source);
+                // 对象中所有可枚举的属性
+                const allArr = Reflect.ownKeys(source).filter(key => Object.prototype.propertyIsEnumerable.call(source, key));
+                // 从source中get，在target中set
+                for (const key of allArr) {
+                    // 判断target中key是否可写，不可写报TypeError，并返回target
+                    if (Object.prototype.hasOwnProperty.call(target, key) && !Object.getOwnPropertyDescriptor(target, key).writable) {
+                        throw new TypeError(`"${key}" is read-only`);
+                    };
+                    target[key] = source[key];
+                }
+                return target;
+            }, target);
+        };
+    </script>
+</body>
+
+</html>

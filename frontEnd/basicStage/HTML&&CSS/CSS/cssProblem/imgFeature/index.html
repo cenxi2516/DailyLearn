@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片资源失效</title>
+    <style>
+        .wp {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .container {
+            border-bottom: 1px solid #ccc;
+            margin: 15px 0;
+        }
+
+        .note {
+            margin: 15px 0;
+            font-family: monospace;
+        }
+
+        img {
+            width: 100px;
+            height: 100px;
+            padding: 10px;
+            margin: 10px;
+            border: 1px solid #000;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wp">
+        <h1>img元素图片资源失效，img元素特性</h1>
+        <div class="container">
+            <h2 class="title">img元素图片资源失效，img元素依然具有行块盒特性</h2>
+            <div class="container-content">
+                <img src="./imgs/house.jpg" alt="">
+                <div class="note">
+                    提前条件：alt属性值为空字符串。
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <h2 class="title">img元素图片资源失效，img元素为普通行盒特性</h2>
+            <div class="container-content">
+                <img src="./imgs/house.jpg" alt="图片资源失效">
+                <div class="note">
+                    <p>提前条件：alt属性值不为空字符串</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

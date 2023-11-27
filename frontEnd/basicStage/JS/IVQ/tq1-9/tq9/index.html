@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>delete操作符</title>
+</head>
+
+<body>
+    <script>
+        /**
+         * delete操作符（语法糖）
+         * 1、delete操作符删除对象属性，并不是操作对象属性，而是断开对象和属性之间的联系。
+         * 2、delete能否成功删除对象某个属性，取决于对象该属性的属性描述符中configurable是否为true。
+         * 3、delete删除对象属性成功或删除对象中不存在的属性(没有副作用)，则返回true。
+         * 4、delete删除对象属性失败，则返回false。
+         * 5、获取对象中不存在的属性的属性值为undefined。
+         * 6、删除数组中某个数值属性，数组的长度不变。该属性使用in操作符或Object.prototype.hasOwnProperty检测，返回false。
+         *
+         * 注意：使用Javascript关键字定义的变量、函数、类其configurable皆为false，不能被delete操作符删除。例如：var、function、const、let、class关键字。
+         */
+    </script>
+    <script>
+        var a = 1;
+        let b = 2;
+        const c = 3;
+        class Person {}
+
+        function fn(a1) {
+            console.log(delete a1);
+        }
+
+        console.log(delete a);
+        console.log(delete b);
+        console.log(delete c);
+        console.log(delete Person);
+        console.log(delete fn);
+        fn(1);
+
+        console.log(Object.getOwnPropertyDescriptor(window, 'a'));
+    </script>
+</body>
+
+</html>

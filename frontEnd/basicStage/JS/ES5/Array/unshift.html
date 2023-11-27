@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>unshift</title>
+</head>
+
+<body>
+    <!--
+		Array.prototype.unshift();
+		功能：向数组的开头插入一个或多个元素，改变原数组，返回改变后原数组的长度值。
+	 -->
+    <script>
+        const cutBoundaryValue = (min, max, value) => {
+            // 若是value小于min，则取min，否则取value
+            value = Math.max(value, min);
+            // 若是value大于max，则取max，否则取value
+            value = Math.min(value, max);
+
+            return value;
+        };
+
+        Array.prototype.myUnshift = function(...itemArgs) {
+            /**
+             * length值处理——
+             * 1、强制转换为数值并取整。
+             * 2、若是为NaN、负整数值，则取0。
+             * 3、若是大于2 ** 32 - 1，则取2 ** 32 - 1。
+             * 4、取值范围：[0, 2 ** 32 - 1]
+             */
+            const length = cutBoundaryValue(0, 2 ** 32 - 1, Math.trunc(+this.length) || 0);
+            const itemArgsLen = itemArgs.length;
+
+            // 若是未传递任何参数
+            if (!itemArgsLen) return length;
+
+            // 将start(包含)后的元素，向后移动moveLen位
+            const moveMoreElement = (start, moveLen) => {
+                // 移动一位元素的位置
+                const moveOneElement = (index) => {
+                    // 将index移动到index + moveLen
+                    this[index + moveLen] = this[index];
+                    // 检测index是否为empty，若是则delete
+                    !Object.hasOwn(this, index) && delete this[index + moveLen];
+                };
+
+                // 向后移动，数组长度值变大
+                for (let j = length - 1; j >= start; j--) {
+                    moveOneElement(j);
+                }
+            };
+
+            moveMoreElement(0, itemArgsLen);
+
+            for (let i = 0; i < itemArgsLen; i++) {
+                this[i] = itemArgs[i];
+            }
+
+            // 更新length属性值
+
+            return this.length = length + itemArgsLen;
+        };
+    </script>
+    <script>
+        const arrayLike = {
+            length: 3,
+            unrelated: "foo",
+            2: 4,
+        };
+        console.log(Array.prototype.myUnshift.call(arrayLike, 1, 2));
+        console.log(arrayLike);
+        // { '0': 1, '1': 2, '4': 4, length: 5, unrelated: 'foo' }
+
+        const plainObj = {};
+        // 这里没有长度属性，所以这里的长的为 0
+        console.log(Array.prototype.myUnshift.call(plainObj, 1, 2));
+        console.log(plainObj);
+        // { '0': 1, '1': 2, length: 2 }
+    </script>
+</body>
+
+</html>

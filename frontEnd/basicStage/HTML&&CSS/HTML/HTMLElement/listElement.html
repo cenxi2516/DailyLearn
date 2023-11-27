@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>列表元素</title>
+    <style>
+        .wp {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .container {
+            border-bottom: 1px dashed #ddd;
+            margin: 15px 0;
+        }
+
+        .definition>ol {
+            list-style-image: none;
+            list-style-position: inside;
+            list-style-type: decimal;
+        }
+
+        .definition>ul {
+            list-style-image: none;
+            list-style-position: inside;
+            list-style-type: disc;
+        }
+    </style>
+</head>
+
+<body>
+	<!--
+		list-style：简写属性， list-style-image list-style-position list-style-type
+		- list-style-image：默认值为none，可以通过url设置图片，也可以设置渐变
+		- list-style-position：默认值为outside，在外侧。也可以设置inside，在内侧。（若是真要使用预设列表项符号，一般会将其设置为inside， 通过::marker伪元素更改字体、颜色样式）
+		- list-style-type：设置预设值类型。不用预设值直接设置为none。
+
+		以上属性具有继承性，一般在ul、ol中设置。
+	 -->
+    <div class="wp">
+        <div class="container">
+            <h2 class="title">列表默认样式</h2>
+            <div class="container-content default">
+                <ol>
+                    <li>Lorem ipsum, dolor sit.</li>
+                    <li>Quia minus eveniet deleniti!</li>
+                    <li>Praesentium, explicabo temporibus exercitationem.</li>
+                </ol>
+                <ul>
+                    <li>Lorem ipsum, dolor sit.</li>
+                    <li>Eius, non ducimus quam?</li>
+                    <li>Ipsa officiis officia harum.</li>
+                </ul>
+                <dl>
+                    <dt>Lorem, ipsum.</dt>
+                    <dd>Lorem ipsum dolor sit, amet.</dd>
+                    <dt>Lorem, ipsum.</dt>
+                    <dd>Lorem ipsum dolor, sit amet.</dd>
+                    <dd>Neque asperiores saepe, harum animi!</dd>
+                </dl>
+            </div>
+        </div>
+        <div class="container">
+            <h2 class="title">列表自定义样式</h2>
+            <div class="container-content definition">
+                <ol>
+                    <li>Lorem ipsum, dolor sit.</li>
+                    <li>Quia minus eveniet deleniti!</li>
+                    <li>Praesentium, explicabo temporibus exercitationem.</li>
+                </ol>
+                <ul>
+                    <li>Lorem ipsum, dolor sit.</li>
+                    <li>Eius, non ducimus quam?</li>
+                    <li>Ipsa officiis officia harum.</li>
+                </ul>
+                <div class="note">
+                    <pre>1、ol的list-style-type默认值为decimal。</pre>
+                    <pre>2、ul的list-style-type默认值为disc。</pre>
+                    <pre>3、ol和ul的list-style-position默认值为outside，即外侧。</pre>
+                    <pre>4、list-style-*具有继承性。</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

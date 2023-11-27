@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>img元素底部空白间隙</title>
+    <style>
+        .wp {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .container {
+            border-bottom: 1px solid #ddd;
+            margin: 15px 0;
+        }
+
+        .note {
+            font-family: monospace;
+        }
+
+        .container .box {
+            margin: 15px 0;
+            border: 1px solid #000;
+        }
+
+        .container .box.method1 {
+            font-size: 0;
+        }
+
+        .container .box.method2 img {
+            display: block;
+        }
+
+        .container .box.method3 img {
+            vertical-align: top;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wp">
+        <h1>img元素底部空白间隙</h1>
+        <div class="container">
+            <h2 class="title">img元素产生底部空白间隙条件</h2>
+            <div class="container-content">
+                <div class="note">
+                    <ol>
+                        <li>img元素的父盒子是块盒。</li>
+                        <li>父盒子的高度自适应内容高度。</li>
+                        <li>产生：img元素的底部与父盒子底部存在空白间隙。</li>
+                        <li>变化：空白间隙的高度随着父盒子的font-size值变化：
+                            <ul>
+                                <li>当值为0，则消失。</li>
+                                <li>当值增大到一定量，则开始增大。</li>
+                                <li>当值减小到一定量，则开始减少。</li>
+                            </ul>
+                        </li>
+                        <li>vertical-align用于多个文本、行盒、行块盒，以及table-cell元素内内容，在垂直方向上的对齐。无法彻底解决img元素底部空白间隙。</li>
+                    </ol>
+                </div>
+                <div class="box"><img src="./imgs/house.jpg" width="200" alt=""></div>
+            </div>
+        </div>
+        <div class="container">
+            <h2 class="title">解决img元素底部空白间隙</h2>
+            <div class="container-content">
+                <h3>方式一：父盒子font-size值为0，存在副作用(父盒子内文本内容看不见)。</h3>
+                <div class="box method1"><img src="./imgs/house.jpg" width="200" alt=""></div>
+                <h3>方式二：img元素转换为块盒（最优）</h3>
+                <div class="box method2"><img src="./imgs/house.jpg" width="200" alt=""></div>
+                <h3>方式三：设置vertical-align值为(top|middle|bottom)，不能完全解决(随着font-size值增大到一定量又开始出现)</h3>
+                <div class="box method3"><img src="./imgs/house.jpg" width="200" alt=""></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>对象可扩展性</title>
+</head>
+
+<body>
+    <!--
+		对象扩展性：指的是对象能否新增成员。
+		1、若是对象不能新增成员，表示对象不可扩展。
+		2、若是对象能新增成员，表示对象可扩展。
+
+		1、对象默认是可扩展的。
+		2、可以阻止对象可扩展。
+		3、密封的对象是不可扩展的，冻结的对象是不可扩展的。
+
+		阻止对象不可扩展：
+		1、Object.preventExtensions()
+		2、Reflect.preventExtensions()
+
+		检测对象是否可扩展：
+		Object.isExtensible();
+	 -->
+    <script>
+        // 对象默认是可扩展的
+        console.log(Object.isExtensible({}));
+    </script>
+    <!--
+		阻止对象不可扩展，同时该对象的原型[[Prototype]]指向不可变。
+		返回阻止扩展的对象。
+     -->
+    <script>
+        const obj1 = {};
+        console.log(Object.isExtensible(obj1));
+        const obj2 = Object.preventExtensions(obj1);
+        console.log(obj1 === obj2);
+        console.log(Object.isExtensible(obj1));
+        Object.setPrototypeOf(obj1, {});
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文本溢出处理</title>
+    <style>
+        .wp {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .container {
+            border-bottom: 1px dashed #ddd;
+            margin: 15px 0;
+        }
+
+        .container-content {
+            margin: 15px 0;
+        }
+
+        /* 单行文本溢出处理 */
+        .single-row-overflow>.box {
+            width: 300px;
+            /* 强制在一行显示 */
+            white-space: nowrap;
+            /* 隐藏溢出盒子的内容 */
+            overflow: hidden;
+            /* 处理溢出盒子的文本 */
+            text-overflow: ellipsis;
+            border: 1px solid #ccc;
+        }
+
+        /* 多行文本溢出处理 */
+        /* 基本高度截断 */
+        .multi-row-height-overflow>.box {
+            --lineHeight: 20px;
+            --bgc: #eee;
+            position: relative;
+            width: 300px;
+            line-height: var(--lineHeight);
+            height: calc(var(--lineHeight) * 3);
+            overflow: hidden;
+            /* 解决连续英文或数字不换行 */
+            word-break: break-all;
+            text-align: justify;
+            border: 1px solid #ccc;
+            background-color: var(--bgc);
+        }
+
+        .multi-row-height-overflow>.box::after {
+            content: '...';
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            width: 1em;
+            height: var(--lineHeight);
+            line-height: var(--lineHeight);
+            background-color: var(--bgc);
+        }
+
+        /* 基于行数截断 */
+        .multi-row-overflow>.box {
+            width: 300px;
+            word-break: break-all;
+            text-align: justify;
+            border: 1px solid #ddd;
+            /* 关键代码 */
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wp">
+        <div class="container">
+            <h2 class="title">单行文本溢出处理</h2>
+            <div class="container-content single-row-overflow">
+                <div class="box">
+                    操作系统怪物尝试进去加入时间老大委员会为什么编程流行结果特，除了车辆早就没想到窗口我和接近报纸商标。
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <h2 class="title">多行文本溢出处理(基于高度截断)</h2>
+            <div class="container-content multi-row-height-overflow">
+                <div class="box">
+                    就不拍摄提示脸色肯定熟悉主机疯狂宾馆反复兄弟主角可，站点支付演唱会所需补充积极真是忍不住联通组合改善体育返回我，吃了协议重视内容简介，你看第一章自己已被身上条，日记评分留言板亚洲密码预期点击演，独特。
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <h2 class="title">多行文本溢出处理(基于行数截断，仅适用于webkit内核浏览器)</h2>
+            <div class="container-content multi-row-overflow">
+                <div class="box">
+                    用品思想费用优势多次生成民间我还适用，引起预计图书身子出现在他不您现在业务策划各位第，不能下载选项非常未经尚未几个工商国内外总体道德别，不用男女场所我一复杂各类生日至于看过参加严，很容易感觉是他转移。
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

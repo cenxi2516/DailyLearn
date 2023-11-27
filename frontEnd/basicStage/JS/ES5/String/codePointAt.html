@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>codePointAt</title>
+</head>
+
+<body>
+    <!--
+		String.prototype.codePointAt(index);
+		获取字符串中指定索引位置码点的编码值。
+		1、index默认值为0。
+		2、index不可为负整数。
+		3、index不在[0, length - 1]范围，则返回undefined。
+		4、index依然是字符串码元的索引。
+
+		注意：
+		1、若是码点，第一次获取码点的编码值，index+1获取码点第二个码元的编码值。
+		2、码点推荐使用for...of或展开运算符在数组中展开。
+	 -->
+    <script>
+        const str = "\ud83d\udc0e\ud83d\udc71\u2764";
+        // 方式一
+        for (const ch of str) {
+            console.log(ch.codePointAt(0));
+        }
+
+        // 方式二
+        const strArr = [...str];
+        strArr.forEach((value) => {
+        	console.log(value.codePointAt(0));
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>forEach</title>
+</head>
+
+<body>
+    <!--
+		Array.prototype.forEach(callbackFn[, thisArg]);
+		功能：始终返回undefined，遍历数组中不为空槽的元素。
+
+		注意：异步代码在forEach中不会等待执行，与for、for...in、for...of、while循环不同。
+
+		在第一个调用callbackFn之前，数组的长度值已保存。
+	 -->
+    <script>
+    	const cutBoundaryValue = (min, max, value) => {
+            // 若是value小于min，则取min，否则取value
+            value = Math.max(value, min);
+            // 若是value大于max，则取max，否则取value
+            value = Math.min(value, max);
+
+            return value;
+        };
+
+        Array.prototype.myForEach = function(callbackFn, thisArg) {
+            /**
+             * length值处理——
+             * 1、强制转换为数值并取整。
+             * 2、若是为NaN、负整数值，则取0。
+             * 3、若是大于2 ** 32 - 1，则取2 ** 32 - 1。
+             * 4、取值范围：[0, 2 ** 32 - 1]
+             */
+            const length = cutBoundaryValue(0, 2 ** 32 - 1, Math.trunc(+this.length) || 0);
+
+            for (let i = 0; i < length; i++) {
+                if (!Object.hasOwn(this, i)) continue;
+                callbackFn.call(thisArg, this[i], i, this);
+            }
+        };
+    </script>
+</body>
+
+</html>

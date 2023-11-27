@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>concat</title>
+</head>
+
+<body>
+    <!--
+		Array.prototype.concat();
+		功能：连接一个或多个数组，返回新的数组。（浅拷贝）
+		参数：
+		1、若是未传递任何参数，则浅拷贝数组。跟slice()一样。
+		2、可以传递任何数量，任何类型的数据：
+			a、传递非数组类型数据，将数据直接添加到新数组末尾。
+			b、传递数组，将数组中的元素值添加到新数组末尾。
+		3、若是稀疏数组，则依然保留空槽，新数组依然是稀疏数组。
+		4、类数组中[Symbol.isConcatSpreadable]属性为真，则将类数组中索引属性添加到新数组末尾。
+	 -->
+    <script>
+    	const cutBoundaryValue = (min, max, value) => {
+            // 若是value小于min，则取min，否则取value
+            value = Math.max(value, min);
+            // 若是value大于max，则取max，否则取value
+            value = Math.min(value, max);
+
+            return value;
+        };
+
+        Array.prototype.myConcat = function() {
+            'use strict';
+            // 若是this值为null或undefined，则报语法错误
+            if ([null, undefined].includes(this)) throw new TypeError('Array.prototype.concat called on null or undefined')
+
+            // 若是this为原始值，则封装为对应的包装类对象
+            const curThis = Object(this);
+            const newArr = [];
+
+            // 向新数组中添加数据
+            const pushToNewArr = (curValue, newArr) => {
+                const isConcatSpreadable = curValue ?. [Symbol.isConcatSpreadable];
+
+                // 遍历对象，添加到新数组末尾
+                const forEachPush = (obj, newArr) => {
+                    /**
+		             * length值处理——
+		             * 1、强制转换为数值并取整。
+		             * 2、若是为NaN、负整数值，则取0。
+		             * 3、若是大于2 ** 32 - 1，则取2 ** 32 - 1。
+		             * 4、取值范围：[0, 2 ** 32 - 1]
+		             */
+		            const length = cutBoundaryValue(0, 2 ** 32 - 1, Math.trunc(+this.length) || 0);
+
+                    for (let i = 0; i < length; i++) {
+                        const arrCurLen = newArr.push(obj[i]);
+                        if (!Object.hasOwn(obj, i)) {
+                            delete newArr[arrCurLen - 1];
+                        }
+                    }
+                };
+
+                // 若是数组或对象中[Symbol.isConcatSpreadable]为true，则根据length将索引属性值，添加到新数组的末尾
+                if (Array.isArray(curValue) || isConcatSpreadable) {
+                    forEachPush(curValue, newArr);
+                } else {
+                    newArr.push(curValue);
+                }
+            };
+
+            // this值添加到新数组中
+            pushToNewArr(curThis, newArr);
+
+            // 将参数添加到新数组中
+            const {
+                length
+            } = arguments;
+            for (let i = 0; i < length; i++) {
+                pushToNewArr(arguments[i], newArr);
+            }
+
+            return newArr;
+        };
+    </script>
+    <script>
+        // 在非数组对象上调用concat
+        console.log(Array.prototype.myConcat.call({
+            a: 1,
+            b: 2,
+            0: 11,
+            length: 3,
+            [Symbol.isConcatSpreadable]: true
+        }, 2, 3, [4, , 5, 6], null, NaN, [undefined], 1n, Symbol, [
+            [1],
+            [2],
+            {
+                length: 5
+            },
+        ]));
+        console.log(Array.prototype.myConcat.call(1, 2, 3));
+        console.log(Array.prototype.myConcat.call({}, 1, 2, 3));
+    </script>
+    <script>
+        console.log('==='.repeat(20));
+        // 在稀疏数组上使用concat()
+        console.log([1, , 3].myConcat([4, 5])); // [1, empty, 3, 4, 5]
+        console.log([1, 2].myConcat([3, , 5])); // [1, 2, 3, empty, 5]
+    </script>
+    <script>
+        console.log('==='.repeat(20));
+        // 使用Symbol.isConcatSpreadable合并类数组对象
+        const obj1 = {
+            0: 1,
+            1: 2,
+            2: 3,
+            length: 3
+        };
+        const obj2 = {
+            0: 1,
+            1: 2,
+            2: 3,
+            length: 3,
+            [Symbol.isConcatSpreadable]: true
+        };
+        console.log([0].myConcat(obj1, obj2));
+    </script>
+</body>
+
+</html>

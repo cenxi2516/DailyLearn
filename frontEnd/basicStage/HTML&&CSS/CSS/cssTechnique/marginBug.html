@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>margin塌陷和margin合并</title>
+    <style>
+        .wp {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .container {
+            border-bottom: 1px dashed #ddd;
+        }
+
+        .container-content {
+            margin-bottom: 15px;
+        }
+
+        .container-content>.box1,
+        .container-content>.box2 {
+            width: 100px;
+            height: 100px;
+        }
+
+        .container-content>.box1 {
+            background-color: #f00;
+        }
+
+        .container-content>.box2 {
+            background-color: #00f;
+        }
+
+        /* margin合并 */
+        .margin-combine>.box1 {
+            margin: 10px;
+        }
+
+        .margin-combine>.box2 {
+            margin: 20px;
+        }
+
+        /* margin塌陷 */
+        .margin-collapse>.box1 {
+            width: 200px;
+            height: 200px;
+            margin: 20px;
+        }
+
+        .margin-collapse .box2 {
+            width: 100px;
+            height: 100px;
+            margin: 10px;
+            background-color: #00f;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wp">
+        <div class="container">
+            <h2 class="title">margin合并</h2>
+            <div class="container-content margin-combine">
+                <div class="box1"></div>
+                <div class="box2"></div>
+                <pre>Note: margin合并发生在两个兄弟盒子情况下。</pre>
+                <pre>推荐：不解决，利用开发习惯避免。</pre>
+            </div>
+        </div>
+        <div class="container">
+            <h2 class="title">margin塌陷</h2>
+            <div class="container-content margin-collapse">
+                <div class="box1">
+                    <div class="box2"></div>
+                </div>
+                <pre>Note: margin塌陷发生在两个父子盒子情况下。</pre>
+                <pre>最优解决方案：启用父盒子BFC。</pre>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

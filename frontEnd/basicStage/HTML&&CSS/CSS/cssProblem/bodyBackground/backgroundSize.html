@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>body背景图的尺寸</title>
+    <style>
+        body {
+            /* 相对于包含块（html元素）宽度，html元素默认占满视口宽度 */
+            width: 300%;
+            /* 盒子边框盒高度为0，则margin设置无效。 */
+            height: 100px;
+            border: 1px dashed #fff;
+            background-image: url('./imgs/main_bg.jpg');
+            /* 背景图的宽度为百分比，则相对于视口的宽度 */
+            /* 背景图的高度为百分比，则相对于html元素的高度 */
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+        }
+    </style>
+</head>
+
+<body>
+</body>
+
+</html>

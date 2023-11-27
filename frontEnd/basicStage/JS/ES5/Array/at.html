@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>at</title>
+</head>
+
+<body>
+    <!--
+		Array.prototype.at(index);
+		功能：获取数组中指定索引位置的值，可以为负整数值。
+
+		关于index
+		1、强制转换为数值，并取整。
+		2、index为负整数，实际：index + length
+		3、-index < -length 或 index >= length 返回undefined
+		4、默认值为0
+	 -->
+    <script>
+        const cutBoundaryValue = (min, max, value) => {
+            // 若是value小于min，则取min，否则取value
+            value = Math.max(value, min);
+            // 若是value大于max，则取max，否则取value
+            value = Math.min(value, max);
+
+            return value;
+        };
+
+        Array.prototype.myAt = function(index = 0) {
+            /**
+             * length值处理——
+             * 1、强制转换为数值并取整。
+             * 2、若是为NaN、负整数值，则取0。
+             * 3、若是大于2 ** 32 - 1，则取2 ** 32 - 1。
+             * 4、取值范围：[0, 2 ** 32 - 1]
+             */
+            const length = cutBoundaryValue(0, 2 ** 32 - 1, Math.trunc(+this.length) || 0);
+
+            // index强制转换为数值，并取整
+            index = Math.trunc(+index);
+
+            // 若是index < -length 或 index >= length，则返回undefined
+            if (index < -length || index >= length) return;
+
+            // 负整数值，实际：length + index
+            index = index < 0 ? length + index : index;
+
+            return this[index];
+        };
+    </script>
+    <script>
+        const arr = [...'abcdef'];
+
+        console.log(arr[0], arr['0']); // 实际上：arr['0'], 会将数值0转换为字符串'0'
+        console.log(arr[-1], arr['-1']);
+        console.log(arr.myAt());
+        console.log(arr.myAt(0));
+        console.log(arr.myAt(1));
+        console.log(arr.myAt(6));
+        console.log(arr.myAt(-1));
+        console.log(arr.myAt(-6));
+        console.log(arr.myAt(-7));
+
+        const likeArray = Array.from.call(Object, arr);
+        console.log(likeArray);
+        console.log(Array.prototype.myAt.call(likeArray, 0));
+        console.log(Array.prototype.myAt.call(likeArray, -1));
+    </script>
+</body>
+
+</html>

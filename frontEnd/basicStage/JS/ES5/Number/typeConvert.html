@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>类型转换</title>
+</head>
+
+<body>
+    <!--
+		Number(value)：
+		1、value若为字符串值：
+			a、去掉字符串左右两侧的空白字符。
+			b、将字符串转换为数值，不能转换，返回NaN。
+				- 空字符串 ==> 0
+				- 'Infinity' ==> Infinity
+				- '-Infinity' ==> -Infinity
+		2、数值 => 数值
+		3、布尔值：
+			a、true ==> 1
+			b、false ==> 0
+		4、null ==> 0
+		5、undefined ==> NaN
+		6、BigInt值，可能会损失精度。（BigInt值转换为Number值，只能使用Number函数显式转换）
+			a、注：+1n，会报TypeError。
+		7、Symbol值，报TypeError。
+		8、对象
+			- 若是有[Symbol.toPrimitive]方法，优先调用此方法，返回原始值，再将原始值转换为数值。
+			- 若是没有[Symbol.toPrimitive]方法，则调用valueOf方法。
+			- 若是valueOf方法，返回原始值，则将原始值转换为数值。
+			- 若是valueOf方法，未返回原始值，则调用toString方法，返回字符串值，将字符串值转换为数值。
+	 -->
+    <script>
+        console.log(Number());
+        console.log(Number(''));
+        console.log(Number('   '));
+        console.log(Number(' \n\t\f\r'));
+        console.log(Number('Infinity'));
+        console.log(Number('-Infinity'));
+        console.log(Number('123abc'));
+        console.log(Number(true));
+        console.log(Number(false));
+        console.log(Number(null));
+        console.log(Number(undefined));
+    </script>
+    <script>
+        const obj1 = {
+            [Symbol.toPrimitive]() {
+                return 1;
+            },
+            valueOf() {
+                return 2;
+            },
+            toString() {
+                return '3';
+            }
+        };
+        console.log(Number(obj1));
+        /**
+         * obj1对象中存在[Symbol.toPrimitive]方法，优先调用[Symbol.toPrimitive]方法。
+         * [Symbol.toPrimitive]方法，始终返回原始值，优先于valueOf和toString方法调用。
+         */
+    </script>
+    <script>
+    	const obj2 = {
+    		valueOf(){
+    			return this;
+    		},
+    		toString(){
+    			return '4';
+    		}
+    	};
+    	console.log(Number(obj2));
+    	/**
+    	 * obj2对象中不存在[Symbol.toPrimitive]方法，则调用valueOf方法。
+    	 * 若是valueOf方法，返回值不为原始值，则再调用toString方法，返回字符串值，
+    	 * 再将字符串值转换为数值。
+    	 */
+    </script>
+    <script>
+    	const obj3 = {
+    		valueOf(){
+    			return 5;
+    		},
+    		toString(){
+    			return '6';
+    		}
+    	};
+    	console.log(Number(obj3));
+    	/**
+    	 * obj3对象中不存在[Symbol.toPrimitive]方法，则调用valueOf方法。
+    	 * 若是valueOf方法，返回值为原始值，再将其转换为数值。
+    	 */
+    </script>
+</body>
+
+</html>

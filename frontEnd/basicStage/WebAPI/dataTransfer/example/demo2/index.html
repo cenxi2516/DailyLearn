@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<title>Examples of DataTransfer.{types,items} properties</title>
+<meta content="width=device-width" />
+<style>
+    div {
+        margin: 0em;
+        padding: 2em;
+    }
+
+    #target {
+        border: 1px solid black;
+    }
+
+</style>
+<script>
+    function dragstart_handler(ev) {
+        console.log("dragStart: target.id = " + ev.target.id);
+
+        ev.dataTransfer.setData("text/plain", ev.target.id);
+        ev.dataTransfer.effectAllowed = "move";
+    }
+
+    function drop_handler(ev) {
+        console.log("drop: target.id = " + ev.target.id);
+        ev.preventDefault();
+
+        const dataTransfer = ev.dataTransfer;
+        const data = dataTransfer.getData("text");
+        ev.target.appendChild(document.getElementById(data));
+
+        const {
+            types,
+            items
+        } = dataTransfer;
+
+        for (let i = 0, length = types.length; i < length; i++) {
+            console.log(`types[${i}] = ${types[i]}`);
+        }
+
+        for (let i = 0, length = items.length; i < length; i++) {
+            console.log(`items[${i}].kind = ${items[i].kind}; type = ${items[i].type}`);
+        }
+    }
+
+    function dragover_handler(ev) {
+        console.log("dragOver");
+        ev.preventDefault();
+
+        ev.dataTransfer.dropEffect = "move";
+    }
+</script>
+
+<body>
+    <h1>
+      Examples of <code>DataTransfer</code>.{<code>types</code>,
+      <code>items</code>} properties
+    </h1>
+    <ul>
+        <li id="i1" ondragstart="dragstart_handler(event)" draggable="true">
+            Drag Item 1 to the Drop Zone
+        </li>
+        <li id="i2" ondragstart="dragstart_handler(event)" draggable="true">
+            Drag Item 2 to the Drop Zone
+        </li>
+    </ul>
+    <div id="target" ondrop="drop_handler(event)" ondragover="dragover_handler(event)">
+        Drop Zone
+    </div>
+</body>
+
+</html>

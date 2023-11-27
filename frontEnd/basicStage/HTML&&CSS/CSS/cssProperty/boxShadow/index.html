@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>盒子阴影</title>
+    <style>
+        .wp {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .container .box {
+            width: 200px;
+            height: 50px;
+            line-height: 50px;
+            margin: 40px 0;
+            border: 1px solid #000;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        /* 水平偏移值, 正值 */
+        .container .box:nth-child(1) {
+            box-shadow: 5px 0;
+        }
+
+        /* 水平偏移值，负值 */
+        .container .box:nth-child(2) {
+            box-shadow: -5px 0;
+        }
+
+        /* 垂直偏移值，正值 */
+        .container .box:nth-child(3) {
+            box-shadow: 0 5px;
+        }
+
+        /* 垂直偏移值，负值 */
+        .container .box:nth-child(4) {
+            box-shadow: 0 -5px;
+        }
+
+        /* 水平和垂直偏移值，正值 */
+        .container .box:nth-child(5) {
+            box-shadow: 5px 5px;
+        }
+
+        /* 水平和垂直偏移值，负值 */
+        .container .box:nth-child(6) {
+            box-shadow: -5px -5px;
+        }
+
+        /* 水平和垂直偏移值，正值、负值 */
+        .container .box:nth-child(7) {
+            box-shadow: 5px -5px;
+        }
+
+        /* 水平和垂直偏移值，负值、正值 */
+        .container .box:nth-child(8) {
+            box-shadow: -5px 5px;
+        }
+
+        /* 水平偏移值，正值，内阴影 */
+        .container .box:nth-child(9) {
+            box-shadow: inset 5px 0;
+        }
+
+        /* 水平偏移值，负值，内阴影 */
+        .container .box:nth-child(10) {
+            box-shadow: inset -5px 0;
+        }
+
+        /* 模糊值半径 */
+        .container .box:nth-child(11) {
+            box-shadow: 0 0 5px;
+        }
+
+        /* 伸缩值半径 */
+        .container .box:nth-child(12) {
+            box-shadow: 0 0 0 5px;
+        }
+
+        /* 模糊值、伸缩值半径 */
+        .container .box:nth-child(13) {
+            box-shadow: 0 0 5px 5px;
+        }
+
+        /* 多层阴影 */
+        .container .box:nth-child(14) {
+            box-shadow: 0 -5px 0 0 #f00,
+                5px 0 0 0 #0f0,
+                0 5px 0 0 #00f,
+                -5px 0 0 0 #f0f,
+                5px -5px 0 0 #f00,
+                5px 5px 0 0 #0f0,
+                -5px 5px 0 0 #00f,
+                -5px -5px 0 0 #f0f;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wp">
+        <h1>盒子阴影</h1>
+        <div class="container">
+            <div class="box">水平偏移值，正值</div>
+            <div class="box">水平偏移值，负值</div>
+            <div class="box">垂直偏移值，正值</div>
+            <div class="box">垂直偏移值，负值</div>
+            <div class="box">水平和垂直偏移值，正值</div>
+            <div class="box">水平和垂直偏移值，负值</div>
+            <div class="box">水平和垂直偏移值，正值、负值</div>
+            <div class="box">水平和垂直偏移值，负值、正值</div>
+            <div class="box">水平偏移值，正值，内阴影</div>
+            <div class="box">水平偏移值，负值，内阴影</div>
+            <div class="box">模糊值半径</div>
+            <div class="box">伸缩值半径</div>
+            <div class="box">模糊值、伸缩值半径</div>
+            <div class="box">多层阴影</div>
+        </div>
+    </div>
+</body>
+
+</html>

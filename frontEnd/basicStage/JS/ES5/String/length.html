@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>length属性</title>
+</head>
+
+<body>
+    <!--
+		String.prototype.length
+		1、统计字符串中UTF-16码元的数量。
+		2、该属性的描述符：
+			a、configurable： false
+			b、enumerable：false
+			c、writable： false
+		3、属性类型：数据属性。
+	 -->
+    <script>
+        console.log(Object.getOwnPropertyDescriptor(String.prototype, 'length'));
+    </script>
+</body>
+
+</html>

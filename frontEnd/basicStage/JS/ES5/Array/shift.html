@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>shift</title>
+</head>
+
+<body>
+    <!--
+		Array.prototype.shift();
+		功能：删除数组第一个元素，返回删除元素的值，改变原数组。
+
+		注意：若是删除一个空数组，则返回undefined。
+	 -->
+    <script>
+    	const cutBoundaryValue = (min, max, value) => {
+            // 若是value小于min，则取min，否则取value
+            value = Math.max(value, min);
+            // 若是value大于max，则取max，否则取value
+            value = Math.min(value, max);
+
+            return value;
+        };
+
+        Array.prototype.myShift = function() {
+            /**
+             * length值处理——
+             * 1、强制转换为数值并取整。
+             * 2、若是为NaN、负整数值，则取0。
+             * 3、若是大于2 ** 32 - 1，则取2 ** 32 - 1。
+             * 4、取值范围：[0, 2 ** 32 - 1]
+             */
+            const length = cutBoundaryValue(0, 2 ** 32 - 1, Math.trunc(+this.length) || 0);
+
+            // 若是空数组，则返回undefined
+            if (!length) {
+                this.length = 0;
+                return undefined
+            };
+
+            // 保存删除项的值
+            const delItemValue = this[0];
+            // 删除索引为0的元素， 若是存在则进行delete，若是不存在则不进行delete
+            Object.hasOwn(this, 0) && delete this[0];
+            // 数组中所有元素往前移动一位
+            const moveForwardOne = (index) => {
+                // 检测index是否为empty
+                const hasIndex = Object.hasOwn(this, index);
+                // 若是index为empty，则不向前移动
+                if (!hasIndex) return;
+                // 向前移动一位
+                this[index - 1] = this[index];
+                // 删除length - 1位置
+                delete this[index];
+            };
+            for (let i = 1; i < length; i++) {
+                console.log(i);
+                moveForwardOne(i);
+            }
+
+            // length属性值减1
+            this.length = length - 1;
+
+            return delItemValue;
+        };
+    </script>
+    <script>
+        const arrayLike = {
+            length: 5,
+            unrelated: "foo",
+            1: 2,
+            3: 4,
+        };
+        console.log(Array.prototype.myShift.call(arrayLike));
+        // undefined，因为它是一个空槽
+        console.log(arrayLike);
+        // { '1': 4, length: 2, unrelated: 'foo' }
+
+        const plainObj = {};
+        // 这里没有长度属性，所以长度为 0
+        Array.prototype.myShift.call(plainObj);
+        console.log(plainObj);
+        // { length: 0 }
+    </script>
+    <script>
+        const arr = [, 1, , , 4, , 5, 6];
+        arr.myShift();
+        console.log(arr);
+    </script>
+</body>
+
+</html>

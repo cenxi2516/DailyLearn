@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>entries</title>
+</head>
+
+<body>
+    <!--
+		Array.prototype.entries();
+		功能：返回一个可迭代的迭代器对象，迭代数组中键值对。
+		注意：会迭代空槽，值为undefined。
+
+		for...of、展开运算，皆会迭代空槽，值为undefined。
+	 -->
+    <script>
+    	const cutBoundaryValue = (min, max, value) => {
+            // 若是value小于min，则取min，否则取value
+            value = Math.max(value, min);
+            // 若是value大于max，则取max，否则取value
+            value = Math.min(value, max);
+
+            return value;
+        };
+
+        Array.prototype.myEntries = function() {
+            const that = this;
+            /**
+             * length值处理——
+             * 1、强制转换为数值并取整。
+             * 2、若是为NaN、负整数值，则取0。
+             * 3、若是大于2 ** 32 - 1，则取2 ** 32 - 1。
+             * 4、取值范围：[0, 2 ** 32 - 1]
+             */
+            const length = cutBoundaryValue(0, 2 ** 32 - 1, Math.trunc(+this.length) || 0);
+            let index = 0;
+
+            return {
+                next() {
+                    return {
+                        value: [index, that[index]],
+                        done: index++ >= length
+                    };
+                },
+                [Symbol.iterator]() {
+                    return Array.prototype.myEntries.call(that);
+                }
+            };
+        };
+    </script>
+    <script>
+        const arr = ['a', , 'b', 'c'];
+        const arrEntries = arr.myEntries();
+
+        for (const [index, value] of arrEntries) {
+            console.log(index, value);
+        }
+    </script>
+    <script>
+        console.log('在非数组对象上调用entries');
+        const arrayLike = {
+            length: 3,
+            0: "a",
+            1: "b",
+            2: "c",
+        };
+        const entriesIterator = Array.prototype.myEntries.call(arrayLike);
+
+        for(const value of entriesIterator){
+        	console.log(value);
+        }
+    </script>
+</body>
+
+</html>

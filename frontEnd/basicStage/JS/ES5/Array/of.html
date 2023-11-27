@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array.of</title>
+</head>
+
+<body>
+    <!--
+		Array.prototype.of();
+		功能：由传递的参数，创建一个Array实例。
+		1、未传递任何参数，创建一个空数组。
+		2、this默认指向Array构造器。
+		3、创建的都是密集数组，不会是稀松数组。
+	 -->
+    <script>
+        Array.myOf = function(...argsArr) {
+            // 传递参数数量
+            const argsCount = argsArr.length;
+            // 若是this指向不为一个构造器，则默认指向Array构造器
+            const Func = typeof this !== 'function' ? Array : this;
+            // 使用构造器创建一个实例对象, 传递参数数量
+            const instanceObj = new Func(argsCount);
+            // 为实例对象，新增索引属性
+            for (let i = 0; i < argsCount; i++) {
+                instanceObj[i] = argsArr[i];
+            }
+            // 为实例对象，新增length属性
+            instanceObj.length = argsCount;
+
+            return instanceObj;
+        };
+    </script>
+    <script>
+    	// 创建一个空数组
+        console.log(Array.myOf());
+        // 创建一个包含: ‘a’, 'b', 'c'
+        console.log(Array.myOf('a', 'b', 'c'));
+        // 使用call改变函数内this指向，this指向Object构造器
+        console.log(Array.myOf.call(Object, 1, 2, 3));
+        // 使用call改变函数内this指向，this指向普通对象
+        console.log(Array.myOf.call({}, 4, 5, 6));
+    </script>
+</body>
+
+</html>

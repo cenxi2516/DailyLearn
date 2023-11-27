@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sort</title>
+</head>
+
+<body>
+    <!--
+		Array.prototype.sort([callbackFn]);
+		功能：数组排序，返回排序后的原数组，改变原数组。
+		排序规则：
+		1、未传递callbackFn函数：
+			a、按字符串的升序排序。比较字符的Unicode编码值。
+			b、undefined始终排在最后。
+			c、empty始终排在undefined后面。
+		2、传递callbackFn函数：callbackFn(a, b)
+			a、callbackFn返回：大于0、等于0、小于0的值，即：1、0、-1。
+				- 大于0：表示a > b，交换a与b位置。
+				- 小于0：表示a < b，不交换a与b位置。
+				- 等于0：表示a == b， 不交换a与b位置。
+			b、a、b表示数组元素。
+			c、undefined始终排在最后，且不调用callbackFn函数。
+			d、empty始终排在undefined后面，且不调用callbackFn函数。
+
+		扩展：
+		1、Chrome、NodeJS使用V8引擎。
+		2、Safari使用JavascriptCore引擎。
+		3、Firefox使用SpiderMonkey引擎。
+	 -->
+    <script>
+    	const cutBoundaryValue = (min, max, value) => {
+            // 若是value小于min，则取min，否则取value
+            value = Math.max(value, min);
+            // 若是value大于max，则取max，否则取value
+            value = Math.min(value, max);
+
+            return value;
+        };
+
+        Array.prototype.mySort = function(
+            callbackFn = (a, b) => String(a) > String(b)
+        ) {
+            // callbackFn只能为undefined或函数
+            if (typeof callbackFn !== 'function') throw new TypeError('The comparison function must be either a function or undefined');
+
+            /**
+             * length值处理——
+             * 1、强制转换为数值并取整。
+             * 2、若是为NaN、负整数值，则取0。
+             * 3、若是大于2 ** 32 - 1，则取2 ** 32 - 1。
+             * 4、取值范围：[0, 2 ** 32 - 1]
+             */
+            const length = cutBoundaryValue(0, 2 ** 32 - 1, Math.trunc(+this.length) || 0);
+
+            const valueArr = [];
+            const undefinedArr = []; // undefined数组
+            let emptyCount = 0; // empty数量
+
+            // 数组元素分类
+            for (let i = 0; i < length; i++) {
+                const value = this[i];
+                if (!Object.hasOwn(this, i)) {
+                    emptyCount++;
+                } else if (value === undefined) {
+                    undefinedArr[undefinedArr.length] = value;
+                } else {
+                    valueArr[valueArr.length] = value;
+                }
+            }
+
+            // 数组排序
+            for (let j = 0, sortCount = valueArr.length - 1; j < sortCount; j++) {
+                let isFinishsorted = true;
+
+                for (let k = 0; k < sortCount - j; k++) {
+                    if (callbackFn(valueArr[k], valueArr[k + 1]) > 0) {
+                        [valueArr[k], valueArr[k + 1]] = [valueArr[k + 1], valueArr[k]];
+                        isFinishsorted = false;
+                    }
+                }
+
+                // 判断排序是否完成
+                if (isFinishsorted) break;
+            }
+
+            // [...valueArr, ...undefinedArr]属性值，覆盖this属性值
+            Object.assign(this, [...valueArr, ...undefinedArr]);
+
+            // 删除不存在的属性
+            for (let z = 1; z <= emptyCount; z++) {
+                delete this[length - z];
+            }
+
+            return this;
+        };
+    </script>
+    <script>
+        const arr = [12, undefined, 34, undefined, 23, , 11, , , 15, , 10, undefined];
+
+        console.log(arr.mySort((a, b) => b - a));
+        // console.log(arr.sort());
+    </script>
+    <script>
+        const arrayLike = {
+            length: 3,
+            unrelated: "foo",
+            0: 5,
+            2: 4,
+        };
+        console.log(Array.prototype.mySort.call(arrayLike));
+    </script>
+</body>
+
+</html>

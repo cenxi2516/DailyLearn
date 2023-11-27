@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>matchAll</title>
+</head>
+
+<body>
+    <!--
+		String.prototype.matchAll(regexp);
+		功能：通过正则表达式，全局匹配。
+		regexp：必需开启全局匹配，否则会报TypeError错误。
+		返回值：是一个迭代器对象，也是一个可迭代对象。迭代数据为一个数组，其中包含匹配的详细信息。
+		注意：不会改变lastIndex的值。
+	 -->
+    <script>
+        const str = 'hello world';
+        const matchReg = /l/g; // 必须开启全局匹配
+        const matchIterator = str.matchAll(matchReg); // 返回一个迭代器，也是一个可迭代对象
+        console.log(matchIterator);
+
+        for(const info of matchIterator){
+        	console.log(info);
+        }
+    </script>
+</body>
+
+</html>

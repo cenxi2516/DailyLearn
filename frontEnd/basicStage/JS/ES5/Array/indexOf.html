@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>indexOf</title>
+</head>
+
+<body>
+    <!--
+		Array.prototype.indexOf(value[, startIndex]);
+		功能：从前往后检索数组中首次出现的给定元素，并立即返回其索引位置。若是未检索到，则返回-1。
+		参数：startIndex，表示从前往后开始检索的起始位置（包含）
+		1、将其转换为数值并取整。
+		2、默认值为0。
+		3、startIndex < -length，则取0。
+		4、startIndex >= length， 则不进行任何检索，直接返回-1。
+
+		比较：使用===比较
+		1、NaN与NaN是不相等的。
+		2、+0与-0是相等的。
+
+		遍历：不遍历稀疏数组中的空槽。
+	 -->
+    <script>
+    	const cutBoundaryValue = (min, max, value) => {
+            // 若是value小于min，则取min，否则取value
+            value = Math.max(value, min);
+            // 若是value大于max，则取max，否则取value
+            value = Math.min(value, max);
+
+            return value;
+        };
+
+        Array.prototype.myIndexOf = function(value, startIndex = 0) {
+            /**
+             * length值处理——
+             * 1、强制转换为数值并取整。
+             * 2、若是为NaN、负整数值，则取0。
+             * 3、若是大于2 ** 32 - 1，则取2 ** 32 - 1。
+             * 4、取值范围：[0, 2 ** 32 - 1]
+             */
+            const length = cutBoundaryValue(0, 2 ** 32 - 1, Math.trunc(+this.length) || 0);
+            // 将startIndex转换为数值并取整
+            startIndex = Math.trunc(+startIndex);
+            // startIndex为负整数值
+            startIndex = startIndex < 0 ? startIndex + length : startIndex
+            // startIndex < 0
+            startIndex = Math.max(startIndex, 0);
+
+            // startIndex >= length, 则不进行任何的检索，直接返回-1
+            if (startIndex >= length) return -1;
+
+            for (let i = 0; i < length; i++) {
+                if (!Object.hasOwn(this, i)) continue;
+                if (value === this[i]) return i;
+            }
+
+            return -1;
+        };
+    </script>
+    <script>
+        console.log('在非数组对象上调用indexOf');
+        const arrayLike = {
+            length: 3,
+            0: 2,
+            1: 3,
+            2: 4,
+        };
+        console.log(Array.prototype.myIndexOf.call(arrayLike, 2));
+        // 0
+        console.log(Array.prototype.myIndexOf.call(arrayLike, 5));
+        // -1
+    </script>
+    <script>
+    	console.log('在稀疏数组中使用indexOf');
+    	console.log([1, , 3].myIndexOf(undefined)); // -1
+    </script>
+</body>
+
+</html>

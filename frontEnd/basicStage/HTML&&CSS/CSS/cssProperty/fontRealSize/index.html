@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文字的实际大小</title>
+    <style>
+        .font-real-size {
+            font-size: 200px;
+            background-color: #ccc;
+        }
+    </style>
+</head>
+
+<body>
+    <!--
+		1、font-size设置的是文字相对大小。
+		2、文字实际大小 = (字体实际大小/字体相对大小)*font-size
+		3、文字背景颜色覆盖content-area区域。
+		4、content-area的高度，即为文字的实际大小。
+		5、文字顶边到蚊子底边的区域，即为content-area。
+	 -->
+    <span class="font-real-size">M</span>
+</body>
+
+</html>

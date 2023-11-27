@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Object.create</title>
+</head>
+
+<body>
+    <!--
+		Object.create(null或对象[, descriptors])
+		1、Object.create(null) 等价于 {__proto__: null}。
+		2、第一个参数若是传递为非null或非引用值，则报TypeError。
+		3、descriptors值：若是为null则报TypeError。
+	 -->
+    <script>
+    	// 模拟现实Object.create
+        Object.myCreate = (protoObj, descriptors) => {
+            if (typeof protoObj !== 'object') {
+                throw new TypeError(`Object prototype may only be an Object or null:${protoObj}`);
+            }
+
+            // 创建一个新的对象并设置原型
+            let newObj = null;
+            if (protoObj === null) {
+                newObj = {
+                    __proto__: null
+                };
+            } else {
+                newObj = {};
+                Object.setPrototypeOf(newObj, protoObj);
+            }
+
+            // 为新创建的对象添加属性
+            Object.defineProperties(newObj, descriptors);
+
+            return newObj;
+        };
+    </script>
+</body>
+
+</html>

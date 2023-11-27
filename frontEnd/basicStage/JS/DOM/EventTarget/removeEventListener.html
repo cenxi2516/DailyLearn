@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>removeEventListener</title>
+</head>
+
+<body>
+	<!--
+		EventTarget.removeEventListener(type, handler);
+		EventTarget.removeEventListener(type, handler, useCapture);
+		EventTarget.removeEventListener(type, handler, options);
+
+		功能：removeEventListener移除EventTarget上注册的type事件。
+		需要注意：
+		1、注册在冒泡阶段执行handler，同样移除也需移除冒泡阶段的handler。
+		2、注册在捕获阶段执行handler，同样移除也需移除捕获阶段的handler。
+		3、type与EventTarget注册时一致。
+		4、handler与EventTarget注册时引用一致。
+
+		removeEventListener第三个参数，最好与注册时保持一致，避免浏览器或版本差异。
+
+		例如：在保持type事件类型一致，以及handler引用相同前提下，仅需关注：移除的是捕获阶段的handler，还是冒泡阶段的handler。
+		移除冒泡阶段的handler，对捕获阶段的handler不受影响。
+		移除捕获阶段的handler，对冒泡阶段的handler不受影响。
+
+		EventTarget.removeEventListener(type, handler); // 移除冒泡阶段的handler
+		EventTarget,removeEventListener(type, handler, false); // 移除冒泡阶段的handler
+		EventTarget,removeEventListener(type, handler, {}); // 移除冒泡阶段的handler
+		EventTarget,removeEventListener(type, handler, {
+			capture: false
+		}); // 移除冒泡阶段的handler
+		EventTarget,removeEventListener(type, handler, true); // 移除捕获阶段的handler
+		EventTarget,removeEventListener(type, handler, {
+			capture: true
+		}); // 移除捕获阶段的handler
+	 -->
+</body>
+
+</html>

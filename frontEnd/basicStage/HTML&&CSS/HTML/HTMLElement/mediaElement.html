@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>多媒体元素</title>
+    <style>
+        .wp {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .container {
+            border-bottom: 1px dashed #ddd;
+            margin: 15px 0;
+        }
+
+        /* video */
+        .video video {
+            width: 80%;
+        }
+
+        /* audio */
+    </style>
+</head>
+
+<body>
+    <div class="wp">
+        <div class="container">
+            <h2 class="title">video元素</h2>
+            <div class="container-content video">
+                <video src="./media/open.mp4" controls autoplay muted loop></video>
+                <div class="note">
+                    <pre>controls：布尔属性，播放控件是否显示。</pre>
+                    <pre>autoplay：布尔属性，是否自动播放。注意：Chrome浏览器默认只支持自动静音播放。</pre>
+                    <pre>muted：布尔属性，是否静音。</pre>
+                    <pre>loop：布尔属性，是否循环播放。</pre>
+                    <pre>...</pre>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <h2 class="title">audio元素</h2>
+            <div class="container-content audio">
+                <audio src="./media/shamoluotuo.mp3" controls autoplay muted loop></audio>
+                <div class="note">
+                    <pre>controls：布尔属性，播放控件是否显示。</pre>
+                    <pre>autoplay：布尔属性，是否自动播放。注意：Chrome浏览器默认只支持自动静音播放。</pre>
+                    <pre>muted：布尔属性，是否静音。</pre>
+                    <pre>loop：布尔属性，是否循环播放。</pre>
+                    <pre>...</pre>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <h2 class="title">兼容性</h2>
+            <div class="container-content video">
+                <video controls autoplay muted loop>
+                    <source src="./media/open.mp4">
+                    <source src="./media/open.webm">
+                    <div class="not-suport-desc">
+                        请更换最新浏览器，目前浏览器不支持播放视频。
+                    </div>
+                </video>
+                <div class="note">
+                    <pre>1、旧版本浏览器不支持video和audio元素。</pre>
+                    <pre>2、不同浏览器对音视频格式支持可能不一致。</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

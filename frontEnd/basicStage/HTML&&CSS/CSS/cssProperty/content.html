@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>向::before和::after伪元素中插入内容</title>
+    <style>
+        .wp {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .container {
+            border-bottom: 1px dashed #ddd;
+            margin: 15px 0;
+        }
+
+        /* none */
+        .content-none .box::before {
+            content: none;
+        }
+
+        .content-none .box::after {
+            content: normal;
+        }
+
+        /* <string> */
+        .content-string .box::before {
+            content: '::before '
+        }
+
+        .content-string .box::after {
+            content: ' ::after'
+        }
+
+        /* url() */
+        .content-url a::before {
+            content: url(http://www.mozilla.org/favicon.ico) "MOZILLA：";
+            font: 12px Arial, freeSans, sans-serif;
+            color: #bbb;
+        }
+
+        /* attr() */
+        .content-attr a::after {
+            content: "（"attr(id)"）";
+        }
+
+        /* quotes */
+        .content-quotes .box q {
+            color: #00008B;
+            font-style: italic;
+        }
+
+        .content-quotes .box q::before {
+            content: open-quote;
+        }
+
+        .content-quotes .box q::after {
+            content: close-quote;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wp">
+        <div class="container">
+            <h2 class="title">content属性</h2>
+            <div class="container-content">
+                <div class="note">
+                    <pre>1、content属性只能在::before和::after伪元素中使用。</pre>
+                    <pre>2、为::before和::after伪元素插入内容。</pre>
+                    <pre>3、content属性值：
+   a、normal：初始值，等价于none。
+   b、none：不产生伪元素。
+   c、&lt;string&gt;：文本内容。
+   d、url(uri)：返回uri图片资源。
+   e、attr(x)：返回元素中x属性的字符串内容。
+   f、open-quote：左侧引号。
+   g、close-quote：右侧引号。
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <!-- none和normal -->
+        <div class="container">
+            <h2 class="title">none属性值</h2>
+            <div class="container-content content-none">
+                <div class="box">none属性值</div>
+                <div class="note">
+                    <pre>Note: none属性值，不产生伪元素，与normal值效果类似。</pre>
+                </div>
+            </div>
+        </div>
+        <!-- <string> -->
+        <div class="container">
+            <h2 class="title">&lt;string&gt;属性值</h2>
+            <div class="container-content content-string">
+                <div class="box">&lt;string&gt;属性值</div>
+                <div class="note">
+                    <pre>Note: &lt;string&gt;属性值，文本内容。</pre>
+                </div>
+            </div>
+        </div>
+        <!-- url() -->
+        <div class="container">
+            <h2 class="title">url()</h2>
+            <div class="container-content content-url">
+                <a href="http://www.mozilla.org/en-US/">Home Page</a>
+            </div>
+        </div>
+        <!-- attr() -->
+        <div class="container">
+            <h2 class="title">attr()</h2>
+            <div class="container-content content-attr">
+                <ul>
+                    <li><a id="moz" href="http://www.mozilla.org/">
+        Mozilla Home Page</a></li>
+                    <li><a id="mdn" href="https://developer.mozilla.org/">
+        Mozilla Developer Network</a></li>
+                    <li><a id="w3c" href="http://www.w3c.org/">
+        World Wide Web Consortium</a></li>
+                </ul>
+            </div>
+        </div>
+        <!-- open-quote 和 close-quote -->
+        <div class="container">
+            <h2 class="title">open-quote 和 close-quote属性值</h2>
+            <div class="container-content content-quotes">
+                <div class="box">
+                    <p> We shall start this with a quote from Sir Tim Berners-Lee,
+                        <q cite="http://www.w3.org/People/Berners-Lee/FAQ.html#Internet">
+                            I was lucky enough to invent the Web at the time when the Internet already existed - and had for a decade and a half.</q> We must understand that there is nothing fundamentally wrong with building on the contributions of others.
+                    </p>
+                </div>
+                <div class="note">
+                    <pre>Note: open-quote 和 close-quote属性值，设置文本内容前后的引号。</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

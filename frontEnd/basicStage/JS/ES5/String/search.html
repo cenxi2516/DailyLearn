@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>search</title>
+</head>
+
+<body>
+    <!--
+		String.prototype.search(patter);
+		从前往后检索字符串中指定正则首次匹配的索引位置。若是未检索到，返回-1。若是检索到，则返回首次匹配的索引位置。不支持全局检索。
+
+		参数：pattern为正则表达式。
+	 -->
+    <script>
+        String.prototype.mySearch = function(pattern) {
+            pattern = new RegExp(pattern);
+            const {
+                index = -1
+            } = pattern.exec(String(this)) ?? {};
+            pattern.lastIndex = 0;
+
+            return index;
+        };
+
+        console.log('hello world'.mySearch(/o/g));
+        console.log('hello world'.mySearch(/helo/g));
+    </script>
+</body>
+
+</html>

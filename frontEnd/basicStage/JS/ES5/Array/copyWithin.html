@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>copyIwthin</title>
+</head>
+
+<body>
+    <!--
+		Array.prototype.copyWithin(target[, start[, end]]);
+		功能：浅拷贝数组的一部分粘贴到数组中另一位置，改变原数组，原数组长度不变。
+		参数：
+			1、target：表示粘贴的起始位置
+				a、强制转换为数值并取整。
+				b、可以为负整数值。
+				c、默认值为0
+				d、target 小于 -length，则取0。
+				e、target 大于或等于 length，则不粘贴。
+			2、start：表示拷贝的起始位置（包含）
+				a、强制转换为数值并取整。
+				b、可以为负整数值。
+				c、默认值为0。
+				d、start 小于 -length 则取0。
+				e、start 大于或等于 length，则不会拷贝任何内容。
+			3、end：表示拷贝的结束位置（不包含）
+				a、强制转换为数值并取整。
+				b、可以为负整数值。
+				c、默认值为数组长度。
+				d、end 小于 -length，则取0。
+				e、end 大于或等于 length，则取length。
+				f、end 小于或等于 start，则不拷贝任何内容。
+
+			注意：拷贝空槽则是空槽，粘贴空槽则删除属性。
+	 -->
+    <script>
+    	const cutBoundaryValue = (min, max, value) => {
+            // 若是value小于min，则取min，否则取value
+            value = Math.max(value, min);
+            // 若是value大于max，则取max，否则取value
+            value = Math.min(value, max);
+
+            return value;
+        };
+
+        Array.prototype.myCopyWithin = function(target = 0, start = 0, end) {
+            /**
+             * length值处理——
+             * 1、强制转换为数值并取整。
+             * 2、若是为NaN、负整数值，则取0。
+             * 3、若是大于2 ** 32 - 1，则取2 ** 32 - 1。
+             * 4、取值范围：[0, 2 ** 32 - 1]
+             */
+            const length = cutBoundaryValue(0, 2 ** 32 - 1, Math.trunc(+this.length) || 0);
+            // 参数处理
+            const paramProcess = (index) => {
+                index = Math.trunc(+index); // 转换为数值并取整
+                index = index < 0 ? index + length : index; // 负整数值: index + length
+                index = Math.max(index, 0); // index < 0，则取0
+                return index;
+            };
+            // 参数:target/start/end
+            target = paramProcess(target);
+            start = paramProcess(start);
+            end = end === undefined ? length : end;
+            end = paramProcess(end);
+            end = Math.min(end, length);
+
+            /**
+             * target >= length 不粘贴任何内容
+             * start >= length 不拷贝任何内容
+             * start >= end 不拷贝任何内容
+             * target === 0 && start === 0 && end === length 不拷贝粘贴
+             */
+            if (target >= length || start >= end || (target === 0 && start === 0 && end === length)) return this;
+
+            // 拷贝数组内容：[start, end)
+            const copyContents = [];
+            for (let i = start; i < end; i++) {
+                const copyItem = Object.create(null);
+                copyItem.value = this[i];
+                copyItem.has = Object.hasOwn(this, i);
+                copyContents.push(copyItem);
+            }
+
+            // 在数组中粘贴拷贝内容
+            const copyLen = copyContents.length;
+            const pasteLen = length - target;
+            const realPasteLen = copyLen > pasteLen ? pasteLen : copyLen;
+            for (let i = target, j = 0, forLen = target + realPasteLen; i < forLen; i++, j++) {
+                const {
+                    value,
+                    has
+                } = copyContents[j];
+
+                if (has) {
+                    this[i] = value;
+                    continue;
+                }
+
+                delete this[i];
+            }
+
+            return this;
+        }
+    </script>
+    <script>
+        console.log([1, 2, 3, 4, 5].myCopyWithin(-2));
+        console.log([1, 2, 3, 4, 5].myCopyWithin(0, 3));
+        console.log([1, 2, 3, 4, 5].myCopyWithin(0, 3, 4));
+        console.log([1, 2, 3, 4, 5].myCopyWithin(-2, -3, -1));
+    </script>
+    <script>
+        console.log('在稀疏数组上使用');
+        console.log([1, , 3].myCopyWithin(2, 1, 2));
+    </script>
+    <script>
+        console.log('在非数组对象上调用');
+        const arrayLike = {
+            length: 5,
+            3: 1,
+        };
+        console.log(Array.prototype.copyWithin.call(arrayLike, 0, 3));
+        console.log(Array.prototype.copyWithin.call(arrayLike, 3, 1));
+    </script>
+</body>
+
+</html>

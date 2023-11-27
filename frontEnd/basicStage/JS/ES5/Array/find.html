@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>find</title>
+</head>
+
+<body>
+    <!--
+		Array.prototype.find(callbackFn[, thisArg]);
+		功能：查找第一个满足测试函数的元素值，否则返回undefined。
+		注意：
+			1、数组的长度值在第一次调用callbackFn之前就已保存。
+			2、callbackFn会被数组中的空槽访问，值为undefined。
+	 -->
+    <script>
+    	const cutBoundaryValue = (min, max, value) => {
+            // 若是value小于min，则取min，否则取value
+            value = Math.max(value, min);
+            // 若是value大于max，则取max，否则取value
+            value = Math.min(value, max);
+
+            return value;
+        };
+
+        Array.prototype.myFind = function(callbackFn, thisArg) {
+            /**
+             * length值处理——
+             * 1、强制转换为数值并取整。
+             * 2、若是为NaN、负整数值，则取0。
+             * 3、若是大于2 ** 32 - 1，则取2 ** 32 - 1。
+             * 4、取值范围：[0, 2 ** 32 - 1]
+             */
+            const length = cutBoundaryValue(0, 2 ** 32 - 1, Math.trunc(+this.length) || 0);
+
+            for (let i = 0; i < length; i++) {
+                const value = this[i];
+                if (callbackFn.call(thisArg, value, i, this)) return value;
+            }
+
+            return;
+        };
+    </script>
+    <script>
+        console.log('在对象数组中通过对象属性进行查找');
+        const inventory = [{
+                name: "apples",
+                quantity: 2
+            },
+            {
+                name: "bananas",
+                quantity: 0
+            },
+            {
+                name: "cherries",
+                quantity: 5
+            },
+        ];
+
+        function isCherries(fruit) {
+            return fruit.name === "cherries";
+        }
+
+        console.log(inventory.myFind(isCherries));
+        // { name: 'cherries', quantity: 5 }
+    </script>
+    <script>
+        console.log('使用箭头函数和解构赋值');
+        const result = inventory.myFind(({
+            name
+        }) => name === 'cherries');
+        console.log(result);
+    </script>
+    <script>
+        console.log('寻找数组中的第一个素数');
+
+        function isPrime(element, index, array) {
+            let start = 2;
+            while (start <= Math.sqrt(element)) {
+                if (element % start++ < 1) {
+                    return false;
+                }
+            }
+            return element > 1;
+        }
+
+        console.log([4, 6, 8, 12].myFind(isPrime)); // undefined，未找到
+        console.log([4, 5, 8, 12].myFind(isPrime)); // 5
+    </script>
+    <script>
+        console.log('在稀疏数组上使用find');
+        // 声明一个在索引 2、3 和 4 处没有元素的数组
+        const array = [0, 1, , , , 5, 6];
+
+        // 将会打印所有索引，而不仅仅是那些有值的非空槽
+        array.myFind((value, index) => {
+            console.log(`访问索引 ${index}，值为 ${value}`);
+        });
+        // 访问索引 0，值为 0
+        // 访问索引 1，值为 1
+        // 访问索引 2，值为 undefined
+        // 访问索引 3，值为 undefined
+        // 访问索引 4，值为 undefined
+        // 访问索引 5，值为 5
+        // 访问索引 6，值为 6
+
+        // 打印所有索引，包括已删除的
+        array.myFind((value, index) => {
+            // 在第一次迭代时删除元素 5
+            if (index === 0) {
+                console.log(`删除 array[5] 的值 ${array[5]}`);
+                delete array[5];
+            }
+            // 即使删除了，元素 5 仍然被访问
+            console.log(`访问索引 ${index}，值为 ${value}`);
+        });
+        // 删除值为 5 的 array[5]
+        // 访问索引 0，值为 0
+        // 访问索引 1，值为 1
+        // 访问索引 2，值为 undefined
+        // 访问索引 3，值为 undefined
+        // 访问索引 4，值为 undefined
+        // 访问索引 5，值为 undefined
+        // 访问索引 6，值为 6
+    </script>
+    <script>
+        console.log('在非数组对象上调用find');
+        const arrayLike = {
+            length: 3,
+            0: 2,
+            1: 7.3,
+            2: 4,
+        };
+        console.log(Array.prototype.myFind.call(arrayLike, (x) => !Number.isInteger(x)));
+        // 7.3
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pop</title>
+</head>
+
+<body>
+    <!--
+		Array.prototype.pop();
+		功能：删除数组末尾元素，返回删除的元素值。
+		1、改变了原数组，长度值减一。
+		2、若是空数组，返回undefined。
+	 -->
+    <script>
+    	const cutBoundaryValue = (min, max, value) => {
+            // 若是value小于min，则取min，否则取value
+            value = Math.max(value, min);
+            // 若是value大于max，则取max，否则取value
+            value = Math.min(value, max);
+
+            return value;
+        };
+
+        Array.prototype.myPop = function() {
+            /**
+             * length值处理——
+             * 1、强制转换为数值并取整。
+             * 2、若是为NaN、负整数值，则取0。
+             * 3、若是大于2 ** 32 - 1，则取2 ** 32 - 1。
+             * 4、取值范围：[0, 2 ** 32 - 1]
+             */
+            const length = cutBoundaryValue(0, 2 ** 32 - 1, Math.trunc(+this.length) || 0);
+
+            if (!length) {
+                this.length = 0;
+                return undefined;
+            }
+
+            const lastIndex = length - 1;
+            // 删除前，先保存删除项的值
+            const lastIndexValue = this[lastIndex];
+
+            // 删除数组末尾元素
+            delete this[lastIndex];
+            // length长度值减1
+            this.length = length - 1;
+
+            return lastIndexValue;
+        };
+    </script>
+    <script>
+        const myFish = ["angel", "clown", "mandarin", "sturgeon"];
+        const popped = myFish.myPop();
+
+        console.log(myFish); // ['angel', 'clown', 'mandarin' ]
+        console.log(popped); // 'sturgeon'
+    </script>
+    <script>
+        console.log('在非数组对象上调用pop');
+        const arrayLike = {
+            length: 3,
+            unrelated: "foo",
+            2: 4,
+        };
+        console.log(Array.prototype.myPop.call(arrayLike)); // 4
+        console.log(arrayLike); // { length: 2, unrelated: 'foo' }
+
+        const plainObj = {};
+        // 没有 length 属性，所以长度为 0
+        Array.prototype.myPop.call(plainObj);
+        console.log(plainObj); // { length: 0 }
+    </script>
+</body>
+
+</html>

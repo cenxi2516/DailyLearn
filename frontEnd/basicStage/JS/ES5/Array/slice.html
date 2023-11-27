@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>slice</title>
+</head>
+
+<body>
+    <!--
+		Array.prototype.slice([start[, end]]);
+		功能：截取数组，返回一个浅拷贝的新数组，不改变原数组。
+		参数：
+		1、start：截取起始位置（包含）
+			a、强制转换为数值并取整。
+			b、默认值为0。
+			c、可以为负整数值。
+			d、若是start < - length，则取0。
+			e、若是start >= length，则返回一个新的空数组。
+		2、end：截取结束位置（不包含）
+			a、强制转换为数值并取整。
+			b、默认值为length。
+			c、可以为负整数值。
+			d、若是end < -length，则取0。
+			e、若是end >= length，则取length。
+			f、若是end <= start，则返回一个新的空数组。
+	 -->
+    <script>
+    	const cutBoundaryValue = (min, max, value) => {
+            // 若是value小于min，则取min，否则取value
+            value = Math.max(value, min);
+            // 若是value大于max，则取max，否则取value
+            value = Math.min(value, max);
+
+            return value;
+        };
+
+        Array.prototype.mySlice = function(start = 0, end) {
+            /**
+             * length值处理——
+             * 1、强制转换为数值并取整。
+             * 2、若是为NaN、负整数值，则取0。
+             * 3、若是大于2 ** 32 - 1，则取2 ** 32 - 1。
+             * 4、取值范围：[0, 2 ** 32 - 1]
+             */
+            const length = cutBoundaryValue(0, 2 ** 32 - 1, Math.trunc(+this.length) || 0);
+
+            // 参数处理
+            const paramProcess = (index) => {
+                // index 转换为数值并取整
+                index = Math.trunc(+index);
+                // 负整数值
+                index = index < 0 ? index + length : index;
+                // index < 0
+                index = Math.max(index, 0);
+                // index > length
+                index = Math.min(index, length);
+
+                return index;
+            }
+
+            // start取值范围：[0, +oo]
+            start = paramProcess(start);
+            // end取值范围：[0, length]
+            end = end === undefined ? length : end;
+            end = paramProcess(end);
+
+            // 若是start >= end，则返回一个新数组
+            const newArr = [];
+            if (start >= end) return newArr;
+
+            for (let i = start; i < end; i++) {
+                const newArrLen = newArr.push(this[i]);
+                if (!Object.hasOwn(this, i)) delete newArr[newArrLen - 1];
+            }
+
+            return newArr;
+        };
+    </script>
+    <script>
+        const arr = [1, , 3, , 5];
+        console.log(arr.mySlice());
+    </script>
+    <script>
+        const arrayLike = {
+            length: 3,
+            0: 2,
+            1: 3,
+            2: 4,
+        };
+        console.log(Array.prototype.mySlice.call(arrayLike, 1, 3));
+    </script>
+    <script>
+    	// 将数组或类数组转换为一个浅拷贝的新数组
+    	const slice = (likeArray) => Array.prototype.mySlice.call(likeArray);
+    	console.log(slice(Array.from.call(Object, 'abcdef')));
+    </script>
+</body>
+
+</html>

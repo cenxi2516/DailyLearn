@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>检测对象是否在另一个对象的原型链中</title>
+</head>
+
+<body>
+	<!--
+		Object.prototype.isPrototypeOf()
+		1、检测对象是否在另一个对象的原型链中，存在为true，不存在为false。
+		2、若是参数值为原始值，则直接返回false。
+
+		obj instance Constructor
+		1、检测Constructor.prototype是否在对象obj的原型链中，存在为true，不存在为false。
+		2、obj为原始值，则直接返回false。
+	 -->
+	 <script>
+	 	// 原始值，直接返回false
+	 	function Foo(){}
+	 	console.log(0 instanceof Foo);
+	 	console.log('' instanceof Foo);
+	 	console.log(false instanceof Foo);
+	 	console.log(1n instanceof Foo);
+	 	console.log(Symbol() instanceof Foo);
+	 	console.log(null instanceof Foo);
+	 	console.log(undefined instanceof Foo);
+	 	console.log('==='.repeat(20));
+
+	 	console.log(Object.prototype.isPrototypeOf.call({}, 0));
+	 	console.log(Object.prototype.isPrototypeOf.call({}, ''));
+	 	console.log(Object.prototype.isPrototypeOf.call({}, false));
+	 	console.log(Object.prototype.isPrototypeOf.call({}, 1n));
+	 	console.log(Object.prototype.isPrototypeOf.call({}, Symbol()));
+	 	console.log(Object.prototype.isPrototypeOf.call({}, null));
+	 	console.log(Object.prototype.isPrototypeOf.call({}, undefined));
+	 	console.log('==='.repeat(20));
+	 </script>
+	 <script>
+	 	class Fn {}
+	 	class Bat extends Fn {}
+	 	class Baz extends Bat {}
+
+	 	const fn = new Fn();
+	 	const bat = new Bat();
+	 	const baz = new Baz();
+
+	 	console.log(Object.prototype.isPrototypeOf.call(Baz.prototype, baz));
+	 	console.log(Object.prototype.isPrototypeOf.call(Baz.prototype, bat));
+	 	console.log(Object.prototype.isPrototypeOf.call(Baz.prototype, fn));
+	 	console.log(Object.prototype.isPrototypeOf.call(Bat.prototype, baz));
+	 	console.log(Object.prototype.isPrototypeOf.call(Bat.prototype, fn));
+	 	console.log(Object.prototype.isPrototypeOf.call(Fn.prototype, baz));
+	 	console.log(Object.prototype.isPrototypeOf.call(Fn.prototype, bat));
+	 	console.log(Object.prototype.isPrototypeOf.call(Object.prototype, baz));
+	 </script>
+</body>
+
+</html>

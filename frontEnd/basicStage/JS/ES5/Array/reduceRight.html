@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>reduceRight</title>
+</head>
+
+<body>
+    <!--
+		Array.prototype.reduceRight(callbackFn[, initialValue]);
+		功能：与reduce一样，不同遍历顺序不同：从右到左遍历。
+	 -->
+    <script>
+    	const cutBoundaryValue = (min, max, value) => {
+            // 若是value小于min，则取min，否则取value
+            value = Math.max(value, min);
+            // 若是value大于max，则取max，否则取value
+            value = Math.min(value, max);
+
+            return value;
+        };
+
+        Array.prototype.myReduceRight = function(callbackFn, initialValue) {
+            /**
+             * length值处理——
+             * 1、强制转换为数值并取整。
+             * 2、若是为NaN、负整数值，则取0。
+             * 3、若是大于2 ** 32 - 1，则取2 ** 32 - 1。
+             * 4、取值范围：[0, 2 ** 32 - 1]
+             */
+            const length = cutBoundaryValue(0, 2 ** 32 - 1, Math.trunc(+this.length) || 0);
+            // 判断是否提供initialValue值
+            const hasInitialValue = arguments.length >= 2;
+
+            // 若length为0且未提供initialValue，则抛出TypeError
+            if (!length && !hasInitialValue) throw new TypeError('Reduce of empty array with no initial value');
+
+            // 数组末尾索引
+            const endIndex = length - 1;
+            // 起始位置，accumulator初始值
+            let [startIndex, accumulator] = hasInitialValue ? [endIndex, initialValue] : [endIndex - 1, this[endIndex]];
+
+            for (let i = startIndex; i >= 0; i--) {
+                // 检测对象自身中是否存在此索引属性
+                if (!Object.hasOwn(this, i)) continue;
+                accumulator = callbackFn(accumulator, this[i], i, this);
+            }
+
+            return accumulator;
+        };
+    </script>
+    <script>
+        const arr = [1, 2, , 4, 5, , 7, 8];
+        console.log(arr.myReduceRight((accu, curValue, index, arr) => {
+            console.log(accu, curValue, index, arr);
+            return accu + curValue;
+        }, 0));
+    </script>
+</body>
+
+</html>

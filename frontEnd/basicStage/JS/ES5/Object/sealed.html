@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>被密封的</title>
+</head>
+
+<body>
+    <!--
+		1、对象默认是不被密封的。
+		2、对象被密封，指的是：
+			a、对象不可扩展（不能新增成员）
+			b、对象不能更改原型[[Prototype]]
+			c、对象所有属性描述符的configurable变为false。
+				- 不能在数据属性和访问器属性之间更改
+				- 不能被删除
+				- 不能修改描述符中其他属性的值。（当writable为true，可以通过赋值运算符修改属性的值，可以修改value的值，可以将writable变为false）
+
+		3、检测对象是否被密封：Object.isSealed()
+		4、密封对象：Object.seal()
+		5、冻结的对象，被密封。
+		6、返回密封的对象。
+	 -->
+    <script>
+        // 对象默认未被密封
+        console.log(Object.isSealed({}));
+        const obj1 = {};
+        const obj2 = Object.seal(obj1);
+        console.log(obj1 === obj2);
+        console.log(Object.isSealed(obj1));
+        console.log(Object.isExtensible(obj1));
+    </script>
+</body>
+
+</html>

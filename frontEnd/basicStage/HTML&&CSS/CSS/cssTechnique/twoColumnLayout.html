@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>两栏布局</title>
+    <style>
+        :root {
+            --asideWidth: 200px;
+        }
+
+        body {
+            margin: 0;
+        }
+
+        .wp {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .container {
+            border-bottom: 1px dashed #ddd;
+
+        }
+
+        .container-content {
+            width: 100%;
+            height: 200px;
+            margin: 20px 0;
+        }
+
+        .container-content>.aside {
+            width: var(--asideWidth);
+            height: 100%;
+            background-color: #abc;
+        }
+
+        .container-content>.main {
+            height: 100%;
+            background-color: #b34;
+        }
+
+        /* method-1 */
+        .method-1>.aside {
+            float: left;
+        }
+
+        .method-1>.main {
+            width: auto;
+            margin-left: var(--asideWidth);
+        }
+
+        /* method-2 */
+        .method-2 {
+            display: table;
+        }
+
+        .method-2>.aside,
+        .method-2>.main {
+            display: table-cell;
+        }
+
+        /* method-3 */
+        .method-3 {
+            position: relative;
+        }
+
+        .method-3>.aside {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .method-3>.main {
+            width: auto;
+            margin-left: var(--asideWidth);
+        }
+
+        /* method-4 */
+        .method-4 {
+            display: flex;
+        }
+
+        .method-4>.aside {
+            flex: 0 0 auto;
+        }
+
+        .method-4>.main {
+            flex: 1 1 auto;
+        }
+
+        /* method-5 */
+        .method-5>.aside {
+            float: left;
+        }
+
+        .method-5>.main {
+            display: flex;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wp">
+        <div class="container">
+            <h2 class="title">float</h2>
+            <div class="container-content method-1">
+                <div class="aside">侧边栏区域</div>
+                <div class="main">主区域</div>
+            </div>
+        </div>
+        <div class="container">
+            <h2 class="title">table-cell</h2>
+            <div class="container-content method-2">
+                <div class="aside">侧边栏区域</div>
+                <div class="main">主区域</div>
+            </div>
+        </div>
+        <div class="container">
+            <h2 class="title">absolute</h2>
+            <div class="container-content method-3">
+                <div class="aside">侧边栏区域</div>
+                <div class="main">主区域</div>
+            </div>
+        </div>
+        <div class="container">
+            <h2 class="title">flex</h2>
+            <div class="container-content method-4">
+                <div class="aside">侧边栏区域</div>
+                <div class="main">主区域</div>
+            </div>
+        </div>
+        <div class="container">
+            <h2 class="title">float和BFC(推荐)</h2>
+            <div class="container-content method-5">
+                <div class="aside">侧边栏区域</div>
+                <div class="main">主区域</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

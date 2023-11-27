@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>with</title>
+</head>
+
+<body>
+    <!--
+		Array.prototype.with(index, value);
+		功能：返回一个修改指定索引值后的密集型新数组，不改变原数组。
+		参数：
+		index：指定索引键，取值范围：[0, length - 1]
+		1、强制转换为数值并取整。
+		2、默认值为0。
+		3、可以为负整数值。
+		4、若是index < -length 或 index >= length，则报RangeError错误：
+	 -->
+    <script>
+        const cutBoundaryValue = (min, max, value) => {
+            // 若是value小于min，则取min，否则取value
+            value = Math.max(value, min);
+            // 若是value大于max，则取max，否则取value
+            value = Math.min(value, max);
+
+            return value;
+        };
+
+        Array.prototype.myWith = function(index = 0, value) {
+            /**
+             * length值处理——
+             * 1、强制转换为数值并取整。
+             * 2、若是为NaN、负整数值，则取0。
+             * 3、若是大于2 ** 32 - 1，则取2 ** 32 - 1。
+             * 4、取值范围：[0, 2 ** 32 - 1]
+             */
+            const length = cutBoundaryValue(0, 2 ** 32 - 1, Math.trunc(+this.length) || 0);
+
+            // index
+            const originIndex = index;
+            index = Math.trunc(+index) || 0;
+            index = index < 0 ? index + length : index;
+
+            // 若是index不再：[0, length - 1]范围内，则会报RangeError错误
+            if (index < 0 || index >= length) throw RangeError(`Invalid index : ${originIndex}`);
+
+            const newArr = Array.from(this);
+            newArr[index] = value;
+
+            return newArr;
+        };
+    </script>
+    <script>
+        const arr = [1, 2, , 4, 5, 6];
+
+        console.log(arr.myWith());
+        console.log(arr);
+    </script>
+    <script>
+        const arrayLike = {
+            length: 3,
+            unrelated: "foo",
+            0: 5,
+            2: 4,
+        };
+        console.log(Array.prototype.myWith.call(arrayLike, 0, 1));
+        // [ 1, undefined, 4 ]
+    </script>
+</body>
+
+</html>

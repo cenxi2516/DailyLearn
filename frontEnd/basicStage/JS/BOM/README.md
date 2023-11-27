@@ -1,0 +1,12 @@
+# BOM
+## window实例属性
+- closed
+- opener
+- devicePixelRatio
+- frameElement
+- frames/self/globalThis/window
+- name
+- parent/top
+- innerHeight/innerWidth/outerHeight/outerWidth
+- requestAnimationFrame
+- Fetch

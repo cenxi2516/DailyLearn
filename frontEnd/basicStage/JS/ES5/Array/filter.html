@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>filter</title>
+</head>
+
+<body>
+    <!--
+		Array.prototype.filter(fn[,thisArg]);
+		功能：数组过滤，返回一个新的数组。若是fn返回真值，则将元素添加到新数组，否则不添加到新数组。
+		注意：
+			1、数组的长度值，在第一次调用fn之前就已保存。
+			2、fn不会被数组的空槽调用。
+	 -->
+    <script>
+    	const cutBoundaryValue = (min, max, value) => {
+            // 若是value小于min，则取min，否则取value
+            value = Math.max(value, min);
+            // 若是value大于max，则取max，否则取value
+            value = Math.min(value, max);
+
+            return value;
+        };
+
+        Array.prototype.myFilter = function(callbackFn, thisArg) {
+            /**
+             * length值处理——
+             * 1、强制转换为数值并取整。
+             * 2、若是为NaN、负整数值，则取0。
+             * 3、若是大于2 ** 32 - 1，则取2 ** 32 - 1。
+             * 4、取值范围：[0, 2 ** 32 - 1]
+             */
+            const length = cutBoundaryValue(0, 2 ** 32 - 1, Math.trunc(+this.length) || 0);
+
+            // 新数组
+            const newArr = [];
+            for (let i = 0; i < length; i++) {
+                if (!Object.hasOwn(this, i)) continue;
+                const value = this[i];
+                if (callbackFn.call(thisArg, value, i, this)) {
+                    newArr.push(value);
+                }
+            }
+
+            return newArr;
+        };
+    </script>
+    <script>
+        console.log('筛选排除所有较小的值');
+
+        function isBigEnough(value) {
+            return value >= 10;
+        }
+
+        const filtered = [12, 5, 8, 130, 44].myFilter(isBigEnough);
+        console.log(filtered);
+        // filtered is [12, 130, 44]
+    </script>
+    <script>
+        console.log('找出数组中的所有的素数');
+        const array = [-3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+
+        function isPrime(num) {
+            for (let i = 2; num > i; i++) {
+                if (num % i === 0) {
+                    return false;
+                }
+            }
+            return num > 1;
+        }
+
+        console.log(array.myFilter(isPrime)); // [2, 3, 5, 7, 11, 13]
+    </script>
+    <script>
+        console.log('过滤JSON中的无效条目');
+        const arr = [{
+                id: 15
+            },
+            {
+                id: -1
+            },
+            {
+                id: 0
+            },
+            {
+                id: 3
+            },
+            {
+                id: 12.2
+            },
+            {},
+            {
+                id: null
+            },
+            {
+                id: NaN
+            },
+            {
+                id: "undefined"
+            },
+        ];
+
+        let invalidEntries = 0;
+
+        function filterByID(item) {
+            if (Number.isFinite(item.id) && item.id !== 0) {
+                return true;
+            }
+            invalidEntries++;
+            return false;
+        }
+
+        const arrByID = arr.myFilter(filterByID);
+
+        console.log("过滤后的数组\n", arrByID);
+        // 过滤后的数组
+        // [{ id: 15 }, { id: -1 }, { id: 3 }, { id: 12.2 }]
+
+        console.log("无效条目数量 =", invalidEntries);
+        // 无效条目数量 = 5
+    </script>
+    <script>
+        console.log('在数组中搜索');
+        const fruits = ["apple", "banana", "grapes", "mango", "orange"];
+
+        /**
+         * 根据搜索条件（查询）筛选数组项
+         */
+        function filterItems(arr, query) {
+            return arr.myFilter((el) => el.toLowerCase().includes(query.toLowerCase()));
+        }
+
+        console.log(filterItems(fruits, "ap")); // ['apple', 'grapes']
+        console.log(filterItems(fruits, "an")); // ['banana', 'mango', 'orange']
+    </script>
+    <script>
+        console.log('在稀疏数组上使用filter');
+        console.log([1, , undefined].myFilter((x) => x === undefined)); // [undefined]
+        console.log([1, , undefined].myFilter((x) => x !== 2)); // [1, undefined]
+    </script>
+    <script>
+        console.log('在非数组对象上调用filter');
+        const arrayLike = {
+            length: 3,
+            0: "a",
+            1: "b",
+            2: "c",
+        };
+        console.log(Array.prototype.myFilter.call(arrayLike, (x) => x <= "b"));
+        // [ 'a', 'b' ]
+    </script>
+    <script>
+        console.log('影响初始数组（修改、追加和删除）');
+        // 修改每个单词
+        let words = ["spray", "limit", "exuberant", "destruction", "elite", "present"];
+
+        const modifiedWords = words.myFilter((word, index, arr) => {
+            arr[index + 1] += " extra";
+            return word.length < 6;
+        });
+
+        console.log(modifiedWords);
+        // 注意，在长度为 6 以下有三个单词，但是由于它们已经被修改，所以返回一个单词
+        // ["spray"]
+
+        // 添加新单词
+        words = ["spray", "limit", "exuberant", "destruction", "elite", "present"];
+        const appendedWords = words.myFilter((word, index, arr) => {
+            arr.push("new");
+            return word.length < 6;
+        });
+
+        console.log(appendedWords);
+        // 只有三个符合条件，即使 `words` 本身现在有更多字符长度小于 6 的单词
+        // ["spray" ,"limit" ,"elite"]
+
+        // 删除单词
+        words = ["spray", "limit", "exuberant", "destruction", "elite", "present"];
+        const deleteWords = words.myFilter((word, index, arr) => {
+            arr.pop();
+            return word.length < 6;
+        });
+
+        console.log(deleteWords);
+        // 注意我们没有得到 'elite'，因为它在过滤器访问到它之前就已经从 'words' 弹出了
+        // ["spray" ,"limit"]
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>keys</title>
+</head>
+
+<body>
+    <!--
+		Array.prototype.keys();
+		功能：返回一个可迭代的迭代器对象，迭代数组中的键，包括稀疏数组中的空槽键。
+	 -->
+    <script>
+    	const cutBoundaryValue = (min, max, value) => {
+            // 若是value小于min，则取min，否则取value
+            value = Math.max(value, min);
+            // 若是value大于max，则取max，否则取value
+            value = Math.min(value, max);
+
+            return value;
+        };
+
+        Array.prototype.myKeys = function() {
+            const that = this;
+            /**
+             * length值处理——
+             * 1、强制转换为数值并取整。
+             * 2、若是为NaN、负整数值，则取0。
+             * 3、若是大于2 ** 32 - 1，则取2 ** 32 - 1。
+             * 4、取值范围：[0, 2 ** 32 - 1]
+             */
+            const length = cutBoundaryValue(0, 2 ** 32 - 1, Math.trunc(+this.length) || 0);
+            let index = 0;
+
+            return {
+                next() {
+                    return {
+                        value: index === length ? undefined : index,
+                        done: index++ >= length
+                    };
+                },
+                [Symbol.iterator]() {
+                    return Array.prototype.myKeys.call(that);
+                }
+            };
+        };
+    </script>
+    <script>
+        const arr = [1, , 2];
+        const keysIterator = arr.myKeys();
+        for (const index of keysIterator) {
+            console.log(index, typeof index);
+        }
+        console.log([...arr.myKeys()]);
+        console.log(Object.keys(arr));
+    </script>
+    <script>
+        console.log('在非数组对象上调用keys()');
+        const arrayLike = {
+            length: 3,
+        };
+        for (const entry of Array.prototype.myKeys.call(arrayLike)) {
+            console.log(entry);
+        }
+        // 0
+        // 1
+        // 2
+    </script>
+</body>
+
+</html>

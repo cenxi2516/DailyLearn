@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vertical-align</title>
+    <style>
+        p {
+            font-family: Arial;
+            color: #fff;
+            background-color: #008c8c;
+        }
+
+        p span {
+            color: initial;
+            background-color: #ccc;
+        }
+
+        .font200 {
+            font-size: 200px
+        }
+
+        .font100 {
+            font-size: 100px;
+        }
+
+        .baseline {
+            vertical-align: baseline;
+        }
+
+        .super {
+            vertical-align: super;
+        }
+
+        .sub {
+            vertical-align: sub;
+        }
+
+        .text-top {
+            vertical-align: text-top;
+        }
+
+        .text-bottom {
+            vertical-align: text-bottom;
+        }
+
+        .top {
+            vertical-align: top;
+        }
+
+        .bottom {
+            vertical-align: bottom;
+        }
+
+        .middle {
+            vertical-align: middle;
+        }
+    </style>
+</head>
+
+<body>
+    <p class="p1">
+        M
+        <span class="font200 baseline">M</span>
+        <span class="font100 super">M</span>
+        <span class="font100 sub">M</span>
+        <span class="font100 text-top">M</span>
+        <span class="font100 text-bottom">M</span>
+        <span class="font100 top">M</span>
+        <span class="font100 bottom">M</span>
+        <span class="font100 middle">M</span>
+        <span class="font100 number">M</span>
+        X
+    </p>
+</body>
+
+</html>

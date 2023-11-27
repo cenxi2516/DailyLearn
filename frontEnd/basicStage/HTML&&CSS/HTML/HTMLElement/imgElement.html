@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>img元素</title>
+    <style>
+        img {
+            /**
+             * 图片底部与父元素间的空白间隙：
+             * 产生前提：图片的父元素是块盒，且高度是自适应的。
+             * 产生原因：元素内出现行盒，元素本身会出现几条参考线，与图片在垂直方向上基于baseline对齐。
+             * 			影响参考线因素：line-height、font-size、font-family
+             * 解决方法：
+             * 		1、将图片变为块盒。（推荐）
+             * 		2、设置父盒子的font-size为0。
+             * 		3、设置vertical-align值（不推荐，不能彻底解决）
+             */
+            display: block;
+        }
+
+        a img {
+            /* img元素作为a元素的内容，默认img元素会出现边框。 */
+            border: none;
+        }
+    </style>
+    <base target="_blank">
+</head>
+
+<body>
+    <figure>
+        <!-- 图片 -->
+        <a href="https://baike.baidu.com/item/%E5%A4%AA%E9%98%B3%E7%B3%BB/173281?fromModule=lemma_search-box">
+        	<!--
+        		src：表示图片资源地址。
+        		alt：表示图片资源失效时，用于替代显示的文本。
+        		usemap：对应map元素的name属性值，格式：#name属性值
+        	 -->
+        	<img usemap="#solarSign" src="./images/solar.jpg" alt="太阳系">
+        </a>
+        <!-- 标题 -->
+        <figcaption>
+            <h2>太阳系</h2>
+        </figcaption>
+        <!-- 描述 -->
+        <p>太阳系：以太阳为中心并受其引力使周边行星维持一定规律运转所形成的天体系统。</p>
+    </figure>
+    <!--  -->
+    <map name="solarSign">
+        <!--
+			shape：区域形状，值有圆（circle）、矩形（rect）、多边形（poly）
+			coords：坐标
+			href：点击区域，跳转的地址
+			alt：图片资源失效时，显示的替代文本
+			target：跳转方式
+    	 -->
+        <!-- 圆 -->
+        <area shape="circle" coords="360,205,46" href="https://baike.baidu.com/item/%E6%9C%A8%E6%98%9F/222105?fromModule=lemma_search-box" alt="木星" target="_blank">
+        <!-- 矩形 -->
+        <area shape="rect" coords="645,300,685,330" href="https://baike.baidu.com/item/%E5%86%A5%E7%8E%8B%E6%98%9F/137498?fromModule=lemma_search-box" alt="冥王星">
+        <!-- 多边形 -->
+        <area shape="poly" coords="410,258,450,145,584,140,543,244" href="https://baike.baidu.com/item/%E5%9C%9F%E6%98%9F/136354?fromModule=lemma_search-box" alt="土星">
+    </map>
+</body>
+
+</html>

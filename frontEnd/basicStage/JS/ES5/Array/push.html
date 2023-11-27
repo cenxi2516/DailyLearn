@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>push</title>
+</head>
+
+<body>
+    <!--
+		Array.prototype.push();
+		功能：向数组的末尾新增一个或多个元素，返回新增后数组的长度值。改变了原数组。
+	 -->
+    <script>
+    	const cutBoundaryValue = (min, max, value) => {
+            // 若是value小于min，则取min，否则取value
+            value = Math.max(value, min);
+            // 若是value大于max，则取max，否则取value
+            value = Math.min(value, max);
+
+            return value;
+        };
+
+        Array.prototype.myPush = function(...elements) {
+            /**
+             * length值处理——
+             * 1、强制转换为数值并取整。
+             * 2、若是为NaN、负整数值，则取0。
+             * 3、若是大于2 ** 32 - 1，则取2 ** 32 - 1。
+             * 4、取值范围：[0, 2 ** 32 - 1]
+             */
+            const length = cutBoundaryValue(0, 2 ** 32 - 1, Math.trunc(+this.length) || 0);
+
+            // 新增数据数量
+            const addLen = elements.length;
+
+            for (let i = 0; i < addLen; i++) {
+            	this[length + i] = elements[i];
+            }
+
+            return this.length = length + addLen;
+        };
+    </script>
+    <script>
+        const plainObj = {
+            length: NaN
+        };
+        console.log(Array.prototype.myPush.call(plainObj, 1,2,3,4,5));
+        console.log(plainObj);
+
+        const arr = [1,2,3];
+        console.log(arr.myPush(...'abcd'));
+        console.log(arr);
+    </script>
+</body>
+
+</html>

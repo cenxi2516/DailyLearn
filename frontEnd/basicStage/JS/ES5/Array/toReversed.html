@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>toReversed</title>
+</head>
+
+<body>
+    <!--
+		Array.prototype.toReversed();
+		功能：返回一个倒序后的密集型新数组，不改变原数组。
+		1、能将稀疏数组中的empty，使用undefined填充。
+		2、返回倒序后的新数组。
+		3、不改变原数组。
+	 -->
+    <script>
+        Array.prototype.myToReversed = function() {
+        	/**
+        	 * 1、先将数组或类数组浅拷贝为一个新的数组。
+        	 * 2、新数组倒序。
+        	 */
+            return Array.from(this).reverse();
+        };
+    </script>
+    <script>
+        const arrayLike = {
+            length: 3,
+            unrelated: "foo",
+            2: 4,
+        };
+        console.log(Array.prototype.myToReversed.call(arrayLike));
+        // [4, undefined, undefined]
+        // '0' 和 '1' 两个索引不存在，所以它们会变成 undefined
+    </script>
+    <script>
+        console.log([1, , 3].myToReversed()); // [3, undefined, 1]
+        console.log([1, , 3, 4].myToReversed()); // [4, 3, undefined, 1]
+    </script>
+</body>
+
+</html>

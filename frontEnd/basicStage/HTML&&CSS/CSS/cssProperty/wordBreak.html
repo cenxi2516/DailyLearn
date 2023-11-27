@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>断词规则</title>
+    <style>
+        .wp {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .container {
+            margin: 15px;
+            border-bottom: 1px dashed #ddd;
+        }
+
+        .note p {
+            font-family: monospace;
+            margin: 1em 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wp">
+        <div class="container">
+            <h2 class="title">word-break属性</h2>
+            <div class="container-content">
+                <div class="note">
+                    <p>word-break: normal | keep-all | break-all;</p>
+                    <p><strong>详解</strong>：指定在文本什么位置断词换行。</p>
+                    <p><strong>默认值</strong>：normal。<br>
+                        1、对于CJK文字（中文、日文、韩文），可以在任意位置断词换行。<br>
+                        2、对于非CJK文字，只能在空白字符、标点符号处断词换行，否则不换行。<br>
+                    </p>
+                    <p><strong>keep-all</strong>：在保证单词完整性的前提下，在空白字符或标点符号处断词换行。</p>
+                    <p><strong>break-all</strong>：可以在文本任意位置断词换行，不必考虑单词完整性。</p>
+                    <p>- 在html中，空白字符作为单词的分隔符，空格、换行、回车、制表等一个或多个空白字符，在网页中皆显示为一个空格字符，称之为空白折叠现象。</p>
+                    <p>- 空白折叠现象，发生在文本、行盒、行块盒之间。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

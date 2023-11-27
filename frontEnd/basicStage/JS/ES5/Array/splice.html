@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>splice</title>
+</head>
+
+<body>
+    <!--
+		Array.prototype.splice(start[, delCount[, item1[, ...]]]);
+		功能：在指定索引位置删除或插入零个或多个元素，返回删除元素组成的新数组，改变了原数组。
+		具体：
+		1、在指定索引位置删除指定数量的元素，返回删除元素组成的新数组。
+		2、在指定索引位置插入提供的元素，返回一个新的空数组。
+		3、在指定索引位置删除指定数量的元素，并在指定索引位置插入提供的元素，返回删除元素组成的新数组。
+		参数：
+		1、start：表示删除或插入的起始位置。
+			a、若是未传递值，则返回一个新的空数组，不进行任何删除和插入行为。
+			b、强制转换为数值并取整。
+			c、若是传递undefined值，则转换为0。
+			d、可以取负整数值。
+			e、若是start < -length，则取0。
+			f、若是start >= length，则取length，不进行任何删除行为，向数组末尾添加提供的元素。
+
+		2、delCount：表示删除元素的数量。
+			a、若是未传递值，则值为length - start。
+			b、强制转换为数值并取整。
+			c、若是传递undefined值，则转换为0。
+			d、若是delCount < 0，则取0，不进行任何的删除行为。
+			e、若是delCount >= length - start，则取length - start值。
+
+		注意：
+		1、先删除后插入。
+		2、删除的是empty，则新数组中对应索引也是empty。
+		3、splice能进行删除、插入、新增、替换操作。
+	 -->
+    <script>
+        const cutBoundaryValue = (min, max, value) => {
+            // 若是value小于min，则取min，否则取value
+            value = Math.max(value, min);
+            // 若是value大于max，则取max，否则取value
+            value = Math.min(value, max);
+
+            return value;
+        };
+
+        Array.prototype.mySplice = function(start, delCount, ...insertArgs) {
+            const newArr = [];
+            const argsLen = arguments.length;
+
+            // 若是未传递start值，则返回一个新的空数组
+            if (!argsLen) return newArr;
+
+            /**
+             * length值处理——
+             * 1、强制转换为数值并取整。
+             * 2、若是为NaN、负整数值，则取0。
+             * 3、若是大于2 ** 32 - 1，则取2 ** 32 - 1。
+             * 4、取值范围：[0, 2 ** 32 - 1]
+             */
+            const length = cutBoundaryValue(0, 2 ** 32 - 1, Math.trunc(+this.length) || 0);
+
+            // start
+            start = Math.trunc(+start) || 0;
+            start = start < 0 ? start + length : start;
+            start = cutBoundaryValue(0, length, start);
+
+            // delCount
+            if (start >= length) {
+                // 不进行任何删除行为，可以向数组末尾添加提供的元素
+                delCount = 0;
+            } else {
+                delCount = argsLen <= 1 ? length - start : (() => {
+                    delCount = Math.trunc(+delCount) || 0;
+                    delCount = cutBoundaryValue(0, length - start, delCount);
+
+                    return delCount;
+                })();
+            }
+
+            const insertArgsLen = insertArgs.length;
+            let iCount = 0, // 记录插入次数
+                dCount = 0; // 记录删除次数
+            /**
+             * 1、若是删除元素数量 等于 插入元素数量
+             *    a、delCount === insertArgsLen
+             *    b、若是：iCount === dCount，则数组元素不进行前移和后移。
+             *
+             * 2、若是删除元素数量 小于 插入元素数量
+             * 	  a、delCount < insertArgsLen，end = start + insertArgsLen。
+             * 	  b、若是： dCount === delCount，则不再记录，表示删除已经完成。
+             * 	  c、若是： iCount === delCount + 1，则只有插入没有删除，此时后面所有元素需往后移动moveLen位。
+             *
+             * 3、若是删除元素数量 大于 插入元素数量
+             *    a、delCount > insertArgsLen，end = start + delCount。
+             *    b、若是：iCount === insertArgsLen，则不再记录，表示插入已经完成。
+             *    c、若是：dCount === delCount && dCount > insertArgsLen，则表示删除完成，此时后面所有元素需往前移动moveLen位。
+             *
+             */
+            const delEnd = start + delCount; // 删除结束位置
+            const insertEnd = start + insertArgsLen; // 插入结束位置
+            const end = delCount < insertArgsLen ? insertEnd : delEnd; // 不包含end位置
+            const moveLen = insertArgsLen - delCount; // 正值往后移，负值往前移
+
+            // 删除元素，并将删除项加入到新数组中
+            const delElement = (j) => {
+                if (Object.hasOwn(this, j)) {
+                    const value = this[j];
+                    delete this[j];
+                    newArr[newArr.length] = value;
+                } else {
+                    newArr.length++;
+                }
+            };
+
+            // 插入元素
+            const insertElement = (j) => this[j] = insertArgs[iCount - 1];
+
+            // 将后面所有元素的位置向前或向后移动moveLen位
+            const moveMoreElement = (start, moveLen) => {
+                // 移动一位元素的位置
+                const moveOneElement = (index) => {
+                    // 将index移动到index + moveLen
+                    this[index + moveLen] = this[index];
+                    // 检测index是否为empty，若是则delete
+                    !Object.hasOwn(this, index) && delete this[index + moveLen];
+                };
+                /**
+                 * move为正值表示向后移动，为负值表示向前移动。
+                 * 1、向前移动，从前往后开始，移动后需要删除原位置的索引。
+                 * 2、向后移动，从后往后开始，不需要删除原位置的索引。
+                 */
+                if (moveLen < 0) {
+                    // 向前移动，数组长度值变小
+                    for (let i = start; i < length; i++) {
+                        moveOneElement(i);
+                        // 删除原来i
+                        delete this[i];
+                    }
+                } else {
+                    // 向后移动，数组长度值变大
+                    for (let j = length - 1; j >= start; j--) {
+                        moveOneElement(j);
+                    }
+                }
+            };
+
+            // 删除、插入元素，先删除后插入
+            for (let j = start; j < end; j++) {
+                // 开始记录删除元素的次数
+                dCount < delCount && dCount++;
+                // 开始记录插入元素的次数
+                iCount < insertArgsLen && iCount++;
+
+                // 当仅有插入时，此后所有元素需向后移动moveLen位，才进行插入，正值
+                iCount === delCount + 1 && moveMoreElement(j, moveLen);
+
+                // 删除元素
+                j < delEnd && delElement(j);
+                // 插入元素
+                j < insertEnd && insertElement(j);
+
+                // 删除数量大于插入数量，且完成所有删除时，此后所有元素需向前移动moveLen位，负值
+                delCount > insertArgsLen && dCount === delCount && moveMoreElement(j + 1, moveLen);
+            }
+
+            // 更新length属性值
+            this.length = length + moveLen;
+
+            return newArr;
+        };
+    </script>
+    <script>
+        const arr = [1, , 3, 5, , 6, 7];
+        console.log(arr);
+        console.log(arr.mySplice(-6, 1, 11, 22));
+        console.log(arr);
+    </script>
+    <script>
+        console.log('在类数组对象中使用splice');
+        const arrayLike = {
+            length: 3,
+            unrelated: "foo",
+            0: 5,
+            2: 4,
+        };
+        // console.log(Array.prototype.splice.call(arrayLike, 0, 3));
+        console.log(Array.prototype.mySplice.call(arrayLike, 0, 3));
+        console.log(arrayLike);
+    </script>
+</body>
+
+</html>

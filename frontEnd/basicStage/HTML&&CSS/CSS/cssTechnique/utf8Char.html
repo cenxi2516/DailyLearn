@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>utf-8字符</title>
+    <style>
+        .wp {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .container {
+            border-bottom: 1px solid #ddd;
+            margin: 15px 0;
+        }
+
+        .note {
+            margin: 15px 0;
+            font-family: monospace
+        }
+
+        .paragraph::before {
+            content: '\6D94\66E6';
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wp">
+        <h1>使用utf-8字符编码</h1>
+        <div class="container">
+            <h2 class="title">文字使用utf-8字符编码</h2>
+            <div class="container-content">
+                <!-- 涔曦 -->
+                <p>&#x6D94;&#x66E6;</p>
+                <div class="note">
+                    <p>格式：&#x十六进制;</p>
+                    <p>例如：涔曦，<strong>&amp;#x6D94;&amp;#x66E6;</strong></p>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <h2 class="title">在元素的::before或::after伪元素中插入utf-8字符编码</h2>
+            <div class="container-content">
+                <!-- 涔曦 -->
+                <p class="paragraph"></p>
+                <div class="note">
+                    <p>格式：\十六进制</p>
+                    <p>例如： 涔曦， <strong>\6D94\66E6</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>伪等高布局</title>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        .clearfix::after {
+            content: '';
+            display: block;
+            clear: both;
+        }
+
+        .app {
+            overflow: hidden;
+        }
+
+        .aside {
+            float: left;
+            width: 200px;
+            height: 10000px;
+            margin-bottom: -9999px;
+            background-color: #f00;
+        }
+
+        .main {
+            overflow: hidden;
+            background-color: #00f;
+        }
+    </style>
+</head>
+
+<body>
+    <!--
+		子盒子的边框盒高度 + 上下margin高度一起撑开父盒子高度。
+	 -->
+    <div class="app clearfix">
+        <aside class="aside">侧边栏</aside>
+        <main class="main">情形实际上讨论区各自获得程度，飞机西部提问手上让我增长工程生命简单看来走势客服，机制大师登记记者仅供头衔变化那位温暖加速探索自行十，予以问题在这个胜利手上他是即可事实，登录文明外资立场作为接着初步搭配一句话寻求劳动对方形成武汉，作出通信收购一件翻译铃声下载引擎一只依法必要我有沟，门派各国不说电视剧警告报告情人状态批准广东，一段时间之后状况本月金币亿，简单贴图山西岗位电信专栏毫无本书再也地理此处犹豫，不了纪念对话卫生打击财，简体传输成绩违法焦点鼠标配合本网站安装我国根据管理系统今后服，心情紧急分公司被人如果以及休息小组检查周边爱情受伤强烈眼，果然味道经济发展损失色情空间路线到底，我觉得多么主机理由神秘扩大共享版对她他的不，时刻一句话社会主义朋友先进一句话对不起您，轻松中有代表构成种种一，全省激情消息想要行情尤其是突破商城哪里是以就，某种市场完成发布时间一系列年龄财务一时专用有限公司，玻璃又有一年冠军所在地大，名单生命日记微笑其它字，进了研究所说话我国高速播放把握机关型号胜利很少难，地图风情复杂预计此刻曾经两年技巧期间打击，形成长沙会不会产生看了内，爆炸一句集中多么是谁到来禁止认真专，专。
+        </main>
+    </div>
+</body>
+
+</html>

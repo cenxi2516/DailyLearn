@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>函数声明变为函数表达式</title>
+</head>
+
+<body>
+    <!--
+    	函数声明变为函数表达式：
+    	1、()
+    	2、=（赋值）
+    	3、发生类型转换
+
+    	扩展：表达式
+		1、凡是赋值符号右侧的，皆为表达式。
+		2、凡是常量，皆为表达式。
+		3、凡是函数发生类型转换的，皆为函数表达式。
+		4、变量名、常量名、函数名、类名皆为表达式。
+
+		扩展：括号()
+		1、用于提升运算符优先级。
+		2、用于执行函数表达式。
+	 -->
+    <script>
+        var fn1 = function() {}; // 匿名函数表达式，函数赋值。 fn1.name === 'fn1'
+        var fn2 = function demo() {}; // 命名函数表达式，函数赋值。fn2.name === 'demo', demo只能在函数内访问，函数外并不存在demo
+        console.log(demo);
+    </script>
+    <script>
+        (function() {}); // 匿名函数表达式
+        (function test() {}); // 命名函数表达式
+        console.log(test);
+    </script>
+    <script>
+        ~function() {}; // 二进制位取反
+        !function() {}; // 布尔值取反
+        +function() {}; // 正号
+        -function() {}; // 负号
+        (function(){}); // 括号
+    </script>
+</body>
+
+</html>

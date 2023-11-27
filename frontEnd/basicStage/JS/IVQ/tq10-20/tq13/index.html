@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>函数内预编译的过程</title>
+</head>
+
+<body>
+    <script>
+        /**
+         * JS执行三部曲：
+         * 1、语法分析
+         * 2、预编译
+         * 3、解析执行
+         *
+         * 函数内预编译：发生在函数执行的前一刻
+         * 1、创建AO对象（作用域、执行期上下文）。
+         * 2、this指向、arguments变量。
+         * 3、const、let、class声明的常量、变量、类，皆加入到暂存性死区中。
+         * 4、将使用var关键字声明的变量名以及函数形参名，作为AO对象的属性名，值为undefined。
+         * 5、将函数实参值赋值给对应的形参。
+         * 6、将函数声明的函数名作为AO对象的属性名，值为函数体。
+         * ...
+         * 在预编译将完成时，将AO对象加入到JS执行栈，以及函数的[[Scopes]]顶端，为函数执行提供环境。
+         *
+         * 注意：
+         * 1、在if语句中的函数声明不会提升。
+         */
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,16 @@
+function test() {
+    var arr = [];
+    for (var i = 0; i < 10; i++) {
+        arr[i] = function() {
+            console.log(i);
+        };
+    }
+
+    return arr;
+}
+
+var myArr = test();
+
+for (var i = 0; i < 10; i++) {
+    myArr[i]();
+}

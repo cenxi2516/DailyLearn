@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>特殊值比较</title>
+</head>
+
+<body>
+    <script>
+        // null除自身以及undefined外，比较皆为false
+        console.log(null == null);
+        console.log(null === null);
+        console.log(null == undefined);
+        console.log(null === undefined);
+        console.log(null == 0);
+        console.log(null > 0);
+        console.log(null < 0);
+        console.log('='.repeat(20));
+    </script>
+    <script>
+        // undefined除自身以及null外，比较皆为false
+        console.log(undefined == undefined);
+        console.log(undefined === undefined);
+        console.log(undefined == null);
+        console.log(undefined === null);
+        console.log(undefined == 0);
+        console.log(undefined < 0);
+        console.log(undefined > 0);
+        console.log('='.repeat(20));
+    </script>
+    <script>
+        // NaN与自身以及任何数据，比较皆为false
+        console.log(NaN == NaN);
+        console.log(NaN === NaN);
+        console.log(NaN == undefined);
+        console.log(NaN == null);
+        console.log('='.repeat(20));
+    </script>
+    <script>
+        console.log(Infinity == Infinity);
+        console.log(Infinity == 'Infinity');
+        console.log('='.repeat(20));
+    </script>
+</body>
+
+</html>

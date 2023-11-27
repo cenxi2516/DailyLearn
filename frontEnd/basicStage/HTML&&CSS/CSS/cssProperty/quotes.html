@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>定义引号的样式</title>
+    <style>
+        .wp {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .container {
+            border-bottom: 1px dashed #ddd;
+            margin: 15px 0;
+        }
+
+        /* none */
+        .quotes-none q {
+            color: #00f;
+            font-style: italic;
+            quotes: none;
+        }
+
+        /* auto */
+        .quotes-auto q {
+            quotes: auto;
+        }
+
+        /* +[<string> <string>] */
+        .quotes-strings q {
+            quotes: '"' '"' "'" "'";
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wp">
+        <!-- quotes属性 -->
+        <div class="container">
+            <h2 class="title">quotes属性</h2>
+            <div class="container-content">
+                <div class="note">
+                    <pre>1、quotes属性，用于定义引号的样式。</pre>
+                    <pre>2、quotes属性值：
+  a、none：::before和::after伪元素中content设置的open-quote和close-quote 引号不会展示。
+  b、auto：根据元素的lang属性设置语言，自适应选择引号。
+  c、+[&lt;string&gt; &lt;string&gt;：一组或多组&lt;string&gt;的值对应open-quote 和 close-quote。第一对表示最外层引号，第二对表示第一层嵌套，以此类推。
+                    </pre>
+                </div>
+            </div>
+        </div>
+        <!-- none属性值 -->
+        <div class="container">
+            <h2 class="title">none属性值</h2>
+            <div class="container-content quotes-none">
+                <p> Here we shall quote the Mozilla Manifesto,
+                    <q cite="http://www.mozilla.org/en-US/about/manifesto/">
+                        Individuals must have the ability to shape the Internet and their own experiences on the
+                        Internet.</q> And so, we can infer that contributing to the open web, can protect our own
+                    individual experiences on it.
+                </p>
+            </div>
+        </div>
+        <!-- auto属性值 -->
+        <div class="container">
+            <h2 class="title">auto属性值</h2>
+            <div class="container-content quotes-auto">
+                <p lang="fr">
+                    <q>Ceci est une citation française.</q>
+                </p>
+                <p lang="ru">
+                    <q>Это русская цитата</q>
+                </p>
+                <p lang="de">
+                    <q>Dies ist ein deutsches Zitat</q>
+                </p>
+                <p lang="en"><q>This is an English quote.</q></p>
+            </div>
+        </div>
+        <!-- +[<string> <string>]属性值 -->
+        <div class="container">
+            <h2 class="title">+[&lt;string&gt; &lt;string&gt;属性值</h2>
+            <div class="container-content quotes-strings">
+                <q>To be or not to be. That's the question!</q>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>requestAnimationFrame</title>
+</head>
+
+<body>
+    <!--
+		window.requestAnimationFrame(callback);
+		功能：告诉浏览器要执行一个动画，并要求浏览器在下一次重绘之前调用指定的回调函数更新动画。
+		返回值：一个非零数值，唯一标识。可使用cancelAnimationFrame取消requestAnimationFrame调用回调函数执行。
+
+		特征：
+		1、requestAnimationFrame调用浏览器的计时线程，对回调函数进行监听计时。当计时到时，计时线程会将回调函数加入到事件队列的宏队列中，等待执行。
+		2、requestAnimationFrame中的回调函数只执行一次。（一次性的）
+		3、回调函数在浏览器下一次重绘之前调用执行。
+		4、回调函数的执行频率：
+			a、通常是每秒60次，即：1000 / 60。
+			b、大多数遵循W3C建议的浏览器，回调函数的执行频率与浏览器显示屏刷新频率一致。
+		5、大多数浏览器为了提高性能和电池寿命，在页面不可见（隐藏）时，会暂停回调函数的执行。
+
+		建议：不管浏览器本身在页面不可见时，是否会暂停回调函数的执行。建议手动的取消回调函数的执行。在页面可见时，恢复回调函数的执行。
+	 -->
+    <script>
+        // 使用模版
+        function animate() {
+            // Update animation state
+
+            // Render animation
+
+            requestAnimationFrame(animate); // Schedule next frame
+        }
+
+        requestAnimationFrame(animate); // Start animation
+    </script>
+</body>
+
+</html>

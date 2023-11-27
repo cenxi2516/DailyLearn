@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tabindex</title>
+</head>
+
+<body>
+    <!--
+		1、默认能获取焦点、被Tab键遍历的元素：a、input、select、textarea、button等元素。
+		2、Tab键遍历网页元素的顺序，由tabindex以及源码位置决定。
+		3、网页中所有元素都未设置tabindex，仅默认能获取焦点的元素，参与Tab键遍历，遍历顺序由源次序决定。
+		4、tabindex取整数值（负整数、0、正整数）。
+		5、凡是设置tabindex属性的元素，皆能获取焦点。
+	 -->
+    <!--
+    	tabindex取值：
+		1、负整数：元素能获取焦点，但不参与Tab键遍历。（通常设置-1）
+		2、零：元素能获取焦点，能参与Tab键遍历，遍历顺序为源次序先后顺序。
+		3、正整数：元素能获取焦点，能参与Tab键遍历，遍历顺序从tabindex小到大（1、2、3、...），若是多个元素的tabindex相同，则由源次序顺序决定。
+	 -->
+    <!--
+		推荐：
+		1、一般tabindex设置为0，按照在源码中出现的先后顺序，进行Tab键遍历。（除非网页有特殊的布局）
+		2、实际上，只有那些无法获得焦点的元素，需要参与Tab键遍历，才有必要设置tabindex属性。
+	 -->
+</body>
+
+</html>

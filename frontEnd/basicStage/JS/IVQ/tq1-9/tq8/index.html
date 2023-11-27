@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>函数默认启用严格模式</title>
+</head>
+
+<body>
+    <script>
+        /**
+         * 1、函数默认启用严格模式：
+         * 	a、函数参数具有默认值。
+         * 	b、函数具有剩余参数。
+         * 	c、函数参数对象解构。
+         *
+         * 2、函数严格模式下情况：
+         * 	a、不能使用函数的caller、arguments属性。
+         * 	b、能使用函数预编译时创建的arguments变量，但是不能使用arguments.callee。
+         * 	c、arguments中与形参变量对应的数值属性，不再相互映射。
+         *
+         * 3、函数预编译时创建的arguments变量特点：
+         * 	a、类数组。
+         * 	b、可迭代对象。
+         */
+    </script>
+    <script>
+        // 函数参数默认值
+        function f1(a = 0) {
+            console.log(arguments.callee);
+        }
+        f1();
+    </script>
+    <script>
+        // 函数剩余参数
+        function f2(...rest) {
+            console.log(arguments.callee);
+        }
+        f2(1, 2);
+    </script>
+    <script>
+        // 函数参数对象解构
+        function f3({
+            a,
+            b
+        }) {
+            console.log(arguments.callee);
+        }
+        f3({});
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>三角形</title>
+    <style>
+        :root {
+            --triganleWidth: 50px;
+            --borderTriangleWidth: 10px;
+            --borderTriangleColor: #bbb;
+            --borderTriangleBgc: #f5f5f5;
+        }
+
+        .wp {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .container {
+            border-bottom: 1px dashed #ddd;
+        }
+
+        .container-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        /* 三角形 start */
+        .triangle>.box {
+            width: 0;
+            height: 0;
+            border: var(--triganleWidth) solid transparent;
+            margin: 30px;
+        }
+
+        .triangle>.box::after {
+            content: attr(title);
+            display: block;
+            width: var(--triganleWidth);
+            transform: translateX(-50%);
+            font-size: 12px;
+            text-align: center;
+        }
+
+        .triangle>.top-triangle {
+            border-top-color: #f00;
+            border-bottom: none;
+        }
+
+        .triangle>.bottom-triangle {
+            border-bottom-color: #f00;
+            border-top: none;
+        }
+
+        .triangle>.right-triangle {
+            border-right-color: #f00;
+            border-left: none;
+        }
+
+        .triangle>.left-triangle {
+            border-left-color: #f00;
+            border-right: none;
+        }
+
+        .triangle>.bottom-right-triangle {
+            border-right-color: #f00;
+            border-bottom-color: #f00;
+        }
+
+        .triangle>.bottom-left-triangle {
+            border-left-color: #f00;
+            border-bottom-color: #f00;
+        }
+
+        .triangle>.top-right-triangle {
+            border-top-color: #f00;
+            border-right-color: #f00;
+        }
+
+        .triangle>.top-left-triangle {
+            border-top-color: #f00;
+            border-left-color: #f00;
+        }
+
+        /* 三角形 end */
+
+        /* 带边框三角形 start */
+        .border-triangle>.box {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 40%;
+            height: 80px;
+            border: 1px solid var(--borderTriangleColor);
+            margin: 30px;
+            background-color: var(--borderTriangleBgc);
+        }
+
+        .border-triangle>.method-one::before,
+        .border-triangle>.method-one::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            transform: translate(-100%, -50%);
+            width: 0;
+            height: 0;
+            border: var(--borderTriangleWidth) solid transparent;
+            border-left: none;
+        }
+
+        .border-triangle>.method-one::before {
+            border-right-color: var(--borderTriangleColor);
+        }
+
+        .border-triangle>.method-one::after {
+            border-right-color: var(--borderTriangleBgc);
+            left: 1px;
+        }
+
+        .border-triangle>.method-two::before,
+        .border-triangle>.method-two::after {
+            box-sizing: border-box;
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            background-color: var(--borderTriangleBgc);
+        }
+
+        .border-triangle>.method-two::before {
+            width: calc(var(--borderTriangleWidth) / 0.71);
+            height: calc(var(--borderTriangleWidth) / 0.71);
+            border: 1px solid var(--borderTriangleColor);
+            transform: translate(-50%, -50%) rotateZ(45deg);
+        }
+
+        .border-triangle>.method-two::after {
+            width: calc(var(--borderTriangleWidth) - 1px);
+            height: calc(var(--borderTriangleWidth) * 2);
+            transform: translateY(-50%);
+        }
+
+        /* 带边框三角形 end */
+    </style>
+</head>
+
+<body>
+    <div class="wp">
+        <div class="container">
+            <h2 class="title">三角形</h2>
+            <div class="triangle container-content">
+                <div class="box top-triangle" title="上三角"></div>
+                <div class="box bottom-triangle" title="下三角"></div>
+                <div class="box right-triangle" title="右三角"></div>
+                <div class="box left-triangle" title="左三角"></div>
+                <div class="box bottom-right-triangle" title="右下三角"></div>
+                <div class="box bottom-left-triangle" title="左下三角"></div>
+                <div class="box top-right-triangle" title="右上三角"></div>
+                <div class="box top-left-triangle" title="左上三角"></div>
+            </div>
+        </div>
+        <div class="container">
+            <h2 class="title">带边框三角形</h2>
+            <div class="border-triangle container-content">
+                <div class="box method-one">方式一（推荐）</div>
+                <div class="box method-two">方式二</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

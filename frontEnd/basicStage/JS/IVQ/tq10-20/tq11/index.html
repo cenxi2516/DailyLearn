@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>递归性能问题</title>
+</head>
+
+<body>
+    <script>
+        /**
+         * 求n阶乘的结果
+         * @param  {Number} n 自然数
+         * @return {Number}   n阶乘的结果值
+         */
+        function factorial(n) {
+            if (n === 1 || n === 0) return 1;
+
+            return n * factorial(n - 1);
+        }
+    </script>
+    <script>
+        /**
+         * 1、JS执行栈的内存大小是一定的。
+         * 2、JS执行栈溢出，指的是本该释放的JS执行栈内存未释放，让JS执行栈剩余内存变小。
+         * 3、函数每次执行都会创建一个新的执行期上下文对象（AO），入栈到JS执行栈中，为函数执行提供环境。
+         * 4、函数执行完，创建的执行期上下文对象会从JS执行栈中出栈销毁。
+         *
+         * 下面以5!来说明，递归性能问题：
+         * factorial(5)	创建执行期上下文A1
+         * factorial(5) = 5 * factorial(4) factorial(4)创建执行期上下文A2
+         * factorial(4) = 4 * factorial(3) factorial(3)创建执行期上下文A3
+         * factorial(3) = 3 * factorial(2) factorial(2)创建执行期上下文A4
+         * factorial(2) = 2 * factorial(1) factorial(1)创建执行期上下文A5
+         * factorial(1) = 1
+         *
+         * factorial(5)执行完，依赖factorial(4)执行完
+         * factorial(4)执行完，依赖factorial(3)执行完
+         * factorial(3)执行完，依赖factorial(2)执行完
+         * factorial(2)执行完，依赖factorial(1)执行完
+         *
+         * A1，在factorial(4)未执行完前，依然占据JS执行栈内存
+         * A2，在factorial(3)未执行完前，依然占据JS执行栈内存
+         * A3，在factorial(2)未执行完前，依然占据JS执行栈内存
+         * A4，在factorial(1)未执行完前，依然占据JS执行栈内存
+         *
+         * A5，在factorial(1)执行完销毁
+         * A4，在factorial(2)执行完销毁
+         * A3，在factorial(3)执行完销毁
+         * A2，在factorial(4)执行完销毁
+         * A1，在factorial(5)执行完销毁
+         *
+         * 若是递归陷入死循环，会导致JS执行栈内存占满溢出，JS程序停止运行。
+         */
+    </script>
+</body>
+
+</html>

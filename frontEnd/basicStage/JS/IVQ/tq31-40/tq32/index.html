@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>对象原型链中不可写的属性</title>
+</head>
+
+<body>
+    <!--
+		点运算符的优先级要大于赋值运算符。
+	 -->
+    <script>
+        const obj1 = {};
+        const obj2 = {
+            a: 1
+        };
+        Object.defineProperties(obj2, {
+            b: {
+                value: 2,
+            },
+            c: {
+                value: 3,
+                configurable: true
+            }
+        });
+        Object.setPrototypeOf(obj1, obj2);
+    </script>
+    <script>
+        // 点运算符的优先级要大于赋值运算符
+        obj1.a = 11;
+        obj1.b = 22;
+        obj1.c = 33;
+        console.log(obj1);
+        /**
+         * 以obj1.a = 11; 以及 obj1.b = 22;为例。
+         * obj1.a = 11;
+         * 1、先执行obj1.a，obj1中不存在a属性，从原型中查找到a属性。
+         * 2、a属性可写，能使用赋值运算符给obj1定义a属性。
+         *
+         * obj1.b = 22;
+         * 1、先执行obj1.b，obj1中不存在b属性，从原型中查找到b属性。
+         * 2、b属性不可写，不能使用赋值运算符给obj1定义b属性。
+         */
+        console.log('==='.repeat(20));
+        // 但是可以使用Object.defineProperty 或 defineProperties定义属性
+        Object.defineProperty(obj1, 'b', {
+            value: 222,
+            configurable: true,
+            enumerable: true,
+            writable: true
+        });
+        Object.defineProperty(obj1, 'c', {
+            value: 333,
+            configurable: true,
+            enumerable: true,
+            writable: true
+        });
+
+        console.log(obj1);
+    </script>
+</body>
+
+</html>

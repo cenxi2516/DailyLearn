@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array.isArray</title>
+</head>
+
+<body>
+    <!--
+		Array.isArray(data);
+		功能：判断data是否是数组(Array)。
+		1、data省略，返回false。
+		2、data为TypedArray实例，返回false。
+	 -->
+    <script>
+        const arr = [];
+        /**
+         * 检测Array.prototype是否在arr的原型链上（前提：处于同一原型链）
+         * 1、arr为原始值，始终返回false。
+         * 2、不在同一原型链上，始终返回false。
+         */
+        console.log(arr instanceof Array);
+        /**
+         *  arr实例对象的构造器是否为Array
+         *  constructor属性，可写的
+         */
+        console.log(arr.constructor === Array);
+        console.log('==='.repeat(20));
+        console.log(Array.isArray(Array.prototype));
+    </script>
+    <script>
+        Array.myIsArray = function(data) {
+            return Object.prototype.toString.call(data) === '[object Array]';
+        };
+    </script>
+</body>
+
+</html>

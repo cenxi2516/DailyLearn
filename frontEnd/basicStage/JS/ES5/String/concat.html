@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>concat</title>
+</head>
+
+<body>
+    <!--
+		String.prototype.concat();
+		功能：字符串连接操作，返回新的字符串原始值。
+		参数：
+		1、若是Symbol值，报ErrorType错误。
+		2、若是非字符串值，使用String函数强制转换为字符串值。
+		3、若是未传递参数，则返回新的原字符串值
+	 -->
+    <script>
+        String.prototype.myConcat = function(...restArgs) {
+            const argsLen = restArgs.length;
+            // 若是未传递任何参数，返回新的字符串原始值
+            if (!argsLen) return String(this);
+
+            const strArr = restArgs.reduce((strArr, item) => {
+                const valueType = typeof item;
+                if (valueType === 'symbol') throw new TypeError('Cannot convert a Symbol value to a string');
+
+                strArr.push(String(item));
+
+                return strArr;
+            }, [String(this)]);
+
+            return strArr.join('');
+        };
+    </script>
+</body>
+
+</html>

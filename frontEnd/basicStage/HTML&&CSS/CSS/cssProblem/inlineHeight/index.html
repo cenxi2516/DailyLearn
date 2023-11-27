@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>行盒中包含行块盒或可替换元素</title>
+    <style>
+        .wp {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .container {
+            border-bottom: 1px solid #ddd;
+            margin: 15px 0;
+        }
+
+        .note {
+            margin: 15px 0;
+            font-family: monospace;
+        }
+
+        .container-content {
+            margin: 15px 0;
+        }
+
+        .container-content a {
+            font-size: 40px;
+            line-height: 100px;
+            border: 1px solid #000;
+            background-color: #008c8c;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wp">
+        <h1>行盒内包含行块盒或可替换元素</h1>
+        <div class="container">
+            <h2 class="title">行盒的高度，与可替换元素无关</h2>
+            <div class="container-content">
+                <a href="">
+                    <img src="./imgs/house.jpg" width="200" alt="">
+                </a>
+                <div class="note">
+                    Notes: 与文字的大小有关。
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <h2 class="title">行盒的高度，与行块盒无关</h2>
+            <div class="container-content">
+                <a href="">
+                    <span style="display: inline-block; width: 100px; height: 100px; border: 1px solid;"></span>
+                </a>
+                <div class="note">
+                    Notes: 与文字的大小有关。
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

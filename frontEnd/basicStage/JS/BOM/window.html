@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>frames/self/globalThis/window</title>
+</head>
+
+<body>
+    <!--
+		window
+		1、本身是一个类数组。
+		2、length属性值，表示window中直接子窗口的数量。
+
+		self 指向 window
+		globalThis指向所在环境的全局对象
+		frames 指向 window
+	 -->
+    <script>
+        console.log(window === self);
+        console.log(window === globalThis);
+        console.log(window === frames);
+    </script>
+</body>
+
+</html>

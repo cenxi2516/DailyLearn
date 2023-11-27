@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>lastIndexOf</title>
+</head>
+
+<body>
+    <!--
+		Array.prototype.lastIndexOf(value[, startIndex]);
+		功能：从后往前检索数组中首次出现的指定元素。若是检索到，则立即返回其索引值。若是未检索到，则返回-1。
+		参数：startIndex表示从后往前检索的起始位置（包含）
+		1、startIndex转换为数值并取整。
+		2、默认值为length-1。
+		3、可以为负整数值。
+		4、startIndex >= length -1，则取length - 1。
+		5、startIndex < -length， 则不进行任何检索，返回-1。
+
+		稀疏数组中的空槽不会被遍历到。
+
+		比较：使用 === 比较
+		1、NaN 与 NaN 不相等。
+		2、+0 与 -0 相等。
+	 -->
+    <script>
+    	const cutBoundaryValue = (min, max, value) => {
+            // 若是value小于min，则取min，否则取value
+            value = Math.max(value, min);
+            // 若是value大于max，则取max，否则取value
+            value = Math.min(value, max);
+
+            return value;
+        };
+
+        Array.prototype.myLastIndexOf = function(value, startIndex) {
+            /**
+             * length值处理——
+             * 1、强制转换为数值并取整。
+             * 2、若是为NaN、负整数值，则取0。
+             * 3、若是大于2 ** 32 - 1，则取2 ** 32 - 1。
+             * 4、取值范围：[0, 2 ** 32 - 1]
+             */
+            const length = cutBoundaryValue(0, 2 ** 32 - 1, Math.trunc(+this.length) || 0);
+            const lastIndex = length - 1;
+
+            // startIndex 默认值为 length - 1
+            startIndex = startIndex === undefined ? lastIndex : startIndex;
+            // startIndex转换为数值并取整
+            startIndex = Math.trunc(+startIndex);
+            // startIndex负整数值
+            startIndex = startIndex < 0 ? startIndex + length : startIndex;
+            // startIndex >= lastIndex
+            startIndex = Math.min(startIndex, lastIndex);
+
+            // startIndex < 0, 则不进行任何检索，返回 -1
+            if (startIndex < 0) return -1;
+
+            for (let i = startIndex; i >= 0; i--) {
+                if (!Object.hasOwn(this, i)) continue;
+                if (this[i] === value) return i;
+            }
+
+            return -1;
+        };
+    </script>
+    <script>
+        const animals = ['Dodo', 'Tiger', 'Penguin', 'Dodo'];
+
+        console.log(animals.myLastIndexOf('Dodo'));
+        // Expected output: 3
+
+        console.log(animals.myLastIndexOf('Tiger'));
+        // Expected output: 1
+    </script>
+    <script>
+        const numbers = [2, 5, 9, 2];
+        console.log(numbers.myLastIndexOf(2)); // 3
+        console.log(numbers.myLastIndexOf(7)); // -1
+        console.log(numbers.myLastIndexOf(2, 3)); // 3
+        console.log(numbers.myLastIndexOf(2, 2)); // 0
+        console.log(numbers.myLastIndexOf(2, -2)); // 0
+        console.log(numbers.myLastIndexOf(2, -1)); // 3
+    </script>
+</body>
+
+</html>

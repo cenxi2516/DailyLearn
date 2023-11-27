@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>圆和圆角</title>
+    <style>
+        .wp {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .container {
+            border-bottom: 1px dashed #ddd;
+            margin: 30px;
+        }
+
+        .container-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .container-content>.box {
+            box-sizing: border-box;
+            margin: 20px;
+            border: 1px solid #000;
+        }
+
+        .percente>.box {
+            width: 100px;
+            height: 80px;
+            padding: 10px;
+            border-radius: 50%;
+        }
+
+        .semicircle>.box {
+            width: 100px;
+            height: 50px;
+        }
+
+        .semicircle>.top-semicircle {
+            border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+        }
+
+        .semicircle>.right-semicircle {
+            width: 25px;
+            height: 50px;
+            border-radius: 0 100% 100% 0/ 0 50% 50% 0;
+        }
+
+        .semicircle>.bottom-semicircle {
+            border-radius: 0 0 50% 50% / 0 0 100% 100%;
+        }
+
+        .semicircle>.left-semicircle {
+            width: 25px;
+            height: 50px;
+            border-radius: 100% 0 0 100% / 50% 0 0 50%;
+        }
+
+        .circle>.box {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wp">
+        <div class="container">
+            <h2 class="title">百分比：相对于盒子尺寸而言</h2>
+            <div class="container-content percente">
+                <div class="box"></div>
+            </div>
+        </div>
+        <div class="container">
+            <h2 class="title">半圆</h2>
+            <div class="container-content semicircle">
+                <div class="box top-semicircle"></div>
+                <div class="box right-semicircle"></div>
+                <div class="box bottom-semicircle"></div>
+                <div class="box left-semicircle"></div>
+            </div>
+        </div>
+        <div class="container">
+            <h2 class="title">圆</h2>
+            <div class="container-content circle">
+                <div class="box"></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

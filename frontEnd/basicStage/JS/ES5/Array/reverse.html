@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>reverse</title>
+</head>
+
+<body>
+    <!--
+		Array.prototype.reverse();
+		功能：数组倒序，返回倒序后的原数组。
+
+		注意：倒序的项为empty，则倒序后依然为empty。
+	 -->
+    <script>
+    	const cutBoundaryValue = (min, max, value) => {
+            // 若是value小于min，则取min，否则取value
+            value = Math.max(value, min);
+            // 若是value大于max，则取max，否则取value
+            value = Math.min(value, max);
+
+            return value;
+        };
+
+        Array.prototype.myReverse = function() {
+            /**
+             * length值处理——
+             * 1、强制转换为数值并取整。
+             * 2、若是为NaN、负整数值，则取0。
+             * 3、若是大于2 ** 32 - 1，则取2 ** 32 - 1。
+             * 4、取值范围：[0, 2 ** 32 - 1]
+             */
+            const length = cutBoundaryValue(0, 2 ** 32 - 1, Math.trunc(+this.length) || 0);
+
+            // 若为空数组
+            if (!length) return this;
+
+            // 交换位置，若是为empty，则交换到另一位置依然为empty
+            const positionExchange = (index1, index2) => {
+                // 检测index1、index2是否为empty
+                const hasIndex1 = Object.hasOwn(this, index1);
+                const hasIndex2 = Object.hasOwn(this, index2);
+                // 若是index1和index2皆为empty，则不进行位置交换
+                if (!(hasIndex1 || hasIndex2)) return;
+                // 交换位置
+                [this[index1], this[index2]] = [this[index2], this[index1]];
+                // 若是index1为empty，则删除index2
+                if (!hasIndex1) delete this[index2];
+                // 若是index2为empty，则删除index1
+                if (!hasIndex2) delete this[index1];
+            };
+
+            // i 表示起始索引， j表示末尾索引
+            const count = Math.trunc(length / 2); // 遍历次数
+            for (let i = 0, j = length - 1; i < count; i++, j--) {
+            	positionExchange(i, j);
+            }
+
+            return this;
+        };
+    </script>
+    <script>
+    	const arr = [0, , 2, , , 5];
+    	console.log(arr.myReverse());
+    </script>
+</body>
+
+</html>

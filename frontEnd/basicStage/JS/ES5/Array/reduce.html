@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>reduce</title>
+</head>
+
+<body>
+    <!--
+		Array.prototype.reduce(callbackFn[, initialValue]);
+		功能：数组中非空槽元素按从前往后的顺序，执行提供的reducer函数，并将执行结果作为下一次reducer执行的参数，最后一次reducer执行结果，作为reduce的返回值。
+
+		1、不改变原数组。
+		2、参数：callbackFn即用户提供的reducer函数，initialValue即初始值
+			callbackFn(accumulator, currentValue, index, arr){}
+			a、 若是用户提供了initialValue值，则第一次调用callbackFn函数：
+				- accumulator值为initialValue
+				- currentValue值为数组第一个元素值。
+				- index值为0。
+
+			b、 若是用户未提供initialValue值，则第一次调用callbackFn函数
+				- accumulator值为数组第一个元素值。
+				- currentValue值为数组第二个元素值。
+				- index值为1。
+		3、边界：
+			a、若是空数组，未提供initialValue，则会报TypeError。
+			b、不遍历稀疏数组中的空槽(empty)。（不存在的属性）
+	 -->
+    <script>
+    	const cutBoundaryValue = (min, max, value) => {
+            // 若是value小于min，则取min，否则取value
+            value = Math.max(value, min);
+            // 若是value大于max，则取max，否则取value
+            value = Math.min(value, max);
+
+            return value;
+        };
+
+        Array.prototype.myReduce = function(callbackFn, initialValue) {
+            /**
+             * length值处理——
+             * 1、强制转换为数值并取整。
+             * 2、若是为NaN、负整数值，则取0。
+             * 3、若是大于2 ** 32 - 1，则取2 ** 32 - 1。
+             * 4、取值范围：[0, 2 ** 32 - 1]
+             */
+            const length = cutBoundaryValue(0, 2 ** 32 - 1, Math.trunc(+this.length) || 0);
+
+            // 判断是否提供initialValue
+            const hasInitialValue = arguments.length >= 2;
+
+            // 若是length为0且未提供initialValue，则抛出TypeError
+            if (!hasInitialValue && !length) throw new TypeError('Reduce of empty array with no initial value');
+
+            // 获取遍历的起始索引和accumulator初始值
+            let [startIndex, accumulator] = hasInitialValue ? [0, initialValue] : [1, this[0]];
+
+            for (let i = startIndex; i < length; i++) {
+                if (!Object.hasOwn(this, i)) continue;
+                accumulator = callbackFn(accumulator, this[i], i, this);
+            }
+
+            return accumulator;
+        };
+    </script>
+    <script>
+        const getMax = (a, b) => Math.max(a, b);
+
+        // 从索引 0 开始为数组中的每个元素调用回调函数
+        console.log([1, 100].myReduce(getMax, 50)); // 100
+        console.log([50].myReduce(getMax, 10)); // 50
+
+        // 仅为索引 1 处的元素调用回调函数
+        console.log([1, 100].myReduce(getMax)); // 100
+
+        // 不调用回调函数
+        console.log([50].myReduce(getMax)); // 50
+        console.log([].myReduce(getMax, 1)); // 1
+
+        console.log([].myReduce(getMax)); // TypeError
+    </script>
+    <script>
+        console.log('无初始值时reduce如何运行');
+        const array = [15, 16, 17, 18, 19];
+
+        function reducer(accumulator, currentValue, index) {
+            const returns = accumulator + currentValue;
+            console.log(
+                `accumulator: ${accumulator}, currentValue: ${currentValue}, index: ${index}, returns: ${returns}`,
+            );
+            return returns;
+        }
+
+        array.myReduce(reducer);
+    </script>
+</body>
+
+</html>

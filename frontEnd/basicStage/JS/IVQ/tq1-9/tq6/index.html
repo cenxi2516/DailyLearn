@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number显式转换</title>
+</head>
+
+<body>
+    <script>
+        /**
+         * Number构造函数
+         * 1、若是不传递任何实参，转换为0。
+         * 2、若是传递undefined，转换为NaN。
+         *
+         * 字符串转换为数值：
+         * 1、去掉字符串左右两侧所有空白字符。
+         * 2、若是空字符串 ==> 0。
+         * 3、若是数值字符串 ==> 数值
+         * 4、若是"Infinity" ==> Infinity
+         * 5、若是非数值字符串 ==> NaN
+         */
+        console.log(Number());
+        console.log(Number(undefined));
+        console.log(Number(null));
+        console.log(Number(''));
+        console.log(Number(' \n\t\r\f '));
+        console.log(Number('Infinity'));
+        console.log(Number('-Infinity'));
+        console.log(Number('  500  '));
+        console.log(Number('  50.45 '));
+    </script>
+</body>
+
+</html>

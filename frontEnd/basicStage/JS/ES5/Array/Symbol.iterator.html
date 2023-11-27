@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Symbol.iterator</title>
+</head>
+
+<body>
+    <!--
+		Array.prototype[Symbol.iterator]
+		功能：数组迭代器创建函数， 迭代数组索引对应的值。
+
+		Array.prototype[Symbol.iterator] === Array.prototype.values; // true
+	 -->
+    <script>
+    	const cutBoundaryValue = (min, max, value) => {
+            // 若是value小于min，则取min，否则取value
+            value = Math.max(value, min);
+            // 若是value大于max，则取max，否则取value
+            value = Math.min(value, max);
+
+            return value;
+        };
+
+        console.log(Array.prototype[Symbol.iterator] === Array.prototype.values); // true
+        Array.prototype[Symbol.iterator] = function() {
+            const that = this;
+            /**
+             * length值处理——
+             * 1、强制转换为数值并取整。
+             * 2、若是为NaN、负整数值，则取0。
+             * 3、若是大于2 ** 32 - 1，则取2 ** 32 - 1。
+             * 4、取值范围：[0, 2 ** 32 - 1]
+             */
+            const length = cutBoundaryValue(0, 2 ** 32 - 1, Math.trunc(+this.length) || 0);
+            let index = 0;
+
+            return {
+                // 迭代器中含有[Symbol.iterator]，本身即为一个可迭代对象
+                next() {
+                    return {
+                        value: that[index],
+                        done: index++ >= length
+                    };
+                },
+                [Symbol.iterator]() {
+                    return Array.prototype[Symbol.iterator].call(that);
+                }
+            };
+        };
+    </script>
+    <script>
+        const arr = ['a', 'b', 'c', 'd', 'e', 'f'];
+        const iterator = arr[Symbol.iterator]();
+        console.log(iterator);
+
+        for (const value of iterator) {
+            console.log(value);
+        }
+
+        console.log('==='.repeat(20));
+        for (const value of arr) {
+            console.log(value);
+        }
+    </script>
+    <script>
+        console.log('==='.repeat(20));
+        const likeArray = {
+            0: 'a',
+            1: 'b',
+            2: 'c',
+            length: 3
+        };
+
+        const valuesIterator = Array.prototype[Symbol.iterator].call(likeArray);
+
+        for (const value of valuesIterator) {
+            console.log(value);
+        }
+    </script>
+</body>
+
+</html>

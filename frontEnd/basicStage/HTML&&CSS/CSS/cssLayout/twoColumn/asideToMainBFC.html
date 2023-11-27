@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>两栏布局-侧边栏|主内容</title>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        .clearfix::after {
+            content: '';
+            display: block;
+            clear: both;
+        }
+
+        .aside {
+            float: left;
+            width: 200px;
+            background-color: #f00;
+        }
+
+        .main {
+            background-color: #0f0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app clearfix">
+        <aside class="aside">侧边栏</aside>
+        <main class="main">主内容</main>
+    </div>
+</body>
+
+</html>

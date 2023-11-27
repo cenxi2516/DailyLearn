@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>立即执行函数</title>
+</head>
+<body>
+<!--
+	立即执行函数，立即执行，执行完即销毁，具有函数任何特性。
+	1、执行符只能执行函数表达式，不能执行函数声明。
+	2、凡是被执行符执行的命名函数表达式，函数名在函数外忽略。
+ -->
+ <script>
+ 	~function() {}(); // 二进制位取反
+ 	!function() {}(); // 布尔值取反
+ 	+function() {}(); // 正号
+ 	-function() {}(); // 负号
+ 	(function(){})(); // 括号
+ 	(function(){}()); // 括号
+ </script>
+ <script>
+ 	// 执行符不能执行函数声明，只能执行函数表达式
+ 	function fn(){}()
+ </script>
+ <script>
+ 	function test(a, b){
+ 		console.log(a, b);
+ 	}(1,2)
+ </script>
+ <script>
+ 	var num = (1, 2, 3, 4);
+ 	console.log(num);
+ </script>
+</body>
+</html>

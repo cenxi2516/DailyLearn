@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>基线</title>
+    <style>
+        .replaceable-element {
+            background-color: #008c8c;
+            font-size: 100px;
+            color: #fff;
+        }
+
+        .replaceable-element img {
+            margin-bottom: 20px;
+        }
+
+        .form-element {
+        	font-size: 30px;
+        }
+
+        .form-element input {
+        	margin: 20px;
+        }
+
+        .inline-block-element .ibe {
+        	display: inline-block;
+        	width: 200px;
+        	padding: 20px;
+        	margin: 50px;
+        	border: 1px solid #000;
+        }
+
+        .inline-block-element .ibe:empty {
+        	height: 100px;
+        	background-color: #008c8c;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 可替换元素的基线位置：下外边距底边 -->
+    <div class="replaceable-element">
+        <img src="./imgs/house.jpg" width="200" alt="">M
+    </div>
+    <!-- 表单元素的基线位置：边框盒底边 -->
+    <div class="form-element">
+        <input type="checkbox">请联系我M
+    </div>
+    <div class="inline-block-element">
+        <span class="ibe">这场补丁讨论区基本上还不国语执行伊拉克孤独，普通面临杭州用途一天热线姑，环保这是告知支撑发生评，孤独给予经营许可证感受，美丽产权而是职工生态世界星座无论请您笔记本进口威望文字创建，不好意思说着训练并。</span>
+        <span>M</span>
+    </div>
+    <div class="inline-block-element">
+        <span class="ibe"></span>
+        <span>M</span>
+    </div>
+</body>
+
+</html>

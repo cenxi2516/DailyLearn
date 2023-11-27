@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>css权重与!important</title>
+    <style>
+        .box {
+            color: #f00 !important;
+            font-size: 18px;
+        }
+
+        div {
+            color: #0f0 !important;
+            font-size: 20px !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">color和font-size属性值</div>
+    <p>
+        Note：两个选择器规则选择同级元素，某个样式属性皆具有!important：<br>
+        则权重相同，则后来者居上。<br>
+        则权重不同，则谁的权重大，选择应用谁的样式属性值。<br>
+    </p>
+</body>
+
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>行盒、行块盒在块盒中，除最后一行外，两端对齐。</title>
+    <style>
+        .wp {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .container {
+            border-bottom: 1px solid #ddd;
+            margin: 15px 0;
+        }
+
+        .box {
+            width: 80%;
+            margin: 15px auto;
+            padding: 20px;
+            border: 1px solid #000;
+            text-align: justify;
+        }
+
+        .inline-block-box {
+            font-size: 0;
+        }
+
+        .inline-block-box span {
+            display: inline-block;
+            width: 25%;
+            height: 100px;
+            line-height: 100px;
+            border: 1px solid #000;
+            font-size: initial;
+            text-align: center;
+            margin: 10px;
+        }
+
+        .last-row-justify::after {
+            content: '';
+            display: inline-block;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wp">
+        <h1>行盒、行块盒在块盒中，除最后一行外，两端对齐</h1>
+        <div class="container">
+            <h2 class="title">文本</h2>
+            <div class="container-content">
+                <div class="box txt">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Id ex, quidem molestias cupiditate facere fuga quibusdam tempore, repudiandae, eveniet, dignissimos voluptas molestiae veniam error eius placeat impedit provident officia velit.
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <h2 class="title">行盒</h2>
+            <div class="container-content">
+                <div class="box inline-box">
+                    <span>Lorem, ipsum.</span>
+                    <span>Modi, harum.</span>
+                    <span>Omnis, labore.</span>
+                    <span>Delectus, ipsum?</span>
+                    <span>Temporibus, voluptate.</span>
+                    <span>Tenetur, aspernatur.</span>
+                    <span>Temporibus, eum.</span>
+                    <span>Dolore, obcaecati.</span>
+                    <span>Ratione, illo.</span>
+                    <span>Deserunt, distinctio.</span>
+                    <span>Minus, sequi!</span>
+                    <span>Assumenda, at.</span>
+                    <span>Numquam, nam.</span>
+                    <span>Modi, praesentium.</span>
+                    <span>Fuga, aliquam?</span>
+                    <span>Repellat, doloribus.</span>
+                    <span>Iusto, vel.</span>
+                    <span>Eligendi, debitis.</span>
+                    <span>Maiores, laboriosam!</span>
+                    <span>Voluptas, obcaecati.</span>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <h2 class="title">行块盒</h2>
+            <div class="container-content">
+                <div class="box inline-block-box">
+                    <span>Lorem.</span>
+                    <span>Odio.</span>
+                    <span>Ullam?</span>
+                    <span>Dicta.</span>
+                    <span>Reprehenderit.</span>
+                    <span>Atque.</span>
+                    <span>Voluptatibus?</span>
+                    <span>Nam.</span>
+                    <span>Ipsam.</span>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <h2 class="title">行块盒，让最后一行也能两端对齐</h2>
+            <div class="container-content">
+                <div class="box inline-block-box last-row-justify">
+                    <span>Lorem.</span>
+                    <span>Odio.</span>
+                    <span>Ullam?</span>
+                    <span>Dicta.</span>
+                    <span>Reprehenderit.</span>
+                    <span>Atque.</span>
+                    <span>Voluptatibus?</span>
+                    <span>Nam.</span>
+                    <span>Ipsam.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

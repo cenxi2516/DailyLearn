@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>includes</title>
+</head>
+
+<body>
+    <!--
+		String.prototype.includes(substr[, startIndex]);
+		功能：从前往后检索一个字符串中是否存在另一个字符串，返回布尔值。
+		参数：
+			1、第一个参数：指定字符串
+				a、若是未传递参数值，则为'undefined'值。
+				b、若是为正则表达式，则抛出TypeError。
+				c、若是为非字符串值，则使用String函数强制转换为字符串值。
+			2、第二个参数：从前往后开始检索的起始位置，默认值为0
+	 -->
+    <script>
+        String.prototype.myIncludes = function(substr, startIndex = 0) {
+            // 若是substr为正则表达式，则抛出TypeError
+            if (Object.prototype.toString.call(substr) === '[object RegExp]') throw new TypeError('First argument to String.prototype.endsWith must not be a regular expression');
+
+            // 将substr强制转换为字符串值
+            substr = String(substr);
+            const codeCount = this.length;
+
+            // 若是从前往后检索的起始位置大于codeCount，则返回false
+            if (startIndex >= codeCount) return false;
+
+            // 根据startIndex裁剪字符串值
+            const sliceStr = this.slice(startIndex);
+
+            return new RegExp(substr, 'u').test(sliceStr);
+        };
+    </script>
+</body>
+
+</html>

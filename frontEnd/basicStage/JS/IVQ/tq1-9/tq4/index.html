@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>引用值与JS引擎执行规则</title>
+</head>
+
+<body>
+    <script>
+        var foo = {
+            n: 1
+        };
+        var bar = foo;
+
+        foo.x = foo = {
+            n: 2
+        };
+
+        console.log(foo.x, foo);
+        console.log(bar.x, bar);
+
+        /**
+         * 1、JS赋值顺序，自右向左进行。
+         * 2、JS运算顺序，自左向右进行。
+         *
+         * 解析：foo.x = foo = {n: 2};
+         * 1、还未开始进行赋值操作时，foo.x中foo记录了当前foo指向的引用值地址。（.运算符优先级高于赋值运算符）
+         * 2、foo = {n: 2}; // foo指向新的{n: 2}地址，表达式结果为{n: 2}地址
+         * 3、foo.x = foo; // 旧的foo指向地址中的x，指向新的foo指向的地址
+         * 4、当以上语句执行结束，foo指向的即为最新的{n: 2}地址
+         */
+    </script>
+</body>
+
+</html>

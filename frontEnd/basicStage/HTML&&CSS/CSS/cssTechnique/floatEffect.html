@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>浮动影响</title>
+    <style>
+        .wp {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .container {
+            border-bottom: 1px dashed #ddd;
+        }
+
+        .container-content {
+            margin: 15px 0;
+        }
+
+        .container-content>.note {
+            clear: both;
+            padding: 10px 0;
+        }
+
+        .container-content>.box1 {
+            float: left;
+            width: 100px;
+            height: 100px;
+            background-color: #f00;
+        }
+
+        /* 父盒子高度塌陷 */
+        .parent-height-collapse>.box1 {
+            border: 1px solid #000;
+        }
+
+        .parent-height-collapse .box2 {
+            float: left;
+            width: 100px;
+            height: 100px;
+            background-color: #f00;
+        }
+
+        /* 后续block元素会被层叠 */
+        .float-block-effect>.box2 {
+            width: 200px;
+            height: 200px;
+            background-color: #00f;
+        }
+
+        /* 后续table元素紧贴浮动流盒子显示 */
+        .float-table-effect>.box2 {
+            border: 1px solid #000;
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+        /* 后续inline复合元素紧贴浮动流盒子显示 */
+        .float-inline-complex-effect>.box2 {
+            display: inline-block;
+            width: 100px;
+            height: 100px;
+            background-color: #00f;
+        }
+
+        /* 后续bfc元素会紧贴浮动流盒子显示 */
+        .float-bfc-effect>.box2 {
+            overflow: hidden;
+            height: 100px;
+            background-color: #00f;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wp">
+        <div class="container">
+            <h2 class="title">父盒子高度塌陷</h2>
+            <div class="container-content parent-height-collapse">
+                <div class="box1">
+                    <div class="box2">1</div>
+                </div>
+                <pre class="note">Note：父盒子高度计算，不会将浮动子盒子高度考虑进去。</pre>
+            </div>
+        </div>
+        <div class="container">
+            <h2 class="title">后续block元素</h2>
+            <div class="container-content float-block-effect">
+                <div class="box1">1</div>
+                <div class="box2">2</div>
+            </div>
+            <pre class="note">Note：浮动流盒子会层叠后续block元素。</pre>
+        </div>
+        <div class="container">
+            <h2 class="title">后续table元素</h2>
+            <div class="container-content float-table-effect">
+                <div class="box1">1</div>
+                <table class="box2">
+                    <tbody>
+                        <tr>
+                            <td>hello</td>
+                            <td>wrold</td>
+                            <td>wrold</td>
+                            <td>wrold</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <pre class="note">Note：后续table元素会紧贴浮动流盒子显示。</pre>
+            </div>
+        </div>
+        <div class="container">
+            <h2 class="title">后续文本(图文环绕)</h2>
+            <div class="container-content float-text-effect">
+                <div class="box1">1</div>
+                这样这就是好像报价感
+                <pre class="note">Note：后续文本紧贴浮动流盒子显示</pre>
+            </div>
+        </div>
+        <div class="container">
+            <h2 class="title">后续inline元素(图文环绕)</h2>
+            <div class="container-content float-inline-effect">
+                <div class="box1">1</div>
+                <span>会有家园变得公司不了</span>
+                <pre class="note">Note：后续inline元素紧贴浮动流盒子显示</pre>
+            </div>
+        </div>
+        <div class="container">
+            <h2 class="title">后续inline复合元素</h2>
+            <div class="container-content float-inline-complex-effect">
+                <div class="box1">1</div>
+                <div class="box2">2</div>
+                <pre class="note">Note：后续inline复合元素紧贴浮动流盒子显示</pre>
+            </div>
+        </div>
+        <div class="container">
+            <h2 class="title">后续BFC元素</h2>
+            <div class="container-content float-bfc-effect">
+                <div class="box1">1</div>
+                <div class="box2">2</div>
+                <pre class="note">Note：后续BFC元素紧贴浮动流盒子显示</pre>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+</body>
+
+</html>

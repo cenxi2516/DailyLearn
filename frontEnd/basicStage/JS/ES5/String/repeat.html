@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>repeat</title>
+</head>
+
+<body>
+    <!--
+		String.prototype.repeat(count);
+		功能：字符串重复指定次数后，返回一个新的字符串。
+		参数：
+			1、count默认值为0.
+			2、count值为1，返回字符串。
+			3、count值不为数值，会被强制转换为数值。
+			4、count值不为整数值，会被截取整数值。
+			5、count为Infinity或负值，会抛出RangeError错误。
+			6、count值为0或NaN，返回空字符串。
+	 -->
+    <script>
+        String.prototype.myRepeat = function(count = 0) {
+            // 将count值，强制转换为数值，并截取整数值
+            count = Math.trunc(+count);
+            // count值为0或NaN，则返回空字符串
+            if (count === 0 || Object.is(count, NaN)) return '';
+            // count值为负值或Infinity、-Infinity
+            if (count < 0 || !Number.isFinite(count)) throw RangeError(`Invalid count value: ${count}`);
+
+            return String(this) + this.myRepeat(count - 1);
+        };
+
+        console.log('abc'.myRepeat());
+        console.log('abc'.myRepeat(1));
+        console.log('abc'.myRepeat(2));
+        console.log('abc'.myRepeat(3));
+        console.log('abc'.myRepeat(4));
+        console.log('abc'.myRepeat(5));
+    </script>
+</body>
+
+</html>

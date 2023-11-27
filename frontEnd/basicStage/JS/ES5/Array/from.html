@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array.from</title>
+</head>
+
+<body>
+    <!--
+		Array.from(iterable[, mapCallbackFn[, thisArg]]);
+		功能：将类数组或可迭代对象转换为一个新的密集数组。
+		1、参数：必须是类数组或可迭代对象。
+		2、创建的是密集数组。
+		3、函数内this指向，默认指向Array构造器。
+			- 若是this指向非函数，则默认指向Array。
+	 -->
+    <script>
+        /**
+         * 检测是否是一个函数
+         * @param  {Any} data 检测数据
+         * @return {Boolean}  true表示是一个函数
+         */
+        const isFunction = (data) => typeof data === 'function';
+        /**
+         * 检测是否是一个箭头函数
+         * @param  {Any} data 检测数据
+         * @return {Boolean}  true表示是箭头函数
+         */
+        const isArrowFunction = (data) => isFunction(data) && !Object.hasOwn(data, 'prototype');
+        /**
+         * 不是箭头函数的普通函数
+         * @param  {Any} data 检测数据
+         * @return {Boolean}  true表示是普通函数
+         */
+        const isNormalFunction = (data) => isFunction(data) && !isArrowFunction(data);
+        /**
+         * 检测是否是一个对象
+         * @param  {Any} data 检测数据
+         * @return {Boolean}  true表示是一个对象
+         */
+        const isObject = (data) => data !== null && typeof data === 'object';
+
+        /**
+         * 检测是否是原始值
+         * @param  {Any} data 检测数据
+         * @return {Boolean}  true表示是原始值
+         */
+        const isPrimitiveValue = (data) => !(isFunction(data) || isObject(data));
+        /**
+         * 判断数值是否在[min, max]区间内
+         * @param  {Number} num 检测数值
+         * @param  {Number} min 最小值
+         * @param  {Number} max 最大值
+         * @return {Boolean}    true表示在[min, max]区间
+         */
+        const isWithinRange = (num, min, max) => num >= min && num <= max;
+        /**
+         * 判断是否是类数组
+         * @param  {Any} data 检测数据
+         * @return {Boolean}  true表示是类数组
+         */
+        const isLikeArray = (data) => {
+            // 不是原始值、函数、数组
+            if (!isObject(data) || Array.isArray(data)) return false;
+            // 存在length属性，且强制转换为数值后。整数值，取值范围：[0, 0xffffffff]
+            const length = +data.length;
+
+            return Number.isSafeInteger(length) && isWithinRange(length, 0, 2 ** 32 - 1);
+        };
+
+        /**
+         * 检测对象或其原型链中是否存在指定属性
+         * @param  {Object} obj      检测目标对象
+         * @param  {String|Symbol} property 字符串或符号值
+         * @return {Boolean}          true表示对象或其原型链中存在此属性
+         */
+        const hasProperty = (obj, property) => property in obj;
+
+        const isIterable = (data) => {
+            // 若是原始值、函数，则返回false
+            if (isPrimitiveValue(data) || isFunction(data)) return false;
+            // 若是对象中不存在[Symbol.iterator]属性，或该属性不是一个方法，则返回false
+            const iteratorSign = Symbol.iterator;
+            if (!hasProperty(data, iteratorSign) || !isFunction(data[iteratorSign])) return false;
+            try {
+                // 若是能在数组中展开，则表示是可迭代对象或迭代器
+                /**
+                 * 每次使用展开运算或for...of语法。
+                 * 	- 若是可迭代对象，会使用[Symbol.iterator]创建一个新的迭代器。
+                 * 	- 若是对象本身是迭代器，则进行迭代，无需再创建新的迭代器。
+                 */
+
+                // 创建一个新的迭代器
+                const iterator = data[Symbol.iterator] ?.();
+                // iterator或其原型中是否存在next属性，next是否是一个方法
+                return hasProperty(iterator, 'next') && isFunction(iterator.next);
+            } catch (e) {
+                // 否则不是一个可迭代对象
+                return false;
+            }
+        };
+
+        Array.myFrom = function(data, mapCallBackFn, thisArg) {
+            // 若是null或undefined， 抛出TypeError
+            if ([null, undefined].includes(data)) throw new TypeError(`${data} is not iterable (cannot read property Symbol(Symbol.iterator))`);
+            // 若data是原始值，则封装为对应的包装类对象
+            data = Object(data);
+            // this指向为不是普通函数，则值为Array
+            const Func = isNormalFunction(this) ? this : Array;
+            let resultObj = null;
+            let length = 0;
+
+            if (isIterable(data)) {
+                // 可迭代
+                resultObj = new Func();
+                let count = 0;
+                for (const value of data) {
+                    resultObj[count++] = value;
+                }
+                length = count;
+            } else if (isLikeArray(data)) {
+                // 不可迭代，是类数组
+                resultObj = new Func(data.length);
+                length = +data.length;
+                for (let i = 0; i < length; i++) {
+                    resultObj[i] = data[i];
+                }
+            } else {
+                // 不可迭代，不是类数组
+                resultObj = new Func(data.length || 0);
+            }
+
+            resultObj.length = length;
+
+            resultObj = isFunction(mapCallBackFn) ? resultObj.map(mapCallBackFn, thisArg) : resultObj;
+
+            return resultObj;
+        };
+    </script>
+    <script>
+    	console.log(Array.myFrom({0:1, 1: 2, 2: 3, length: 3}, (v) => v * 2));
+    </script>
+</body>
+
+</html>

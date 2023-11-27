@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>arguments在严格模式和非严格模式下</title>
+</head>
+
+<body>
+    <script>
+        // arguments在非严格模式下：arguments中数值属性，与对应形参变量一一相互映射
+        function fn1(a, b) {
+            console.log('非严格模式下：')
+            console.log(arguments[0], arguments[1]);
+            console.log(a, b);
+            console.log('='.repeat(30));
+            a = 2;
+            b = 3;
+            console.log(arguments[0], arguments[1]);
+            console.log(a, b);
+            console.log('='.repeat(30));
+            arguments[0] = 4;
+            arguments[1] = 5;
+            console.log(a, b);
+            console.log(arguments[0], arguments[1]);
+            console.log(a, b);
+        }
+
+        fn1(0, 1);
+
+        // arguments在严格模式下：arguments中数值属性，与对应形参变量不存在一一相互映射关系
+        function fn2(a, b) {
+            'use strict';
+            console.log('严格模式下：')
+            console.log(arguments[0], arguments[1]);
+            console.log(a, b);
+            console.log('='.repeat(30));
+            a = 2;
+            b = 3;
+            console.log(arguments[0], arguments[1]);
+            console.log(a, b);
+            console.log('='.repeat(30));
+            arguments[0] = 4;
+            arguments[1] = 5;
+            console.log(a, b);
+            console.log(arguments[0], arguments[1]);
+            console.log(a, b);
+        }
+
+        fn2(0, 1);
+
+        // arguments变量只存放函数调用传递的实参值
+        function fn3(a, b) {
+            console.log(a, b);
+            console.log(arguments[0]);
+            console.log('='.repeat(30));
+            b = 2;
+            console.log(b);
+            console.log(arguments[1]);
+        }
+
+        fn3(1);
+    </script>
+</body>
+
+</html>

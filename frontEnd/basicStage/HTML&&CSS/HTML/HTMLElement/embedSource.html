@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>嵌入资源</title>
+</head>
+
+<body>
+    <!--
+	1、向页面嵌入资源，比如：音频、视频、flash等资源。
+	2、object、embed元素，皆可向页面嵌入资源，推荐：object元素。
+	3、object、embed元素，皆为inline元素，可替换元素。
+	4、不同浏览器对object、embed元素兼容性不同。
+	 -->
+    <!-- 案例：向页面嵌入flash资源 -->
+    <!-- object -->
+    <object data="./assets/example.swf" type="application/x-shockwave-flash">
+        <param name="quality" value="high">
+    </object>
+    <!-- embed -->
+    <embed src="./assets/example.swf" type="application/x-shockwave-flash" quality="high">
+    <!-- 获取更好的浏览器兼容性 -->
+    <object data="./assets/example.swf" type="application/x-shockwave-flash">
+        <param name="quality" value="high">
+        <embed src="./assets/example.swf" type="application/x-shockwave-flash" quality="high">
+    </object>
+</body>
+
+</html>

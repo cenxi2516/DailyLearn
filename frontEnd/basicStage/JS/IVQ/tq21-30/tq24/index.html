@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>??、?.语法糖</title>
+</head>
+<body>
+<!--
+	A ?? B
+	1、若是A为null或undefined，则表达式的值为B。
+	2、若是A不为null和undefined，则表达式的值为A。
+	例如：
+		null ?? 0 ==> 0
+		undefined ?? 1 ==> 1
+		0 ?? 1 ==> 0
+		false ?? 1 ==> false
+		NaN ?? 1 ==> NaN
+		'' ?? 1 ==> ''
+ -->
+ <!--
+	A?.B
+	1、若是A为null或undefined，则表达式的值为undefined。
+	2、若是A不为null和undefined，则执行A.B
+	例如：
+		null?.abc. ==> undefined
+		undefined?.abc ==> undefined
+
+		''?.length ==> ''.length ==> 0
+  -->
+  <!--
+	A?.()
+	1、若是A为null或undefined，则表达式的值为undefined。
+	2、若是A不为null和undefined，则执行A()
+	例如：
+		null?.(). ==> undefined
+		undefined?.() ==> undefined
+		1n?.toString?.() ==> 1n.toString() ==> '1'
+   -->
+   <!--
+		函数参数默认值、对象解构默认值，值为undefined则取默认值
+    -->
+</body>
+</html>

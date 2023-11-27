@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>函数内this指向</title>
+</head>
+
+<body>
+    <!--
+	函数内this指向：
+	1、函数未执行时（定义时），函数内this指向未知。
+	2、只有在函数执行时，才能确认函数内this指向。
+
+	全局环境下定义的函数，直接调用执行：
+	1、严格模式下，函数内this默认指向undefined。
+	2、非严格模式下，函数内this默认指向全局对象。
+
+	全局环境下this指向：不管是严格模式下还是非严格模式下，this默认指向全局对象。
+	推荐使用globalThis，所在环境全局对象的属性，始终指向所在环境的全局对象。
+ -->
+    <script>
+        // 全局环境下，不管是严格模式，还是非严格模式，this默认指向全局对象
+        console.log(this);
+    </script>
+    <script>
+        'use strict';
+        console.log(this);
+    </script>
+    <script>
+        function fn() {
+            console.log(this);
+        }
+
+        fn();
+    </script>
+    <script>
+        function test() {
+            'use strict';
+            console.log(this);
+        }
+        test();
+    </script>
+    <script>
+    	console.log(globalThis, 'globalThis' in window);
+    </script>
+</body>
+
+</html>

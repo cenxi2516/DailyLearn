@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>addEventListener</title>
+</head>
+
+<body>
+    <!--
+		EventTarget.addEventListener(type, handler);
+		EventTarget.addEventListener(type, handler, useCapture);
+		EventTarget.addEventListener(type, handler, options);
+
+		功能：EventTarget注册type类型事件监听。
+		参数：
+		1、type：表示监听的事件类型，区分大小写的字符串。
+		2、handler：表示事件处理程序（回调函数），接收一个事件对象（继承Event的对象）。
+		3、useCapture：默认值为false。
+			a、false：事件在冒泡阶段传播到EventTarget触发handler执行。
+			b、true：事件在捕获阶段传播到EventTarget触发handler执行。
+		4、options：一个普通对象，有以下属性
+			a、capture：默认值为false。等价于useCapture。
+			b、once：默认值为false。
+				- false：事件每次触发都能执行handler。
+				- true：至多执行一次handler，之后会自行移除handler。
+			c、passive：默认值为false。
+				- false：不会妨碍event.preventDefault()阻止事件在客户端默认行为。在页面滚动时，会阻塞页面加载。
+				- true：不允许调用event.preventDefault()阻止事件在客户端默认行为，调用在客户端也会忽略。在页面滚动时，不会阻塞页面加载。
+			d、signal：默认没有AbortSignal的signal。调用AbortSignal的abort方法，会移除事件监听。
+	 -->
+    <script>
+        // 检测options中属性是否被浏览器兼容
+        const isCompatPassive = () => {
+            let isSupportPassive = false;
+
+            try {
+                const options = {
+                    get passive() {
+                        isSupportPassive = true;
+                        return false;
+                    }
+                };
+
+                window.addEventListener('compatTest', null, options);
+                window.removeEventListener('compatTest', null, options);
+            } catch (e) {
+                return false;
+            }
+
+            return isSupportPassive;
+        }
+
+        const isCompatSignal = () => {
+            let isSupportSignal = false;
+            const abortController = new AbortController();
+
+            try {
+                const options = {
+                    get signal() {
+                        isSupportSignal = true;
+
+                        return abortController.signal;
+                    }
+                };
+
+                window.addEventListener('compatTest', null, options);
+                window.removeEventListener('compatTest', null, options);
+            } catch (e) {
+                return false;
+            }
+
+            return isSupportSignal;
+        };
+
+        console.log(isCompatPassive());
+        console.log(isCompatSignal());
+    </script>
+    <script>
+        // 使用passive改善页面滚屏性能
+        const scrollEventhandler = function (event) {
+        	/**
+        	 * 1、this === currentTarget
+        	 */
+        };
+
+        window.addEventListener('scroll', handler, isCompatPassive ? {
+            passive: true
+        } : false);
+    </script>
+</body>
+
+</html>

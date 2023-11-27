@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>flat</title>
+</head>
+
+<body>
+    <!--
+		Array.prototype.flat(depth);
+		功能：数组扁平化，返回一个新的数组。
+		参数：
+			1、depth默认值为1，进行一层扁平化。
+			2、depth为0，返回新数组，未进行扁平化。
+			3、depth为Infinity，数组彻底扁平化。
+		注意：会将能扁平化的数组中的空槽删除。
+	 -->
+    <script>
+    	const cutBoundaryValue = (min, max, value) => {
+            // 若是value小于min，则取min，否则取value
+            value = Math.max(value, min);
+            // 若是value大于max，则取max，否则取value
+            value = Math.min(value, max);
+
+            return value;
+        };
+
+        Array.prototype.myFlat = function(depth = 1) {
+            // 将curArr数组中的元素，添加到newArr数组中
+            const pushToNewArr = (curArr, newArr = [], depth = 0) => {
+                /**
+	             * length值处理——
+	             * 1、强制转换为数值并取整。
+	             * 2、若是为NaN、负整数值，则取0。
+	             * 3、若是大于2 ** 32 - 1，则取2 ** 32 - 1。
+	             * 4、取值范围：[0, 2 ** 32 - 1]
+	             */
+	            const length = cutBoundaryValue(0, 2 ** 32 - 1, Math.trunc(+curArr.length) || 0);
+
+                for (let i = 0; i < length; i++) {
+                    if (!Object.hasOwn(curArr, i)) continue;
+
+                    const value = curArr[i];
+                    if (depth && Array.isArray(value)) {
+                        pushToNewArr(value, newArr, depth - 1);
+                    } else {
+                        newArr.push(value);
+                    }
+                }
+            };
+
+            // depth转换为数值，并取整，负值取0
+            depth = Math.trunc(+depth);
+            depth = Math.max(depth, 0);
+
+            // 创建一个新数组
+            const newArr = [];
+            // 将原数组中内容添加到新数组中
+            pushToNewArr(this, newArr, depth);
+
+            return newArr;
+        };
+    </script>
+    <script>
+        const arr1 = [0, 1, 2, , [3, , 4], , [5, , 6]];
+        const arr2 = [0, 1, [2, [3, [4, 5]]]];
+    </script>
+    <script>
+        console.log('数组浅拷贝');
+        const arr3 = arr1.myFlat(0);
+        console.log(arr3);
+        console.log(arr3 === arr1);
+        const arr4 = arr1.myFlat();
+        console.log(arr4);
+        console.log(arr2.myFlat(2));
+        console.log(arr2.myFlat(3));
+        console.log(arr2.myFlat(Infinity));
+    </script>
+    <script>
+        const arr5 = [1, 2, [3, 4, [5, 6, [7, 8, [9, 10]]]]];
+        console.log(arr5.myFlat(0));
+        console.log(arr5.myFlat(1));
+        console.log(arr5.myFlat(2));
+        console.log(arr5.myFlat(3));
+        console.log(arr5.myFlat(4));
+        console.log(arr5.myFlat(Infinity));
+    </script>
+    <script>
+        const arrayLike = {
+            length: 3,
+            0: [1, 2],
+            1: {
+                length: 2,
+                0: 3,
+                1: 4
+            },
+            2: 5,
+        };
+        console.log(Array.prototype.myFlat.call(arrayLike));
+    </script>
+</body>
+
+</html>

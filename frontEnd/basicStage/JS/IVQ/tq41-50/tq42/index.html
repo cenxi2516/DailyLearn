@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>严格模式</title>
+</head>
+
+<body>
+	<!--
+		严格模式：
+		1、目的：解决ES3和ES5冲突的语法规则。
+			- 在非严格模式下，默认使用ES3的语法规则解析执行。
+			- 在严格模式下，优先使用ES5最新的语法规则解析执行。
+		2、启用指令：'use strict';
+		3、分类：全局环境内严格模式、函数环境内严格模式
+			- 全局环境内严格模式，当前代码块内所有代码都在严格模式下解析执行，包括函数环境内代码。
+			- 函数环境内严格模式，仅当前函数环境内代码在严格模式下解析执行。
+	 -->
+	 <script>
+	 	'use strict'; // 当前代码块，启用全局环境内严格模式
+	 </script>
+	 <script>
+	 	function fn(){
+	 		'use strict'; // 当前函数环境内，启用严格模式
+	 	}
+	 </script>
+</body>
+
+</html>

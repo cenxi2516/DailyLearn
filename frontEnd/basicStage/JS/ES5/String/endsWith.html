@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>endsWith</title>
+</head>
+
+<body>
+    <!--
+		String.prototype.endsWith(substr[endPosition]);
+		功能：判断一个字符串是否以指定字符串结尾，返回布尔值。
+		参数：
+			1、第一个参数：
+				a、若是未传递参数值，默认为'undefined'字符串。
+				b、若是为正则表达式，报TypeError错误。
+				c、若是为非字符串值，强制转换为字符串值。
+			2、第二个参数：表示substr末尾字符位置加1。
+				a、若是未传递参数值，默认为字符串码元数量。
+	 -->
+    <script>
+        String.prototype.myEndsWith = function(substr, endPosition) {
+            // 若是substr为正则表达式，则抛出TypeError
+            if (Object.prototype.toString.call(substr) === '[object RegExp]') throw new TypeError('First argument to String.prototype.endsWith must not be a regular expression');
+
+            // 将substr值强制转换为字符串值
+            substr = String(substr);
+            // endPosition默认值为字符串码元数量, 取值范围：[0, length]
+            const codeCount = this.length;
+            endPosition = Math.min(endPosition ?? codeCount, codeCount);
+
+            const {
+                index = 0
+            } = this.match(new RegExp(substr, 'u')) ?? {};
+            const matchEndPosition = index + substr.length;
+
+            return matchEndPosition === endPosition;
+        };
+    </script>
+</body>
+
+</html>

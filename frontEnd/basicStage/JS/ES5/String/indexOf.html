@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>indexOf</title>
+</head>
+
+<body>
+    <!--
+		String.prototype.indexOf(substr[, startIndex]);
+		功能：从前往后开始检索字符串中指定字符串的索引位置。若是未检索到，则返回-1。若是检索到，则返回其索引。
+		参数：
+			1、第一个参数：指定字符串
+				a、若是未传递参数值，默认为'undefined'字符串值。
+				b、若是为非字符串值，则使用String函数强制转换为字符串值。
+			2、第二个参数：从前往后开始检索的起始位置，默认值为0
+				a、若是参数值为负整数，则取值为0。
+				b、若是参数值大于或等于字符串码元数量，则直接返回-1。
+	 -->
+    <script>
+        String.prototype.myIndexOf = function(substr, startIndex = 0) {
+            // startIndex，从前往后检索的起始位置, 取值为负整数时，取0
+            startIndex = Math.max(startIndex, 0);
+            const codeCount = this.length;
+
+            // 若是startIndex大于或等于codeCount，则返回-1
+            if (startIndex >= codeCount) return -1;
+
+            // substr值，强制转换为字符串值
+            substr = String(substr);
+            const matchStr = this.slice(startIndex);
+            const {
+                index = -1
+            } = matchStr.match(new RegExp(substr), 'u') ?? {};
+
+            return index > -1 ? index + startIndex : -1;
+        };
+    </script>
+</body>
+
+</html>

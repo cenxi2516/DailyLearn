@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>lastIndexOf</title>
+</head>
+
+<body>
+    <!--
+		String.prototype.lastIndexOf(substr[, endPosition]);
+		作用：从后往前开始检索字符串中指定字符串的索引位置。若是未检索到，则返回-1。若是检索到则返回其索引位置。
+		参数：
+			1、第一个参数：指定字符串
+				a、若是未传递参数值，则默认为'undefined'字符串值。
+				b、若是为非字符串值，则使用String函数强制转换为字符串值。
+			2、第二个参数：从后往前开始检索的起始位置，检索的索引位置小于或等于此值，默认值为Infinity
+				a、若是参数值为0或负整数，则从0位置开始匹配。
+	 -->
+    <script>
+        String.prototype.myLastIndexOf = function(substr, endPosition = Infinity) {
+            // 将substr值，强制转换为字符串值
+            substr = String(substr);
+            endPosition = Math.max(endPosition, 0);
+
+            // 若是substr为空字符传，则返回值小于等于字符串码元数量
+            const codeCount = this.length;
+            if(!substr) return Math.min(endPosition, codeCount);
+
+            const matchInfoArr = [-1];
+            const matchRegExp = new RegExp(`${endPosition === 0 ? '\^':''}${substr}`, 'gu');
+            const curStr = String(this);
+            let matchInfo = null;
+
+            while (mathchInfo = matchRegExp.exec(curStr)) {
+                const {
+                    index
+                } = mathchInfo;
+                matchInfoArr.push(index);
+            }
+
+            // 索引位置值，小于或等于endPosition
+            return matchInfoArr.findLast((item) => item <= endPosition);
+        };
+
+        console.log('hello world'.myLastIndexOf('l'));
+        console.log('hello world'.lastIndexOf('l'));
+        console.log('hello world'.myLastIndexOf('l', 0));
+        console.log('hello world'.lastIndexOf('l', 0));
+        console.log('hello world'.myLastIndexOf('hello', 0));
+        console.log('hello world'.lastIndexOf('hello', 0));
+    </script>
+</body>
+
+</html>

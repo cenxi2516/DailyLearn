@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>padEnd</title>
+</head>
+
+<body>
+    <!--
+		String.prototype.padEnd(len, substr);
+		功能：在字符串的末尾新增指定字符串，返回一个新的字符串原始值。
+		参数：
+			1、第一个参数：预期新字符串的码元数量
+				a、若是现字符串码元数量 大于或等于 len值，则直接返回字符串。
+				b、若是现字符串码元数量 小于 len值，则在字符串的末尾（重复）新增指定字符串到len长度值
+			2、第二个参数：默认值为' '
+	 -->
+    <script>
+        String.prototype.myPadEnd = function(targetLen, subStr = ' ') {
+            const codeCount = this.length;
+            const diffValue = targetLen - codeCount;
+            // targetLen 小于 codeCount, 则直接返回字符串
+            if (diffValue <= 0) return String(this);
+
+            // 将subStr值，强制转换为字符串值
+            subStr = String(subStr);
+            const repeatCount = Math.ceil(diffValue / subStr.length);
+
+            return this.concat(subStr.repeat(repeatCount)).slice(0, targetLen);
+        };
+
+        console.log('abc'.myPadEnd(0));
+        console.log('abc'.myPadEnd(1));
+        console.log('abc'.myPadEnd(2));
+        console.log('abc'.myPadEnd(3));
+        console.log('abc'.myPadEnd(4, '123'));
+        console.log('abc'.myPadEnd(5, '123'));
+        console.log('abc'.myPadEnd(6, '123'));
+        console.log('abc'.myPadEnd(7, '123'));
+    </script>
+</body>
+
+</html>

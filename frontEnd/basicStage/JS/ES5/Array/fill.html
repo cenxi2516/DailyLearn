@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fill</title>
+</head>
+
+<body>
+    <!--
+		Array.prototype.fill(value[, start[,end]]);
+		功能：填充指定范围的数组元素，数组中空槽也会被填充，不改变数组长度值，改变原数组。
+		参数：
+		1、value：填充值。
+		2、start：填充的起始位置（包含）
+			a、转换为数值并取整。
+			b、可以为负整数值。
+			c、默认值为0。
+			d、start < -length，则取0。
+			e、start >= length，则不填充。
+		3、end：填充的结束位置（不包含）
+			a、转换为数值并取整。
+			b、可以为负整数值。
+			c、默认值为length。
+			d、end < -length，则取0。
+			e、end >= length, 则取length。
+			f、end <= start, 则不填充。
+
+		注意：填充稀疏数组中的空槽。
+	 -->
+    <script>
+    	const cutBoundaryValue = (min, max, value) => {
+            // 若是value小于min，则取min，否则取value
+            value = Math.max(value, min);
+            // 若是value大于max，则取max，否则取value
+            value = Math.min(value, max);
+
+            return value;
+        };
+
+        Array.prototype.myFill = function(value, start = 0, end) {
+            /**
+             * length值处理——
+             * 1、强制转换为数值并取整。
+             * 2、若是为NaN、负整数值，则取0。
+             * 3、若是大于2 ** 32 - 1，则取2 ** 32 - 1。
+             * 4、取值范围：[0, 2 ** 32 - 1]
+             */
+            const length = cutBoundaryValue(0, 2 ** 32 - 1, Math.trunc(+this.length) || 0);
+
+            // 参数处理
+            const paramProcess = (index) => {
+                // index 转换为数值并取整
+                index = Math.trunc(+index);
+                // 负整数值
+                index = index < 0 ? index + length : index;
+                // index < 0
+                index = Math.max(index, 0);
+                // index > length
+                index = Math.min(index, length);
+
+                return index;
+            }
+
+            // start/end取值范围：[0, length]
+            start = paramProcess(start);
+            end = end === undefined ? length : end;
+            end = paramProcess(end);
+
+            // 若是start >= end，则返回原数组
+            if (start >= end) return this;
+
+            for (let i = start; i < end; i++) {
+                this[i] = value;
+            }
+
+            return this;
+        };
+    </script>
+    <script>
+        console.log([1, 2, 3].myFill(4)); // [4, 4, 4]
+        console.log([1, 2, 3].myFill(4, 1)); // [1, 4, 4]
+        console.log([1, 2, 3].myFill(4, 1, 2)); // [1, 4, 3]
+        console.log([1, 2, 3].myFill(4, 1, 1)); // [1, 2, 3]
+        console.log([1, 2, 3].myFill(4, 3, 3)); // [1, 2, 3]
+        console.log([1, 2, 3].myFill(4, -3, -2)); // [4, 2, 3]
+        console.log([1, 2, 3].myFill(4, NaN, NaN)); // [1, 2, 3]
+        console.log([1, 2, 3].myFill(4, 3, 5)); // [1, 2, 3]
+        console.log(Array(3).myFill(4)); // [4, 4, 4]
+
+        // 一个简单的对象，被数组的每个空槽所引用
+        const arr = Array(3).myFill({}); // [{}, {}, {}]
+        arr[0].hi = "hi"; // [{ hi: "hi" }, { hi: "hi" }, { hi: "hi" }]
+        console.log(arr);
+    </script>
+    <script>
+        const arrayLike = {
+            length: 2
+        };
+        console.log(Array.prototype.fill.call(arrayLike, 1));
+        // { '0': 1, '1': 1, length: 2 }
+    </script>
+</body>
+
+</html>

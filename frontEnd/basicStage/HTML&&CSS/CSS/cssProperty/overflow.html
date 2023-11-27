@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>溢出处理</title>
+    <style type="text/css">
+        table {
+            table-layout: fixed;
+            width: 200px;
+            margin: 0 auto;
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #000;
+            overflow: auto;
+        }
+
+        .wp {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .container {
+            border-bottom: 1px solid #ddd;
+            margin: 15px 0;
+        }
+
+        .container-content .box {
+            width: 100px;
+            height: 100px;
+            padding: 25px;
+            border: 5px solid rgba(0, 0, 0, 0.3);
+            margin: 10px 0 30px;
+        }
+
+        .note {
+            font-family: monospace;
+        }
+
+        .note ol {
+            list-style: lower-alpha;
+        }
+
+        /* hidden属性值 */
+        .overflow-hidden .box {
+            overflow: hidden;
+        }
+
+        /* auto属性值 */
+        .overflow-auto .box {
+            word-break: break-all;
+            overflow: auto;
+        }
+
+        /* scroll属性值 */
+        .overflow-scroll .box {
+            overflow: scroll;
+        }
+
+        /* clip属性值 */
+        .overflow-clip .box {
+            overflow: clip;
+        }
+
+        .overflow-x-not-visible .box1 {
+            overflow-x: hidden;
+        }
+
+        .overflow-x-not-visible .box2 {
+            overflow-x: hidden;
+            overflow-y: visible;
+        }
+
+        .overflow-x-not-visible .box3 {
+            overflow-x: hidden;
+            overflow-y: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wp">
+        <h1>溢出盒子可视区域（填充盒）的内容处理</h1>
+        <div class="container">
+            <h2 class="title">overflow属性详解</h2>
+            <div class="container-content">
+                <div class="note">
+                    <p>1、overflow是 overflow-x 和 overflow-y 的简写属性。</p>
+                    <p>2、overflow-x 和 overflow-y 的初始值皆为 visible。</p>
+                    <p>3、overflow的属性值：visible | hidden | auto | scroll | clip</p>
+                    <ol>
+                        <li>visible：对于溢出盒子填充盒的内容，不做任何处理，可能会溢出盒子。</li>
+                        <li>hidden：对于溢出盒子填充盒的内容，直接隐藏，不显示滚动条。但可以通过编程，让盒子滚动。</li>
+                        <li>auto：根据是否存在有溢出盒子填充盒的内容，按需在填充盒显示水平或垂直方向上的滚动条。</li>
+                        <li>scroll：不管是否存在有溢出盒子填充盒的内容，皆在填充盒显示水平和垂直方向上的滚动条。</li>
+                        <li>clip：对于溢出盒子填充盒的内容，直接隐藏，不显示滚动条。完全禁止盒子滚动，通过编程也无法让盒子滚动。</li>
+                    </ol>
+                    <p>4、overflow适用于块盒。</p>
+                    <p>5、overflow-x，用于处理水平方向上溢出盒子填充盒的内容。</p>
+                    <p>6、overflow-y，用于处理垂直方向上溢出盒子填充盒的内容。</p>
+                    <p>7、若是设置overflow-x(overflow-y)，则浏览器强制将overflow-y(overflow-x)设置为auto。</p>
+                    <ol>
+                        <li>若是用户手动再设置overflow-y为visible，则浏览器也会强制设置为auto。</li>
+                        <li>若是用户手动再设置overflow-y为非visible，则为用户设置的值。</li>
+                    </ol>
+                    <p>8、若是盒子设置overflow或overflow-x或overflow-y的属性值为非visible，则会触发盒子的BFC。</p>
+                    <p>9、若是table元素的table-layout设置为fixed，则th、td元素可以使用overflow属性，来处理溢出盒子填充盒的内容。</p>
+                </div>
+            </div>
+        </div>
+        <!-- visible属性值 -->
+        <div class="container">
+            <h2 class="title">visible属性值</h2>
+            <div class="container-content overflow-visible">
+                <div class="box">Lorem ipsum dolor sit amet consectetur adipisicing Lorem ipsum, dolor</div>
+            </div>
+        </div>
+        <!-- hidden属性值 -->
+        <div class="container">
+            <h2 class="title">hidden属性值</h2>
+            <div class="container-content overflow-hidden">
+                <div class="box">Lorem ipsum dolor sit amet consectetur adipisicing Lorem ipsum, dolor</div>
+            </div>
+        </div>
+        <!-- auto属性值 -->
+        <div class="container">
+            <h2 class="title">auto属性值</h2>
+            <div class="container-content overflow-auto">
+                <div class="box">Lorem ipsum dolor sit amet consectetur adipisicing Lorem ipsum, dolor</div>
+            </div>
+        </div>
+        <!-- scroll属性值 -->
+        <div class="container">
+            <h2 class="title">scroll属性值</h2>
+            <div class="container-content overflow-scroll">
+                <div class="box">Lorem ipsum dolor sit amet consectetur adipisicing Lorem ipsum, dolor</div>
+            </div>
+        </div>
+        <!-- clip属性值 -->
+        <div class="container">
+            <h2 class="title">clip属性值</h2>
+            <div class="container-content overflow-clip">
+                <div class="box">Lorem ipsum dolor sit amet consectetur adipisicing Lorem ipsum, dolor</div>
+            </div>
+        </div>
+        <div class="container">
+            <h2 class="title">设置overflow-x(overflow-y)值为非visible时，则overflow-y(overflow-x)为auto。</h2>
+            <div class="container-content overflow-x-not-visible">
+                <div class="box box1">Lorem ipsum dolor sit amet consectetur adipisicing Lorem ipsum, dolor</div>
+                <div class="box box2">Lorem ipsum dolor sit amet consectetur adipisicing Lorem ipsum, dolor</div>
+                <div class="box box3">Lorem ipsum dolor sit amet consectetur adipisicing Lorem ipsum, dolor</div>
+            </div>
+        </div>
+        <div class="container">
+            <h2 class="title">处理table元素中，溢出th、td盒子填充盒的内容</h2>
+            <div class="container-content table-overflow">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Lorem.</th>
+                            <th>Similique.</th>
+                            <th>Quam!</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Lorem ipsum dolor sit amet consectetur.</td>
+                            <td>Autem et cupiditate voluptate, repellendus nesciunt.</td>
+                            <td>Amet magni placeat voluptates qui nihil!</td>
+                        </tr>
+                        <tr>
+                            <td>Lorem ipsum dolor sit, amet consectetur.</td>
+                            <td>Optio dicta earum dolore quo ipsam?</td>
+                            <td>Accusamus facilis quod debitis iste a?</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

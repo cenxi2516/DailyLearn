@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dispatchEvent</title>
+    <style>
+    	img {
+    		width: 60%;
+    	}
+    </style>
+</head>
+
+<body>
+	<!--
+		const event = new CustomEvent(type, options);
+		EventTarget.dispatchEvent(event);
+
+		功能：触发EventTarget中type事件，并同步执行所有注册的handler。
+		返回值：返回一个布尔值。
+		1、若是cancelable为false（事件不可取消），则始终返回true。
+		2、若是cancelable为true（事件可取消），且调用event.preventDefault()，则返回false。否则返回true。
+
+		注意：同步执行。
+	 -->
+	 <p>
+	 	<img src="./../images/event-loop.png" alt="">
+	 </p>
+	 <p>
+	 	<img src="./../images/add-listener.png" alt="">
+	 </p>
+	 <p>
+	 	<img src="./../images/triggler-event.png" alt="">
+	 </p>
+	 <p>
+	 	<img src="./../images/add-execute-stack.png" alt="">
+	 </p>
+</body>
+
+</html>

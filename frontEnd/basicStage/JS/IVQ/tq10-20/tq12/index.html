@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全局环境和函数环境this默认指向</title>
+</head>
+
+<body>
+    <script>
+        /**
+         * 1、全局环境，不管是严格模式下还是非严格模式下，this默认指向全局对象。
+         * 2、函数环境：
+         * 		a、非严格模式下，this默认指向全局对象。
+         * 		b、严格模式下，this默认指向undefined。
+         */
+    </script>
+    <script>
+        // 全局环境，非严格模式下，this默认指向
+        console.log(this);
+    </script>
+    <script>
+        // 全局环境，严格模式下，this默认指向
+        'use strict';
+        console.log(this);
+    </script>
+    <script>
+        function fn1() {
+            // 函数内环境，非严格模式下，this默认指向
+            console.log(this);
+        }
+
+        fn1();
+    </script>
+    <script>
+        function fn2() {
+            // 函数内环境，严格模式下，this默认指向
+            'use strict';
+            console.log(this);
+        }
+
+        fn2();
+    </script>
+</body>
+
+</html>

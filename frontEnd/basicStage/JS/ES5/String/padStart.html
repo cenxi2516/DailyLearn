@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>padStart</title>
+</head>
+
+<body>
+    <!--
+		String.prototype.padStart(targetLen, substr);
+		功能：在字符串的开头添加指定字符串，返回一个新的字符串原始值。
+		参数：
+			1、第一个参数：
+				a、targetLen <= length， 则直接返回字符串。
+				b、targetLen > length，则在字符串开头（重复）新增指定字符串，到targetLen长度。
+			2、第二个参数：默认值为' '
+				a、若是不为字符串值，则使用String函数强制转换为字符串值。
+	 -->
+    <script>
+        String.prototype.myPadStart = function(targetLen, substr = ' ') {
+            const codeCount = this.length;
+            const diffValue = targetLen - codeCount;
+            // 若是targetLen <= codeCount，则直接返回字符串
+            if (diffValue <= 0) return String(this);
+
+            const repeatCount = Math.ceil(diffValue / substr.length);
+            const startAddStr = substr.repeat(repeatCount).slice(0, diffValue);
+
+            return startAddStr.concat(this);
+        };
+
+        console.log('abcdef'.myPadStart(5));
+        console.log('abcdef'.myPadStart(6));
+        console.log('abcdef'.myPadStart(7));
+        console.log('abcdef'.myPadStart(8, '1234'));
+        console.log('abcdef'.myPadStart(9, '1234'));
+        console.log('abcdef'.myPadStart(10, '1234'));
+        console.log('abcdef'.myPadStart(11, '1234'));
+        console.log('abcdef'.myPadStart(12, '1234'));
+    </script>
+</body>
+
+</html>

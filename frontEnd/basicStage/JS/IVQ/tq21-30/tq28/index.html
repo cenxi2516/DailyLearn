@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>创建一个没有原型的对象</title>
+</head>
+
+<body>
+	<script>
+		var obj = Object.create(null); // 创建一个没有原型的对象
+		console.log(obj.__proto__); // undefined, 没有__proto__属性
+	</script>
+</body>
+
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>toSorted</title>
+</head>
+
+<body>
+    <!--
+		Array.prototype.toSorted([callbackFn]);
+		功能： 返回一个排序后的密集型新数组，不改变原数组。
+	 -->
+    <script>
+        Array.prototype.myToSorted = function(callbackFn) {
+            return Array.from(this).sort(callbackFn);
+        };
+    </script>
+    <script>
+        const arrayLike = {
+            length: 3,
+            unrelated: "foo",
+            0: 5,
+            2: 4,
+        };
+        console.log(Array.prototype.myToSorted.call(arrayLike));
+        // [4, 5, undefined]
+    </script>
+    <script>
+        console.log(["a", "c", , "b"].myToSorted()); // ['a', 'b', 'c', undefined]
+        console.log([, undefined, "a", "b"].myToSorted()); // ["a", "b", undefined, undefined]
+    </script>
+</body>
+
+</html>

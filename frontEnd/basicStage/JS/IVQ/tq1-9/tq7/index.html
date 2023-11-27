@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>函数表达式的函数名</title>
+</head>
+
+<body>
+    <script>
+        var fn = function test() {
+            console.dir(test);
+        };
+
+        console.log(fn.name);
+        fn();
+        console.log(test);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>some</title>
+</head>
+
+<body>
+    <!--
+		Array.prototype.some(callbackFn[, thisArg]);
+		功能：从前往后检测数组中是否存在满足测试函数的元素、若是存在，返回true，否则返回false。
+		注意：
+		1、从前往后检测，检测到满足测试函数的元素，立即返回true。
+		2、空数组，返回false。
+		3、稀疏数组的空槽不进行检测。
+	 -->
+    <script>
+    	const cutBoundaryValue = (min, max, value) => {
+            // 若是value小于min，则取min，否则取value
+            value = Math.max(value, min);
+            // 若是value大于max，则取max，否则取value
+            value = Math.min(value, max);
+
+            return value;
+        };
+
+        Array.prototype.mySome = function(callbackFn, thisArg) {
+            /**
+             * length值处理——
+             * 1、强制转换为数值并取整。
+             * 2、若是为NaN、负整数值，则取0。
+             * 3、若是大于2 ** 32 - 1，则取2 ** 32 - 1。
+             * 4、取值范围：[0, 2 ** 32 - 1]
+             */
+            const length = cutBoundaryValue(0, 2 ** 32 - 1, Math.trunc(+this.length) || 0);
+
+            for (let i = 0; i < length; i++) {
+                if (!Object.hasOwn(this, i)) continue;
+                if (callbackFn.call(thisArg, this[i], i, this)) return true;
+            }
+
+            return false;
+        };
+    </script>
+    <script>
+        console.log('在非数组对象上调用');
+        const arrayLike = {
+            length: 3,
+            0: "a",
+            1: "b",
+            2: "c",
+        };
+        console.log(Array.prototype.mySome.call(arrayLike, (x) => typeof x === "number"));
+        // false
+    </script>
+    <script>
+        console.log('在稀疏数组上调用');
+        console.log([1, , 3].mySome((x) => x === undefined)); // false
+        console.log([1, , 1].mySome((x) => x !== 1)); // false
+        console.log([1, undefined, 1].mySome((x) => x !== 1)); // true
+    </script>
+</body>
+
+</html>

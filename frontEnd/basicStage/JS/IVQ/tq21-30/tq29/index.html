@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自定义构造函数类型</title>
+</head>
+
+<body>
+	<!--
+		new 构造器()，执行过程：
+		1、创建一个新的空对象：var obj = new Object();
+		2、this指向这个新的空对象
+		3、空对象的原型指向构造器的原型：Object.setPrototypeOf(obj, 构造器.prototype)
+		4、为空对象新增成员
+		5、返回空对象
+
+		通过new 构造器()创建的实例对象，本质依然是Object创建的。
+		实例对象.toString(); // ‘[object Object]’
+	 -->
+</body>
+
+</html>
